@@ -1451,7 +1451,7 @@ function $UrlMatcherFactory() {
    *
    * $stateProvider.state('list', {
    *   url: "/list/{item:listItem}",
-   *   controller: function($scope, $stateParams) {
+   *   controllers: function($scope, $stateParams) {
    *     console.log($stateParams.item);
    *   }
    * });
@@ -1507,7 +1507,7 @@ function $UrlMatcherFactory() {
    *   // ...
    * }).state('users.item', {
    *   url: "/{user:dbObject}",
-   *   controller: function($scope, $stateParams) {
+   *   controllers: function($scope, $stateParams) {
    *     // $stateParams.user will now be an object returned from
    *     // the Users service
    *   },
@@ -2131,11 +2131,11 @@ angular.module('ui.router.router').provider('$urlRouter', $UrlRouterProvider);
  * on state.
  *
  * A state corresponds to a "place" in the application in terms of the overall UI and
- * navigation. A state describes (via the controller / template / view properties) what
+ * navigation. A state describes (via the controllers / template / view properties) what
  * the UI looks like and does at that place.
  *
  * States often have things in common, and the primary way of factoring out these
- * commonalities in this model is via the state hierarchy, i.e. parent/child states aka
+ * commonalities in this models is via the state hierarchy, i.e. parent/child states aka
  * nested states.
  *
  * The `$stateProvider` provides interfaces to declare these states for your app.
@@ -2413,10 +2413,10 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *   be a super-set of parent's params.
    * - **views** `{object}` - returns a views object where each key is an absolute view 
    *   name (i.e. "viewName@stateName") and each value is the config object 
-   *   (template, controller) for the view. Even when you don't use the views object 
+   *   (template, controllers) for the view. Even when you don't use the views object
    *   explicitly on a state config, one is still created for you internally.
    *   So by decorating this builder function you have access to decorating template 
-   *   and controller properties.
+   *   and controllers properties.
    * - **ownParams** `{object}` - returns an array of params that belong to the state, 
    *   not including any params defined by ancestor states.
    * - **path** `{string}` - returns the full path from the root down to this state. 
@@ -2442,8 +2442,8 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *
    * $stateProvider.state('home', {
    *   views: {
-   *     'contact.list': { controller: 'ListController' },
-   *     'contact.item': { controller: 'ItemController' }
+   *     'contact.list': { controllers: 'ListController' },
+   *     'contact.item': { controllers: 'ItemController' }
    *   }
    * });
    *
@@ -2532,22 +2532,22 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *         return MyTemplateService.getTemplate(params.pageId);
    *       }</pre>
    *
-   * @param {string|function=} stateConfig.controller
-   * <a id='controller'></a>
+   * @param {string|function=} stateConfig.controllers
+   * <a id='controllers'></a>
    *
    *  Controller fn that should be associated with newly
-   *   related scope or the name of a registered controller if passed as a string.
+   *   related scope or the name of a registered controllers if passed as a string.
    *   Optionally, the ControllerAs may be declared here.
-   * <pre>controller: "MyRegisteredController"</pre>
-   * <pre>controller:
+   * <pre>controllers: "MyRegisteredController"</pre>
+   * <pre>controllers:
    *     "MyRegisteredController as fooCtrl"}</pre>
-   * <pre>controller: function($scope, MyService) {
+   * <pre>controllers: function($scope, MyService) {
    *     $scope.data = MyService.getData(); }</pre>
    *
    * @param {function=} stateConfig.controllerProvider
    * <a id='controllerProvider'></a>
    *
-   * Injectable provider function that returns the actual controller or string.
+   * Injectable provider function that returns the actual controllers or string.
    * <pre>controllerProvider:
    *   function(MyResolveData) {
    *     if (MyResolveData.foo)
@@ -2562,7 +2562,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * @param {string=} stateConfig.controllerAs
    * <a id='controllerAs'></a>
    * 
-   * A controller alias name. If present the controller will be
+   * A controllers alias name. If present the controllers will be
    *   published to scope under the controllerAs name.
    * <pre>controllerAs: "myCtrl"</pre>
    *
@@ -2570,18 +2570,18 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * <a id='resolve'></a>
    *
    * An optional map&lt;string, function&gt; of dependencies which
-   *   should be injected into the controller. If any of these dependencies are promises, 
-   *   the router will wait for them all to be resolved before the controller is instantiated.
+   *   should be injected into the controllers. If any of these dependencies are promises,
+   *   the router will wait for them all to be resolved before the controllers is instantiated.
    *   If all the promises are resolved successfully, the $stateChangeSuccess event is fired
    *   and the values of the resolved promises are injected into any controllers that reference them.
    *   If any  of the promises are rejected the $stateChangeError event is fired.
    *
    *   The map object is:
    *   
-   *   - key - {string}: name of dependency to be injected into controller
+   *   - key - {string}: name of dependency to be injected into controllers
    *   - factory - {string|function}: If string then it is alias for service. Otherwise if function, 
    *     it is injected and return value it treated as dependency. If result is a promise, it is 
-   *     resolved before its value is injected into controller.
+   *     resolved before its value is injected into controllers.
    *
    * <pre>resolve: {
    *     myResolve1:
@@ -2617,13 +2617,13 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * Targets three named `ui-view`s in the parent state's template
    * <pre>views: {
    *     header: {
-   *       controller: "headerCtrl",
+   *       controllers: "headerCtrl",
    *       templateUrl: "header.html"
    *     }, body: {
-   *       controller: "bodyCtrl",
+   *       controllers: "bodyCtrl",
    *       templateUrl: "body.html"
    *     }, footer: {
-   *       controller: "footCtrl",
+   *       controllers: "footCtrl",
    *       templateUrl: "footer.html"
    *     }
    *   }</pre>
@@ -2631,10 +2631,10 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * Targets named `ui-view="header"` from grandparent state 'top''s template, and named `ui-view="body" from parent state's template.
    * <pre>views: {
    *     'header@top': {
-   *       controller: "msgHeaderCtrl",
+   *       controllers: "msgHeaderCtrl",
    *       templateUrl: "msgHeader.html"
    *     }, 'body': {
-   *       controller: "messagesCtrl",
+   *       controllers: "messagesCtrl",
    *       templateUrl: "messages.html"
    *     }
    *   }</pre>
@@ -2916,7 +2916,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * <pre>
      * var app angular.module('app', ['ui.router']);
      *
-     * app.controller('ctrl', function ($scope, $state) {
+     * app.controllers('ctrl', function ($scope, $state) {
      *   $scope.reload = function(){
      *     $state.reload();
      *   }
@@ -2954,7 +2954,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * <pre>
      * var app = angular.module('app', ['ui.router']);
      *
-     * app.controller('ctrl', function ($scope, $state) {
+     * app.controllers('ctrl', function ($scope, $state) {
      *   $scope.changeState = function () {
      *     $state.go('contact.detail');
      *   };
@@ -3020,7 +3020,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * <pre>
      * var app = angular.module('app', ['ui.router']);
      *
-     * app.controller('ctrl', function ($scope, $state) {
+     * app.controllers('ctrl', function ($scope, $state) {
      *   $scope.changeState = function () {
      *     $state.transitionTo('contact.detail');
      *   };
@@ -3435,7 +3435,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
 
     function resolveState(state, params, paramsAreFiltered, inherited, dst, options) {
       // Make a restricted $stateParams with only the parameters that apply to this state if
-      // necessary. In addition to being available to the controller and onEnter/onExit callbacks,
+      // necessary. In addition to being available to the controllers and onEnter/onExit callbacks,
       // we also need $stateParams to be available for any $injector calls we make during the
       // dependency resolution process.
       var $stateParams = (paramsAreFiltered) ? params : filterByKeys(state.params.$$keys(), params);
@@ -3459,7 +3459,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
         }];
 
         promises.push($resolve.resolve(injectables, locals, dst.resolve, state).then(function (result) {
-          // References to the controller (only instantiated at link time)
+          // References to the controllers (only instantiated at link time)
           if (isFunction(view.controllerProvider) || isArray(view.controllerProvider)) {
             var injectLocals = angular.extend({}, injectables, locals);
             result.$$controller = $injector.invoke(view.controllerProvider, null, injectLocals);
@@ -3511,7 +3511,7 @@ function $ViewProvider() {
   $get.$inject = ['$rootScope', '$templateFactory'];
   function $get(   $rootScope,   $templateFactory) {
     return {
-      // $view.load('full.viewName', { template: ..., controller: ..., resolve: ..., async: false, params: ... })
+      // $view.load('full.viewName', { template: ..., controllers: ..., resolve: ..., async: false, params: ... })
       /**
        * @ngdoc function
        * @name ui.router.state.$view#load
@@ -3542,7 +3542,7 @@ function $ViewProvider() {
          * Fired once the view **begins loading**, *before* the DOM is rendered.
          *
          * @param {Object} event Event object.
-         * @param {Object} viewConfig The view config properties (template, controller, etc).
+         * @param {Object} viewConfig The view config properties (template, controllers, etc).
          *
          * @example
          *

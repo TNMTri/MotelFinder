@@ -41,18 +41,18 @@ window.ionic.version = '1.0.0-rc.0';
 
       /*
        * Creates a new object that will have all the methodNames given,
-       * and call them on the given the controller instance matching given
+       * and call them on the given the controllers instance matching given
        * handle.
-       * The reason we don't just let $getByHandle return the controller instance
-       * itself is that the controller instance might not exist yet.
+       * The reason we don't just let $getByHandle return the controllers instance
+       * itself is that the controllers instance might not exist yet.
        *
        * We want people to be able to do
-       * `var instance = $ionicScrollDelegate.$getByHandle('foo')` on controller
-       * instantiation, but on controller instantiation a child directive
+       * `var instance = $ionicScrollDelegate.$getByHandle('foo')` on controllers
+       * instantiation, but on controllers instantiation a child directive
        * may not have been compiled yet!
        *
        * So this is our way of solving this problem: we create an object
-       * that will only try to fetch the controller with given handle
+       * that will only try to fetch the controllers with given handle
        * once the methods are actually called.
        */
       function DelegateInstance(instances, handle) {
@@ -117,7 +117,7 @@ window.ionic.version = '1.0.0-rc.0';
               methodName + '() was not called!\n' +
               'Possible cause: If you are calling ' + methodName + '() immediately, and ' +
               'your element with delegate-handle="' + handle + '" is a child of your ' +
-              'controller, then your element may not be compiled yet. Put a $timeout ' +
+              'controllers, then your element may not be compiled yet. Put a $timeout ' +
               'around your call to ' + methodName + '() and try again.'
             );
           }
@@ -2044,7 +2044,7 @@ window.ionic.version = '1.0.0-rc.0';
    * @usage
    * ```js
    * angular.module('PlatformApp', ['ionic'])
-   * .controller('PlatformCtrl', function($scope) {
+   * .controllers('PlatformCtrl', function($scope) {
    *
    *   ionic.Platform.ready(function(){
    *     // will execute when device is ready, or immediately if the device is already ready.
@@ -8653,12 +8653,12 @@ function arrayRemove(array, value) {
  * @example
  <example module="copyExample">
  <file name="index.html">
- <div ng-controller="ExampleController">
+ <div ng-controllers="ExampleController">
  <form novalidate class="simple-form">
- Name: <input type="text" ng-model="user.name" /><br />
- E-mail: <input type="email" ng-model="user.email" /><br />
- Gender: <input type="radio" ng-model="user.gender" value="male" />male
- <input type="radio" ng-model="user.gender" value="female" />female<br />
+ Name: <input type="text" ng-models="user.name" /><br />
+ E-mail: <input type="email" ng-models="user.email" /><br />
+ Gender: <input type="radio" ng-models="user.gender" value="male" />male
+ <input type="radio" ng-models="user.gender" value="female" />female<br />
  <button ng-click="reset()">RESET</button>
  <button ng-click="update(user)">SAVE</button>
  </form>
@@ -8668,7 +8668,7 @@ function arrayRemove(array, value) {
 
  <script>
   angular.module('copyExample', [])
-    .controller('ExampleController', ['$scope', function($scope) {
+    .controllers('ExampleController', ['$scope', function($scope) {
       $scope.master= {};
 
       $scope.update = function(user) {
@@ -9162,12 +9162,12 @@ function getNgAttribute(element, ngAttr) {
  *
  <example module="ngAppDemo">
    <file name="index.html">
-   <div ng-controller="ngAppDemoController">
+   <div ng-controllers="ngAppDemoController">
      I can add: {{a}} + {{b}} =  {{ a+b }}
    </div>
    </file>
    <file name="script.js">
-   angular.module('ngAppDemo', []).controller('ngAppDemoController', function($scope) {
+   angular.module('ngAppDemo', []).controllers('ngAppDemoController', function($scope) {
      $scope.a = 1;
      $scope.b = 2;
    });
@@ -9179,29 +9179,29 @@ function getNgAttribute(element, ngAttr) {
  <example ng-app-included="true">
    <file name="index.html">
    <div ng-app="ngAppStrictDemo" ng-strict-di>
-       <div ng-controller="GoodController1">
+       <div ng-controllers="GoodController1">
            I can add: {{a}} + {{b}} =  {{ a+b }}
 
-           <p>This renders because the controller does not fail to
+           <p>This renders because the controllers does not fail to
               instantiate, by using explicit annotation style (see
               script.js for details)
            </p>
        </div>
 
-       <div ng-controller="GoodController2">
-           Name: <input ng-model="name"><br />
+       <div ng-controllers="GoodController2">
+           Name: <input ng-models="name"><br />
            Hello, {{name}}!
 
-           <p>This renders because the controller does not fail to
+           <p>This renders because the controllers does not fail to
               instantiate, by using explicit annotation style
               (see script.js for details)
            </p>
        </div>
 
-       <div ng-controller="BadController">
+       <div ng-controllers="BadController">
            I can add: {{a}} + {{b}} =  {{ a+b }}
 
-           <p>The controller could not be instantiated, due to relying
+           <p>The controllers could not be instantiated, due to relying
               on automatic function annotations (which are disabled in
               strict mode). As such, the content of this section is not
               interpolated, and there should be an error in your web console.
@@ -9213,36 +9213,36 @@ function getNgAttribute(element, ngAttr) {
    angular.module('ngAppStrictDemo', [])
      // BadController will fail to instantiate, due to relying on automatic function annotation,
      // rather than an explicit annotation
-     .controller('BadController', function($scope) {
+     .controllers('BadController', function($scope) {
        $scope.a = 1;
        $scope.b = 2;
      })
      // Unlike BadController, GoodController1 and GoodController2 will not fail to be instantiated,
      // due to using explicit annotations using the array style and $inject property, respectively.
-     .controller('GoodController1', ['$scope', function($scope) {
+     .controllers('GoodController1', ['$scope', function($scope) {
        $scope.a = 1;
        $scope.b = 2;
      }])
-     .controller('GoodController2', GoodController2);
+     .controllers('GoodController2', GoodController2);
      function GoodController2($scope) {
        $scope.name = "World";
      }
      GoodController2.$inject = ['$scope'];
    </file>
    <file name="style.css">
-   div[ng-controller] {
+   div[ng-controllers] {
        margin-bottom: 1em;
        -webkit-border-radius: 4px;
        border-radius: 4px;
        border: 1px solid;
        padding: .5em;
    }
-   div[ng-controller^=Good] {
+   div[ng-controllers^=Good] {
        border-color: #d6e9c6;
        background-color: #dff0d8;
        color: #3c763d;
    }
-   div[ng-controller^=Bad] {
+   div[ng-controllers^=Bad] {
        border-color: #ebccd1;
        background-color: #f2dede;
        color: #a94442;
@@ -9301,14 +9301,14 @@ function angularInit(element, bootstrap) {
  * <!doctype html>
  * <html>
  * <body>
- * <div ng-controller="WelcomeController">
+ * <div ng-controllers="WelcomeController">
  *   {{greeting}}
  * </div>
  *
  * <script src="angular.js"></script>
  * <script>
  *   var app = angular.module('demo', [])
- *   .controller('WelcomeController', function($scope) {
+ *   .controllers('WelcomeController', function($scope) {
  *       $scope.greeting = 'Welcome!';
  *   });
  *   angular.bootstrap(document, ['demo']);
@@ -9832,7 +9832,7 @@ function setupModuleLoader(window) {
 
           /**
            * @ngdoc method
-           * @name angular.Module#controller
+           * @name angular.Module#controllers
            * @module ng
            * @param {string|Object} name Controller name, or an object map of controllers where the
            *    keys are the names and the values are the constructors.
@@ -10262,9 +10262,9 @@ function publishExternalAPI(angular) {
  *    element before it is removed.
  *
  * ### Methods
- * - `controller(name)` - retrieves the controller of the current element or its parent. By default
- *   retrieves controller associated with the `ngController` directive. If `name` is provided as
- *   camelCase directive name, then the controller for this directive will be retrieved (e.g.
+ * - `controllers(name)` - retrieves the controllers of the current element or its parent. By default
+ *   retrieves controllers associated with the `ngController` directive. If `name` is provided as
+ *   camelCase directive name, then the controllers for this directive will be retrieved (e.g.
  *   `'ngModel'`).
  * - `injector()` - retrieves the injector of the current element or its parent.
  * - `scope()` - retrieves the {@link ng.$rootScope.Scope scope} of the current
@@ -11317,12 +11317,12 @@ HashMap.prototype = {
  * *This is fairly rare but could be the case if a third party library is injecting the
  * markup.*
  *
- * In the following example a new block of HTML containing a `ng-controller`
+ * In the following example a new block of HTML containing a `ng-controllers`
  * directive is added to the end of the document body by JQuery. We then compile and link
  * it into the current AngularJS scope.
  *
  * ```js
- * var $div = $('<div ng-controller="MyCtrl">{{content.label}}</div>');
+ * var $div = $('<div ng-controllers="MyCtrl">{{content.label}}</div>');
  * $(document.body).append($div);
  *
  * angular.element(document).injector().invoke(function($compile) {
@@ -11752,7 +11752,7 @@ function annotate(fn, strictDi, name) {
  * ```
  * You would then inject and use this service like this:
  * ```js
- *   someModule.controller('Ctrl', ['ping', function(ping) {
+ *   someModule.controllers('Ctrl', ['ping', function(ping) {
  *     ping();
  *   }]);
  * ```
@@ -11793,7 +11793,7 @@ function annotate(fn, strictDi, name) {
  * ```
  * You would then inject and use this service like this:
  * ```js
- *   someModule.controller('Ctrl', ['ping', function(ping) {
+ *   someModule.controllers('Ctrl', ['ping', function(ping) {
  *     ping.send();
  *   }]);
  * ```
@@ -12200,14 +12200,14 @@ function $AnchorScrollProvider() {
    * @example
      <example module="anchorScrollExample">
        <file name="index.html">
-         <div id="scrollArea" ng-controller="ScrollController">
+         <div id="scrollArea" ng-controllers="ScrollController">
            <a ng-click="gotoBottom()">Go to bottom</a>
            <a id="bottom"></a> You're at the bottom!
          </div>
        </file>
        <file name="script.js">
          angular.module('anchorScrollExample', [])
-           .controller('ScrollController', ['$scope', '$location', '$anchorScroll',
+           .controllers('ScrollController', ['$scope', '$location', '$anchorScroll',
              function ($scope, $location, $anchorScroll) {
                $scope.gotoBottom = function() {
                  // set the location.hash to the id of
@@ -12239,7 +12239,7 @@ function $AnchorScrollProvider() {
    * @example
      <example module="anchorScrollOffsetExample">
        <file name="index.html">
-         <div class="fixed-header" ng-controller="headerCtrl">
+         <div class="fixed-header" ng-controllers="headerCtrl">
            <a href="" ng-click="gotoAnchor(x)" ng-repeat="x in [1,2,3,4,5]">
              Go to anchor {{x}}
            </a>
@@ -12253,7 +12253,7 @@ function $AnchorScrollProvider() {
            .run(['$anchorScroll', function($anchorScroll) {
              $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
            }])
-           .controller('headerCtrl', ['$anchorScroll', '$location', '$scope',
+           .controllers('headerCtrl', ['$anchorScroll', '$location', '$scope',
              function ($anchorScroll, $location, $scope) {
                $scope.gotoAnchor = function(x) {
                  var newHash = 'anchor' + x;
@@ -13278,9 +13278,9 @@ function $BrowserProvider() {
  * @example
    <example module="cacheExampleApp">
      <file name="index.html">
-       <div ng-controller="CacheController">
-         <input ng-model="newCacheKey" placeholder="Key">
-         <input ng-model="newCacheValue" placeholder="Value">
+       <div ng-controllers="CacheController">
+         <input ng-models="newCacheKey" placeholder="Key">
+         <input ng-models="newCacheValue" placeholder="Value">
          <button ng-click="put(newCacheKey, newCacheValue)">Cache</button>
 
          <p ng-if="keys.length">Cached Values</p>
@@ -13300,7 +13300,7 @@ function $BrowserProvider() {
      </file>
      <file name="script.js">
        angular.module('cacheExampleApp', []).
-         controller('CacheController', ['$scope', '$cacheFactory', function($scope, $cacheFactory) {
+         controllers('CacheController', ['$scope', '$cacheFactory', function($scope, $cacheFactory) {
            $scope.keys = [];
            $scope.cache = $cacheFactory('cacheId');
            $scope.put = function(key, value) {
@@ -13700,21 +13700,21 @@ function $TemplateCacheProvider() {
  *       restrict: 'A',
  *       templateNamespace: 'html',
  *       scope: false,
- *       controller: function($scope, $element, $attrs, $transclude, otherInjectables) { ... },
+ *       controllers: function($scope, $element, $attrs, $transclude, otherInjectables) { ... },
  *       controllerAs: 'stringAlias',
  *       require: 'siblingDirectiveName', // or // ['^parentDirectiveName', '?optionalDirectiveName', '?^optionalParent'],
  *       compile: function compile(tElement, tAttrs, transclude) {
  *         return {
- *           pre: function preLink(scope, iElement, iAttrs, controller) { ... },
- *           post: function postLink(scope, iElement, iAttrs, controller) { ... }
+ *           pre: function preLink(scope, iElement, iAttrs, controllers) { ... },
+ *           post: function postLink(scope, iElement, iAttrs, controllers) { ... }
  *         }
  *         // or
  *         // return function postLink( ... ) { ... }
  *       },
  *       // or
  *       // link: {
- *       //  pre: function preLink(scope, iElement, iAttrs, controller) { ... },
- *       //  post: function postLink(scope, iElement, iAttrs, controller) { ... }
+ *       //  pre: function preLink(scope, iElement, iAttrs, controllers) { ... },
+ *       //  post: function postLink(scope, iElement, iAttrs, controllers) { ... }
  *       // }
  *       // or
  *       // link: function postLink( ... ) { ... }
@@ -13818,14 +13818,14 @@ function $TemplateCacheProvider() {
  *
  * #### `bindToController`
  * When an isolate scope is used for a component (see above), and `controllerAs` is used, `bindToController: true` will
- * allow a component to have its properties bound to the controller, rather than to scope. When the controller
+ * allow a component to have its properties bound to the controllers, rather than to scope. When the controllers
  * is instantiated, the initial values of the isolate scope bindings are already available.
  *
- * #### `controller`
- * Controller constructor function. The controller is instantiated before the
+ * #### `controllers`
+ * Controller constructor function. The controllers is instantiated before the
  * pre-linking phase and it is shared with other directives (see
  * `require` attribute). This allows the directives to communicate with each other and augment
- * each other's behavior. The controller is injectable (and supports bracket notation) with the following locals:
+ * each other's behavior. The controllers is injectable (and supports bracket notation) with the following locals:
  *
  * * `$scope` - Current scope associated with the element
  * * `$element` - Current element
@@ -13845,23 +13845,23 @@ function $TemplateCacheProvider() {
  *
  *
  * #### `require`
- * Require another directive and inject its controller as the fourth argument to the linking function. The
+ * Require another directive and inject its controllers as the fourth argument to the linking function. The
  * `require` takes a string name (or array of strings) of the directive(s) to pass in. If an array is used, the
  * injected argument will be an array in corresponding order. If no such directive can be
- * found, or if the directive does not have a controller, then an error is raised. The name can be prefixed with:
+ * found, or if the directive does not have a controllers, then an error is raised. The name can be prefixed with:
  *
- * * (no prefix) - Locate the required controller on the current element. Throw an error if not found.
- * * `?` - Attempt to locate the required controller or pass `null` to the `link` fn if not found.
- * * `^` - Locate the required controller by searching the element and its parents. Throw an error if not found.
- * * `^^` - Locate the required controller by searching the element's parents. Throw an error if not found.
- * * `?^` - Attempt to locate the required controller by searching the element and its parents or pass
+ * * (no prefix) - Locate the required controllers on the current element. Throw an error if not found.
+ * * `?` - Attempt to locate the required controllers or pass `null` to the `link` fn if not found.
+ * * `^` - Locate the required controllers by searching the element and its parents. Throw an error if not found.
+ * * `^^` - Locate the required controllers by searching the element's parents. Throw an error if not found.
+ * * `?^` - Attempt to locate the required controllers by searching the element and its parents or pass
  *   `null` to the `link` fn if not found.
- * * `?^^` - Attempt to locate the required controller by searching the element's parents, or pass
+ * * `?^^` - Attempt to locate the required controllers by searching the element's parents, or pass
  *   `null` to the `link` fn if not found.
  *
  *
  * #### `controllerAs`
- * Controller alias at the directive scope. An alias for the controller so it
+ * Controller alias at the directive scope. An alias for the controllers so it
  * can be referenced at the directive template. The directive needs to define a scope for this
  * configuration to be used. Useful in the case when directive is used as component.
  *
@@ -14002,7 +14002,7 @@ function $TemplateCacheProvider() {
  * This property is used only if the `compile` property is not defined.
  *
  * ```js
- *   function link(scope, iElement, iAttrs, controller, transcludeFn) { ... }
+ *   function link(scope, iElement, iAttrs, controllers, transcludeFn) { ... }
  * ```
  *
  * The link function is responsible for registering DOM listeners as well as updating the DOM. It is
@@ -14019,8 +14019,8 @@ function $TemplateCacheProvider() {
  *   * `iAttrs` - instance attributes - Normalized list of attributes declared on this element shared
  *     between all directive linking functions.
  *
- *   * `controller` - a controller instance - A controller instance if at least one directive on the
- *     element defines a controller. The controller is shared among all the directives, which allows
+ *   * `controllers` - a controllers instance - A controllers instance if at least one directive on the
+ *     element defines a controllers. The controllers is shared among all the directives, which allows
  *     the directives to use the controllers as a communication channel.
  *
  *   * `transcludeFn` - A transclude linking function pre-bound to the correct transclusion scope.
@@ -14070,7 +14070,7 @@ function $TemplateCacheProvider() {
  * #### Transclusion Functions
  *
  * When a directive requests transclusion, the compiler extracts its contents and provides a **transclusion
- * function** to the directive's `link` function and `controller`. This transclusion function is a special
+ * function** to the directive's `link` function and `controllers`. This transclusion function is a special
  * **linking function** that will return the compiled contents linked to a new transclusion scope.
  *
  * <div class="alert alert-info">
@@ -14232,14 +14232,14 @@ function $TemplateCacheProvider() {
           };
         });
       })
-      .controller('GreeterController', ['$scope', function($scope) {
+      .controllers('GreeterController', ['$scope', function($scope) {
         $scope.name = 'Angular';
         $scope.html = 'Hello {{name}}';
       }]);
     </script>
-    <div ng-controller="GreeterController">
-      <input ng-model="name"> <br>
-      <textarea ng-model="html"></textarea> <br>
+    <div ng-controllers="GreeterController">
+      <input ng-models="name"> <br>
+      <textarea ng-models="html"></textarea> <br>
       <div compile="html"></div>
     </div>
    </file>
@@ -14287,12 +14287,12 @@ function $TemplateCacheProvider() {
  *      * `parentBoundTranscludeFn` - the transclude function made available to
  *        directives; if given, it will be passed through to the link functions of
  *        directives found in `element` during compilation.
- *      * `transcludeControllers` - an object hash with keys that map controller names
- *        to controller instances; if given, it will make the controllers
+ *      * `transcludeControllers` - an object hash with keys that map controllers names
+ *        to controllers instances; if given, it will make the controllers
  *        available to directives.
  *      * `futureParentElement` - defines the parent to which the `cloneAttachFn` will add
  *        the cloned elements; only needed for transcludes that are allowed to contain non html
- *        elements (e.g. SVG elements). See also the directive.controller property.
+ *        elements (e.g. SVG elements). See also the directive.controllers property.
  *
  * Calling the linking function returns the element of the template. It is either the original
  * element passed in, or the clone of the element if the `cloneAttachFn` is provided.
@@ -15262,7 +15262,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
         if (!directive.templateUrl && directive.controller) {
           directiveValue = directive.controller;
           controllerDirectives = controllerDirectives || {};
-          assertNoDuplicate("'" + directiveName + "' controller",
+          assertNoDuplicate("'" + directiveName + "' controllers",
               controllerDirectives[directiveName], directive, $compileNode);
           controllerDirectives[directiveName] = directive;
         }
@@ -16251,10 +16251,10 @@ var $controllerMinErr = minErr('$controller');
  * @ngdoc provider
  * @name $controllerProvider
  * @description
- * The {@link ng.$controller $controller service} is used by Angular to create new
+ * The {@link ng.$controller $controllers service} is used by Angular to create new
  * controllers.
  *
- * This provider allows controller registration via the
+ * This provider allows controllers registration via the
  * {@link ng.$controllerProvider#register register} method.
  */
 function $ControllerProvider() {
@@ -16283,7 +16283,7 @@ function $ControllerProvider() {
   /**
    * @ngdoc method
    * @name $controllerProvider#allowGlobals
-   * @description If called, allows `$controller` to find controller constructors on `window`
+   * @description If called, allows `$controllers` to find controllers constructors on `window`
    */
   this.allowGlobals = function() {
     globals = true;
@@ -16294,38 +16294,38 @@ function $ControllerProvider() {
 
     /**
      * @ngdoc service
-     * @name $controller
+     * @name $controllers
      * @requires $injector
      *
      * @param {Function|string} constructor If called with a function then it's considered to be the
-     *    controller constructor function. Otherwise it's considered to be a string which is used
-     *    to retrieve the controller constructor using the following steps:
+     *    controllers constructor function. Otherwise it's considered to be a string which is used
+     *    to retrieve the controllers constructor using the following steps:
      *
-     *    * check if a controller with given name is registered via `$controllerProvider`
+     *    * check if a controllers with given name is registered via `$controllerProvider`
      *    * check if evaluating the string on the current scope returns a constructor
      *    * if $controllerProvider#allowGlobals, check `window[constructor]` on the global
      *      `window` object (not recommended)
      *
-     *    The string can use the `controller as property` syntax, where the controller instance is published
+     *    The string can use the `controllers as property` syntax, where the controllers instance is published
      *    as the specified property on the `scope`; the `scope` must be injected into `locals` param for this
      *    to work correctly.
      *
      * @param {Object} locals Injection locals for Controller.
-     * @return {Object} Instance of given controller.
+     * @return {Object} Instance of given controllers.
      *
      * @description
-     * `$controller` service is responsible for instantiating controllers.
+     * `$controllers` service is responsible for instantiating controllers.
      *
      * It's just a simple call to {@link auto.$injector $injector}, but extracted into
      * a service, so that one can override this service with [BC version](https://gist.github.com/1649788).
      */
     return function(expression, locals, later, ident) {
       // PRIVATE API:
-      //   param `later` --- indicates that the controller's constructor is invoked at a later time.
-      //                     If true, $controller will allocate the object with the correct
-      //                     prototype chain, but will not invoke the controller until a returned
+      //   param `later` --- indicates that the controllers's constructor is invoked at a later time.
+      //                     If true, $controllers will allocate the object with the correct
+      //                     prototype chain, but will not invoke the controllers until a returned
       //                     callback is invoked.
-      //   param `ident` --- An optional label which overrides the label parsed from the controller
+      //   param `ident` --- An optional label which overrides the label parsed from the controllers
       //                     expression, if any.
       var instance, match, constructor, identifier;
       later = later === true;
@@ -16337,7 +16337,7 @@ function $ControllerProvider() {
         match = expression.match(CNTRL_REG);
         if (!match) {
           throw $controllerMinErr('ctrlfmt',
-            "Badly formed controller string '{0}'. " +
+            "Badly formed controllers string '{0}'. " +
             "Must match `__name__ as __id__` or `__name__`.", expression);
         }
         constructor = match[1],
@@ -16351,11 +16351,11 @@ function $ControllerProvider() {
       }
 
       if (later) {
-        // Instantiate controller later:
+        // Instantiate controllers later:
         // This machinery is used to create an instance of the object before calling the
-        // controller's constructor itself.
+        // controllers's constructor itself.
         //
-        // This allows properties to be added to the controller before the constructor is
+        // This allows properties to be added to the controllers before the constructor is
         // invoked. Primarily, this is used for isolate scope bindings in $compile.
         //
         // This feature is not intended for use by applications, and is thus not documented
@@ -16390,7 +16390,7 @@ function $ControllerProvider() {
     function addIdentifier(locals, identifier, instance, name) {
       if (!(locals && isObject(locals.$scope))) {
         throw minErr('$controller')('noscp',
-          "Cannot export controller '{0}' as '{1}'! No $scope object provided via `locals`.",
+          "Cannot export controllers '{0}' as '{1}'! No $scope object provided via `locals`.",
           name, identifier);
       }
 
@@ -16410,14 +16410,14 @@ function $ControllerProvider() {
  * @example
    <example module="documentExample">
      <file name="index.html">
-       <div ng-controller="ExampleController">
+       <div ng-controllers="ExampleController">
          <p>$document title: <b ng-bind="title"></b></p>
          <p>window.document title: <b ng-bind="windowTitle"></b></p>
        </div>
      </file>
      <file name="script.js">
        angular.module('documentExample', [])
-         .controller('ExampleController', ['$scope', '$document', function($scope, $document) {
+         .controllers('ExampleController', ['$scope', '$document', function($scope, $document) {
            $scope.title = $document[0].title;
            $scope.windowTitle = angular.element(window.document)[0].title;
          }]);
@@ -17142,12 +17142,12 @@ function $HttpProvider() {
      * @example
 <example module="httpExample">
 <file name="index.html">
-  <div ng-controller="FetchController">
-    <select ng-model="method">
+  <div ng-controllers="FetchController">
+    <select ng-models="method">
       <option>GET</option>
       <option>JSONP</option>
     </select>
-    <input type="text" ng-model="url" size="80"/>
+    <input type="text" ng-models="url" size="80"/>
     <button id="fetchbtn" ng-click="fetch()">fetch</button><br>
     <button id="samplegetbtn" ng-click="updateModel('GET', 'http-hello.html')">Sample GET</button>
     <button id="samplejsonpbtn"
@@ -17165,7 +17165,7 @@ function $HttpProvider() {
 </file>
 <file name="script.js">
   angular.module('httpExample', [])
-    .controller('FetchController', ['$scope', '$http', '$templateCache',
+    .controllers('FetchController', ['$scope', '$http', '$templateCache',
       function($scope, $http, $templateCache) {
         $scope.method = 'GET';
         $scope.url = 'http-hello.html';
@@ -17829,11 +17829,11 @@ var $interpolateMinErr = minErr('$interpolate');
   });
 
 
-  customInterpolationApp.controller('DemoController', function() {
+  customInterpolationApp.controllers('DemoController', function() {
       this.label = "This binding is brought you by // interpolation symbols.";
   });
 </script>
-<div ng-app="App" ng-controller="DemoController as demo">
+<div ng-app="App" ng-controllers="DemoController as demo">
     //demo.label//
 </div>
 </file>
@@ -18180,7 +18180,7 @@ function $IntervalProvider() {
       *
       * <div class="alert alert-warning">
       * **Note**: Intervals created by this service must be explicitly destroyed when you are finished
-      * with them.  In particular they are not automatically destroyed when a controller's scope or a
+      * with them.  In particular they are not automatically destroyed when a controllers's scope or a
       * directive's element are destroyed.
       * You should take this into consideration and make sure to always cancel the interval at the
       * appropriate moment.  See the example below for more details on how and when to do this.
@@ -18190,7 +18190,7 @@ function $IntervalProvider() {
       * @param {number} delay Number of milliseconds between each function call.
       * @param {number=} [count=0] Number of times to repeat. If not set, or 0, will repeat
       *   indefinitely.
-      * @param {boolean=} [invokeApply=true] If set to `false` skips model dirty checking, otherwise
+      * @param {boolean=} [invokeApply=true] If set to `false` skips models dirty checking, otherwise
       *   will invoke `fn` within the {@link ng.$rootScope.Scope#$apply $apply} block.
       * @returns {promise} A promise which will be notified on each iteration.
       *
@@ -18199,7 +18199,7 @@ function $IntervalProvider() {
       * <file name="index.html">
       *   <script>
       *     angular.module('intervalExample', [])
-      *       .controller('ExampleController', ['$scope', '$interval',
+      *       .controllers('ExampleController', ['$scope', '$interval',
       *         function($scope, $interval) {
       *           $scope.format = 'M/d/yy h:mm:ss a';
       *           $scope.blood_1 = 100;
@@ -18269,8 +18269,8 @@ function $IntervalProvider() {
       *   </script>
       *
       *   <div>
-      *     <div ng-controller="ExampleController">
-      *       Date format: <input ng-model="format"> <hr/>
+      *     <div ng-controllers="ExampleController">
+      *       Date format: <input ng-models="format"> <hr/>
       *       Current time is: <span my-current-time="format"></span>
       *       <hr/>
       *       Blood 1 : <font color='red'>{{blood_1}}</font>
@@ -19392,16 +19392,16 @@ function $LocationProvider() {
    <example module="logExample">
      <file name="script.js">
        angular.module('logExample', [])
-         .controller('LogController', ['$scope', '$log', function($scope, $log) {
+         .controllers('LogController', ['$scope', '$log', function($scope, $log) {
            $scope.$log = $log;
            $scope.message = 'Hello World!';
          }]);
      </file>
      <file name="index.html">
-       <div ng-controller="LogController">
+       <div ng-controllers="LogController">
          <p>Reload this page with open console, enter text and hit the log button...</p>
          Message:
-         <input type="text" ng-model="message"/>
+         <input type="text" ng-models="message"/>
          <button ng-click="$log.log(message)">log</button>
          <button ng-click="$log.warn(message)">warn</button>
          <button ng-click="$log.info(message)">info</button>
@@ -20969,7 +20969,7 @@ function $ParseProvider() {
  *
  *  There are two main differences:
  *
- * - $q is integrated with the {@link ng.$rootScope.Scope} Scope model observation
+ * - $q is integrated with the {@link ng.$rootScope.Scope} Scope models observation
  *   mechanism in angular, which means faster propagation of resolution or rejection into your
  *   models and avoiding unnecessary browser repaints, which would result in flickering UI.
  * - Q has many more features than $q, but that comes at a cost of bytes. $q is tiny, but contains
@@ -21431,13 +21431,13 @@ function $$RAFProvider() { //rAF
  * @description
  *
  * Sets the number of `$digest` iterations the scope should attempt to execute before giving up and
- * assuming that the model is unstable.
+ * assuming that the models is unstable.
  *
  * The current default is 10 iterations.
  *
  * In complex applications it's possible that the dependencies between `$watch`s will result in
  * several digest iterations. However if an application needs more than the default 10 digest
- * iterations for its model to stabilize then you should investigate what is causing the model to
+ * iterations for its models to stabilize then you should investigate what is causing the models to
  * continuously change during the digest.
  *
  * Increasing the TTL could have performance implications, so you should not change it without
@@ -21454,7 +21454,7 @@ function $$RAFProvider() { //rAF
  *
  * Every application has a single root {@link ng.$rootScope.Scope scope}.
  * All other scopes are descendant scopes of the root scope. Scopes provide separation
- * between the model and the view, via a mechanism for watching the model for changes.
+ * between the models and the view, via a mechanism for watching the models for changes.
  * They also provide an event emission/broadcast and subscription facility. See the
  * {@link guide/scope developer guide on scopes}.
  */
@@ -21568,7 +21568,7 @@ function $RootScopeProvider() {
        *
        * {@link ng.$rootScope.Scope#$destroy $destroy()} must be called on a scope when it is
        * desired for the scope and its child scopes to be permanently detached from the parent and
-       * thus stop participating in model change detection and listener notification by invoking.
+       * thus stop participating in models change detection and listener notification by invoking.
        *
        * @param {boolean} isolate If true, then the scope does not prototypically inherit from the
        *         parent scope. The scope is isolated, as it can not see parent scope properties.
@@ -21654,7 +21654,7 @@ function $RootScopeProvider() {
        *   according to the {@link angular.equals} function. To save the value of the object for
        *   later comparison, the {@link angular.copy} function is used. This therefore means that
        *   watching complex objects will have adverse memory and performance implications.
-       * - The watch `listener` may change the model, which may trigger other `listener`s to fire.
+       * - The watch `listener` may change the models, which may trigger other `listener`s to fire.
        *   This is achieved by rerunning the watchers until no changes are detected. The rerun
        *   iteration limit is 10 to prevent an infinite loop deadlock.
        *
@@ -22061,7 +22061,7 @@ function $RootScopeProvider() {
        * @description
        * Processes all of the {@link ng.$rootScope.Scope#$watch watchers} of the current scope and
        * its children. Because a {@link ng.$rootScope.Scope#$watch watcher}'s listener can change
-       * the model, the `$digest()` keeps calling the {@link ng.$rootScope.Scope#$watch watchers}
+       * the models, the `$digest()` keeps calling the {@link ng.$rootScope.Scope#$watch watchers}
        * until no more listeners are firing. This means that it is possible to get into an infinite
        * loop. This function will throw `'Maximum iteration limit exceeded.'` if the number of
        * iterations exceeds 10.
@@ -22340,7 +22340,7 @@ function $RootScopeProvider() {
        * {@link ng.$exceptionHandler $exceptionHandler} service.
        *
        * __Note:__ if this function is called outside of a `$digest` cycle, a new `$digest` cycle
-       * will be scheduled. However, it is encouraged to always call code that changes the model
+       * will be scheduled. However, it is encouraged to always call code that changes the models
        * from within an `$apply` call. That includes code evaluated via `$evalAsync`.
        *
        * @param {(string|function())=} expression An angular expression to be executed.
@@ -23202,7 +23202,7 @@ function $SceDelegateProvider() {
  * Here's an example of a binding in a privileged context:
  *
  * ```
- * <input ng-model="userHtml">
+ * <input ng-models="userHtml">
  * <div ng-bind-html="userHtml"></div>
  * ```
  *
@@ -23358,7 +23358,7 @@ function $SceDelegateProvider() {
  *
  * <example module="mySceApp" deps="angular-sanitize.js">
  * <file name="index.html">
- *   <div ng-controller="AppController as myCtrl">
+ *   <div ng-controllers="AppController as myCtrl">
  *     <i ng-bind-html="myCtrl.explicitlyTrustedHtml" id="explicitlyTrustedHtml"></i><br><br>
  *     <b>User comments</b><br>
  *     By default, HTML that isn't explicitly trusted (e.g. Alice's comment) is sanitized when
@@ -23376,7 +23376,7 @@ function $SceDelegateProvider() {
  *
  * <file name="script.js">
  *   angular.module('mySceApp', ['ngSanitize'])
- *     .controller('AppController', ['$http', '$templateCache', '$sce',
+ *     .controllers('AppController', ['$http', '$templateCache', '$sce',
  *       function($http, $templateCache, $sce) {
  *         var self = this;
  *         $http.get("test_data.json", {cache: $templateCache}).success(function(userComments) {
@@ -23492,7 +23492,7 @@ function $SceProvider() {
    * constants or objects even if not wrapped.  All such implementations fulfill this contract.
    *
    *
-   * A note on the inheritance model for SCE contexts
+   * A note on the inheritance models for SCE contexts
    * ------------------------------------------------
    * I've used inheritance and made RESOURCE_URL wrapped types a subtype of URL wrapped types.  This
    * is purely an implementation details.
@@ -24037,11 +24037,11 @@ function $$TestabilityProvider() {
      * @name $$testability#findModels
      *
      * @description
-     * Returns an array of elements that are two-way found via ng-model to
+     * Returns an array of elements that are two-way found via ng-models to
      * expressions matching the input.
      *
      * @param {Element} element The element root to search from.
-     * @param {string} expression The model expression to match.
+     * @param {string} expression The models expression to match.
      * @param {boolean} opt_exactMatch If true, only returns exact matches
      *     for the expression.
      */
@@ -24125,7 +24125,7 @@ function $TimeoutProvider() {
       *
       * @param {function()} fn A function, whose execution should be delayed.
       * @param {number=} [delay=0] Delay in milliseconds.
-      * @param {boolean=} [invokeApply=true] If set to `false` skips model dirty checking, otherwise
+      * @param {boolean=} [invokeApply=true] If set to `false` skips models dirty checking, otherwise
       *   will invoke `fn` within the {@link ng.$rootScope.Scope#$apply $apply} block.
       * @returns {Promise} Promise that will be resolved when the timeout is reached. The value this
       *   promise will be resolved with is the return value of the `fn` function.
@@ -24306,21 +24306,21 @@ function urlIsSameOrigin(requestUrl) {
      <file name="index.html">
        <script>
          angular.module('windowExample', [])
-           .controller('ExampleController', ['$scope', '$window', function($scope, $window) {
+           .controllers('ExampleController', ['$scope', '$window', function($scope, $window) {
              $scope.greeting = 'Hello, World!';
              $scope.doGreeting = function(greeting) {
                $window.alert(greeting);
              };
            }]);
        </script>
-       <div ng-controller="ExampleController">
-         <input type="text" ng-model="greeting" />
+       <div ng-controllers="ExampleController">
+         <input type="text" ng-models="greeting" />
          <button ng-click="doGreeting(greeting)">ALERT</button>
        </div>
      </file>
      <file name="protractor.js" type="protractor">
       it('should display the greeting in the input box', function() {
-       element(by.model('greeting')).sendKeys('Hello, E2E Tests');
+       element(by.models('greeting')).sendKeys('Hello, E2E Tests');
        // If we click the button it will block the test runner
        // element(':button').click();
       });
@@ -24408,7 +24408,7 @@ function $WindowProvider() {
  * @example
    <example name="$filter" module="filterExample">
      <file name="index.html">
-       <div ng-controller="MainCtrl">
+       <div ng-controllers="MainCtrl">
         <h3>{{ originalText }}</h3>
         <h3>{{ filteredText }}</h3>
        </div>
@@ -24416,7 +24416,7 @@ function $WindowProvider() {
 
      <file name="script.js">
       angular.module('filterExample', [])
-      .controller('MainCtrl', function($scope, $filter) {
+      .controllers('MainCtrl', function($scope, $filter) {
         $scope.originalText = 'hello';
         $scope.filteredText = $filter('uppercase')($scope.originalText);
       });
@@ -24543,7 +24543,7 @@ function $FilterProvider($provide) {
                                 {name:'Julie', phone:'555-8765'},
                                 {name:'Juliette', phone:'555-5678'}]"></div>
 
-       Search: <input ng-model="searchText">
+       Search: <input ng-models="searchText">
        <table id="searchTextResults">
          <tr><th>Name</th><th>Phone</th></tr>
          <tr ng-repeat="friend in friends | filter:searchText">
@@ -24552,10 +24552,10 @@ function $FilterProvider($provide) {
          </tr>
        </table>
        <hr>
-       Any: <input ng-model="search.$"> <br>
-       Name only <input ng-model="search.name"><br>
-       Phone only <input ng-model="search.phone"><br>
-       Equality <input type="checkbox" ng-model="strict"><br>
+       Any: <input ng-models="search.$"> <br>
+       Name only <input ng-models="search.name"><br>
+       Phone only <input ng-models="search.phone"><br>
+       Equality <input type="checkbox" ng-models="strict"><br>
        <table id="searchObjResults">
          <tr><th>Name</th><th>Phone</th></tr>
          <tr ng-repeat="friendObj in friends | filter:search:strict">
@@ -24574,7 +24574,7 @@ function $FilterProvider($provide) {
        };
 
        it('should search across all fields when filtering with a string', function() {
-         var searchText = element(by.model('searchText'));
+         var searchText = element(by.models('searchText'));
          searchText.clear();
          searchText.sendKeys('m');
          expectFriendNames(['Mary', 'Mike', 'Adam'], 'friend');
@@ -24585,14 +24585,14 @@ function $FilterProvider($provide) {
        });
 
        it('should search in specific fields when filtering with a predicate object', function() {
-         var searchAny = element(by.model('search.$'));
+         var searchAny = element(by.models('search.$'));
          searchAny.clear();
          searchAny.sendKeys('i');
          expectFriendNames(['Mary', 'Mike', 'Julie', 'Juliette'], 'friendObj');
        });
        it('should use a equal comparison when comparator is true', function() {
-         var searchName = element(by.model('search.name'));
-         var strict = element(by.model('strict'));
+         var searchName = element(by.models('search.name'));
+         var strict = element(by.models('strict'));
          searchName.clear();
          searchName.sendKeys('Julie');
          strict.click();
@@ -24728,12 +24728,12 @@ function deepCompare(actual, expected, comparator, matchAgainstAnyProp, dontMatc
      <file name="index.html">
        <script>
          angular.module('currencyExample', [])
-           .controller('ExampleController', ['$scope', function($scope) {
+           .controllers('ExampleController', ['$scope', function($scope) {
              $scope.amount = 1234.56;
            }]);
        </script>
-       <div ng-controller="ExampleController">
-         <input type="number" ng-model="amount"> <br>
+       <div ng-controllers="ExampleController">
+         <input type="number" ng-models="amount"> <br>
          default currency symbol ($): <span id="currency-default">{{amount | currency}}</span><br>
          custom currency identifier (USD$): <span id="currency-custom">{{amount | currency:"USD$"}}</span>
          no fractions (0): <span id="currency-no-fractions">{{amount | currency:"USD$":0}}</span>
@@ -24751,8 +24751,8 @@ function deepCompare(actual, expected, comparator, matchAgainstAnyProp, dontMatc
            // https://github.com/angular/protractor/issues/481
            return;
          }
-         element(by.model('amount')).clear();
-         element(by.model('amount')).sendKeys('-1234');
+         element(by.models('amount')).clear();
+         element(by.models('amount')).sendKeys('-1234');
          expect(element(by.id('currency-default')).getText()).toBe('($1,234.00)');
          expect(element(by.id('currency-custom')).getText()).toBe('(USD$1,234.00)');
          expect(element(by.id('currency-no-fractions')).getText()).toBe('(USD$1,234)');
@@ -24801,12 +24801,12 @@ function currencyFilter($locale) {
      <file name="index.html">
        <script>
          angular.module('numberFilterExample', [])
-           .controller('ExampleController', ['$scope', function($scope) {
+           .controllers('ExampleController', ['$scope', function($scope) {
              $scope.val = 1234.56789;
            }]);
        </script>
-       <div ng-controller="ExampleController">
-         Enter number: <input ng-model='val'><br>
+       <div ng-controllers="ExampleController">
+         Enter number: <input ng-models='val'><br>
          Default formatting: <span id='number-default'>{{val | number}}</span><br>
          No fractions: <span>{{val | number:0}}</span><br>
          Negative number: <span>{{-val | number:4}}</span>
@@ -24820,8 +24820,8 @@ function currencyFilter($locale) {
        });
 
        it('should update', function() {
-         element(by.model('val')).clear();
-         element(by.model('val')).sendKeys('3374.333');
+         element(by.models('val')).clear();
+         element(by.models('val')).sendKeys('3374.333');
          expect(element(by.id('number-default')).getText()).toBe('3,374.333');
          expect(element(by.binding('val | number:0')).getText()).toBe('3,374');
          expect(element(by.binding('-val | number:4')).getText()).toBe('-3,374.3330');
@@ -25283,7 +25283,7 @@ var uppercaseFilter = valueFn(uppercase);
      <file name="index.html">
        <script>
          angular.module('limitToExample', [])
-           .controller('ExampleController', ['$scope', function($scope) {
+           .controllers('ExampleController', ['$scope', function($scope) {
              $scope.numbers = [1,2,3,4,5,6,7,8,9];
              $scope.letters = "abcdefghi";
              $scope.longNumber = 2345432342;
@@ -25292,19 +25292,19 @@ var uppercaseFilter = valueFn(uppercase);
              $scope.longNumberLimit = 3;
            }]);
        </script>
-       <div ng-controller="ExampleController">
-         Limit {{numbers}} to: <input type="number" step="1" ng-model="numLimit">
+       <div ng-controllers="ExampleController">
+         Limit {{numbers}} to: <input type="number" step="1" ng-models="numLimit">
          <p>Output numbers: {{ numbers | limitTo:numLimit }}</p>
-         Limit {{letters}} to: <input type="number" step="1" ng-model="letterLimit">
+         Limit {{letters}} to: <input type="number" step="1" ng-models="letterLimit">
          <p>Output letters: {{ letters | limitTo:letterLimit }}</p>
-         Limit {{longNumber}} to: <input type="number" step="1" ng-model="longNumberLimit">
+         Limit {{longNumber}} to: <input type="number" step="1" ng-models="longNumberLimit">
          <p>Output long number: {{ longNumber | limitTo:longNumberLimit }}</p>
        </div>
      </file>
      <file name="protractor.js" type="protractor">
-       var numLimitInput = element(by.model('numLimit'));
-       var letterLimitInput = element(by.model('letterLimit'));
-       var longNumberLimitInput = element(by.model('longNumberLimit'));
+       var numLimitInput = element(by.models('numLimit'));
+       var letterLimitInput = element(by.models('letterLimit'));
+       var longNumberLimitInput = element(by.models('longNumberLimit'));
        var limitedNumbers = element(by.binding('numbers | limitTo:numLimit'));
        var limitedLetters = element(by.binding('letters | limitTo:letterLimit'));
        var limitedLongNumber = element(by.binding('longNumber | limitTo:longNumberLimit'));
@@ -25404,7 +25404,7 @@ function limitToFilter() {
      <file name="index.html">
        <script>
          angular.module('orderByExample', [])
-           .controller('ExampleController', ['$scope', function($scope) {
+           .controllers('ExampleController', ['$scope', function($scope) {
              $scope.friends =
                  [{name:'John', phone:'555-1212', age:10},
                   {name:'Mary', phone:'555-9876', age:19},
@@ -25414,7 +25414,7 @@ function limitToFilter() {
              $scope.predicate = '-age';
            }]);
        </script>
-       <div ng-controller="ExampleController">
+       <div ng-controllers="ExampleController">
          <pre>Sorting predicate = {{predicate}}; reverse = {{reverse}}</pre>
          <hr/>
          [ <a href="" ng-click="predicate=''">unsorted</a> ]
@@ -25444,7 +25444,7 @@ function limitToFilter() {
  * @example
   <example module="orderByExample">
     <file name="index.html">
-      <div ng-controller="ExampleController">
+      <div ng-controllers="ExampleController">
         <table class="friend">
           <tr>
             <th><a href="" ng-click="reverse=false;order('name', false)">Name</a>
@@ -25463,7 +25463,7 @@ function limitToFilter() {
 
     <file name="script.js">
       angular.module('orderByExample', [])
-        .controller('ExampleController', ['$scope', '$filter', function($scope, $filter) {
+        .controllers('ExampleController', ['$scope', '$filter', function($scope, $filter) {
           var orderBy = $filter('orderBy');
           $scope.friends = [
             { name: 'John',    phone: '555-1212',    age: 10 },
@@ -25646,7 +25646,7 @@ var htmlAnchorDirective = valueFn({
  * in links and their different behaviors:
     <example>
       <file name="index.html">
-        <input ng-model="value" /><br />
+        <input ng-models="value" /><br />
         <a id="link-1" href ng-click="value = 1">link 1</a> (link, don't reload)<br />
         <a id="link-2" href="" ng-click="value = 2">link 2</a> (link, don't reload)<br />
         <a id="link-3" ng-href="/{{'123'}}">link 3</a> (link, reload!)<br />
@@ -25657,13 +25657,13 @@ var htmlAnchorDirective = valueFn({
       <file name="protractor.js" type="protractor">
         it('should execute ng-click but not reload when href without value', function() {
           element(by.id('link-1')).click();
-          expect(element(by.model('value')).getAttribute('value')).toEqual('1');
+          expect(element(by.models('value')).getAttribute('value')).toEqual('1');
           expect(element(by.id('link-1')).getAttribute('href')).toBe('');
         });
 
         it('should execute ng-click but not reload when href empty string', function() {
           element(by.id('link-2')).click();
-          expect(element(by.model('value')).getAttribute('value')).toEqual('2');
+          expect(element(by.models('value')).getAttribute('value')).toEqual('2');
           expect(element(by.id('link-2')).getAttribute('href')).toBe('');
         });
 
@@ -25684,19 +25684,19 @@ var htmlAnchorDirective = valueFn({
 
         xit('should execute ng-click but not reload when href empty string and name specified', function() {
           element(by.id('link-4')).click();
-          expect(element(by.model('value')).getAttribute('value')).toEqual('4');
+          expect(element(by.models('value')).getAttribute('value')).toEqual('4');
           expect(element(by.id('link-4')).getAttribute('href')).toBe('');
         });
 
         it('should execute ng-click but not reload when no href but name specified', function() {
           element(by.id('link-5')).click();
-          expect(element(by.model('value')).getAttribute('value')).toEqual('5');
+          expect(element(by.models('value')).getAttribute('value')).toEqual('5');
           expect(element(by.id('link-5')).getAttribute('href')).toBe(null);
         });
 
         it('should only change url when only ng-href', function() {
-          element(by.model('value')).clear();
-          element(by.model('value')).sendKeys('6');
+          element(by.models('value')).clear();
+          element(by.models('value')).sendKeys('6');
           expect(element(by.id('link-6')).getAttribute('href')).toMatch(/\/6$/);
 
           element(by.id('link-6')).click();
@@ -25791,13 +25791,13 @@ var htmlAnchorDirective = valueFn({
  * @example
     <example>
       <file name="index.html">
-        Click me to toggle: <input type="checkbox" ng-model="checked"><br/>
-        <button ng-model="button" ng-disabled="checked">Button</button>
+        Click me to toggle: <input type="checkbox" ng-models="checked"><br/>
+        <button ng-models="button" ng-disabled="checked">Button</button>
       </file>
       <file name="protractor.js" type="protractor">
         it('should toggle button', function() {
           expect(element(by.css('button')).getAttribute('disabled')).toBeFalsy();
-          element(by.model('checked')).click();
+          element(by.models('checked')).click();
           expect(element(by.css('button')).getAttribute('disabled')).toBeTruthy();
         });
       </file>
@@ -25826,13 +25826,13 @@ var htmlAnchorDirective = valueFn({
  * @example
     <example>
       <file name="index.html">
-        Check me to check both: <input type="checkbox" ng-model="master"><br/>
+        Check me to check both: <input type="checkbox" ng-models="master"><br/>
         <input id="checkSlave" type="checkbox" ng-checked="master">
       </file>
       <file name="protractor.js" type="protractor">
         it('should check both checkBoxes', function() {
           expect(element(by.id('checkSlave')).getAttribute('checked')).toBeFalsy();
-          element(by.model('master')).click();
+          element(by.models('master')).click();
           expect(element(by.id('checkSlave')).getAttribute('checked')).toBeTruthy();
         });
       </file>
@@ -25861,13 +25861,13 @@ var htmlAnchorDirective = valueFn({
  * @example
     <example>
       <file name="index.html">
-        Check me to make text readonly: <input type="checkbox" ng-model="checked"><br/>
+        Check me to make text readonly: <input type="checkbox" ng-models="checked"><br/>
         <input type="text" ng-readonly="checked" value="I'm Angular"/>
       </file>
       <file name="protractor.js" type="protractor">
         it('should toggle readonly attr', function() {
           expect(element(by.css('[type="text"]')).getAttribute('readonly')).toBeFalsy();
-          element(by.model('checked')).click();
+          element(by.models('checked')).click();
           expect(element(by.css('[type="text"]')).getAttribute('readonly')).toBeTruthy();
         });
       </file>
@@ -25897,7 +25897,7 @@ var htmlAnchorDirective = valueFn({
  * @example
     <example>
       <file name="index.html">
-        Check me to select: <input type="checkbox" ng-model="selected"><br/>
+        Check me to select: <input type="checkbox" ng-models="selected"><br/>
         <select>
           <option>Hello!</option>
           <option id="greet" ng-selected="selected">Greetings!</option>
@@ -25906,7 +25906,7 @@ var htmlAnchorDirective = valueFn({
       <file name="protractor.js" type="protractor">
         it('should select Greetings!', function() {
           expect(element(by.id('greet')).getAttribute('selected')).toBeFalsy();
-          element(by.model('selected')).click();
+          element(by.models('selected')).click();
           expect(element(by.id('greet')).getAttribute('selected')).toBeTruthy();
         });
       </file>
@@ -25934,7 +25934,7 @@ var htmlAnchorDirective = valueFn({
  * @example
      <example>
        <file name="index.html">
-         Check me check multiple: <input type="checkbox" ng-model="open"><br/>
+         Check me check multiple: <input type="checkbox" ng-models="open"><br/>
          <details id="details" ng-open="open">
             <summary>Show/Hide me</summary>
          </details>
@@ -25942,7 +25942,7 @@ var htmlAnchorDirective = valueFn({
        <file name="protractor.js" type="protractor">
          it('should toggle open', function() {
            expect(element(by.id('details')).getAttribute('open')).toBeFalsy();
-           element(by.model('open')).click();
+           element(by.models('open')).click();
            expect(element(by.id('details')).getAttribute('open')).toBeTruthy();
          });
        </file>
@@ -26095,7 +26095,7 @@ function nullFormRenameControl(control, name) {
  * of `FormController`.
  *
  */
-//asks for $scope to fool the BC controller module
+//asks for $scope to fool the BC controllers module
 FormController.$inject = ['$element', '$attrs', '$scope', '$animate', '$interpolate'];
 function FormController(element, attrs, $scope, $animate, $interpolate) {
   var form = this,
@@ -26124,8 +26124,8 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
    * Rollback all form controls pending updates to the `$modelValue`.
    *
    * Updates may be pending by a debounced event or because the input is waiting for a some future
-   * event defined in `ng-model-options`. This method is typically needed by the reset button of
-   * a form that uses `ng-model-options` to pend updates.
+   * event defined in `ng-models-options`. This method is typically needed by the reset button of
+   * a form that uses `ng-models-options` to pend updates.
    */
   form.$rollbackViewValue = function() {
     forEach(controls, function(control) {
@@ -26141,7 +26141,7 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
    * Commit all form controls pending updates to the `$modelValue`.
    *
    * Updates may be pending by a debounced event or because the input is waiting for a some future
-   * event defined in `ng-model-options`. This method is rarely needed as `NgModelController`
+   * event defined in `ng-models-options`. This method is rarely needed as `NgModelController`
    * usually handles calling this in response to input events.
    */
   form.$commitViewValue = function() {
@@ -26334,7 +26334,7 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
  * but not to be a replacement for the `<form>` tag with all of its capabilities
  * (e.g. posting to the server, ...).
  *
- * @param {string=} ngForm|name Name of the form. If specified, the form controller will be published into
+ * @param {string=} ngForm|name Name of the form. If specified, the form controllers will be published into
  *                       related scope, under this name.
  *
  */
@@ -26348,7 +26348,7 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
  * Directive that instantiates
  * {@link form.FormController FormController}.
  *
- * If the `name` attribute is specified, the form controller is published onto the current scope under
+ * If the `name` attribute is specified, the form controllers is published onto the current scope under
  * this name.
  *
  * # Alias: {@link ng.directive:ngForm `ngForm`}
@@ -26403,8 +26403,8 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
  * input[type=submit] (`ngClick`) *and* a submit handler on the enclosing form (`ngSubmit`)
  *
  * Any pending `ngModelOptions` changes will take place immediately when an enclosing form is
- * submitted. Note that `ngClick` events will occur before the model is updated. Use `ngSubmit`
- * to have access to the updated model.
+ * submitted. Note that `ngClick` events will occur before the models is updated. Use `ngSubmit`
+ * to have access to the updated models.
  *
  * ## Animation Hooks
  *
@@ -26435,7 +26435,7 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
       <file name="index.html">
        <script>
          angular.module('formExample', [])
-           .controller('FormController', ['$scope', function($scope) {
+           .controllers('FormController', ['$scope', function($scope) {
              $scope.userType = 'guest';
            }]);
        </script>
@@ -26449,8 +26449,8 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
           background: red;
         }
        </style>
-       <form name="myForm" ng-controller="FormController" class="my-form">
-         userType: <input name="input" ng-model="userType" required>
+       <form name="myForm" ng-controllers="FormController" class="my-form">
+         userType: <input name="input" ng-models="userType" required>
          <span class="error" ng-show="myForm.input.$error.required">Required!</span><br>
          <tt>userType = {{userType}}</tt><br>
          <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br>
@@ -26460,7 +26460,7 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
         </form>
       </file>
       <file name="protractor.js" type="protractor">
-        it('should initialize to model', function() {
+        it('should initialize to models', function() {
           var userType = element(by.binding('userType'));
           var valid = element(by.binding('myForm.input.$valid'));
 
@@ -26471,7 +26471,7 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
         it('should be invalid if empty', function() {
           var userType = element(by.binding('userType'));
           var valid = element(by.binding('myForm.input.$valid'));
-          var userInput = element(by.model('userType'));
+          var userInput = element(by.models('userType'));
 
           userInput.clear();
           userInput.sendKeys('');
@@ -26482,7 +26482,7 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
       </file>
     </example>
  *
- * @param {string=} name Name of the form. If specified, the form controller will be published into
+ * @param {string=} name Name of the form. If specified, the form controllers will be published into
  *                       related scope, under this name.
  */
 var formDirectiveFactory = function(isNgForm) {
@@ -26617,15 +26617,15 @@ var inputType = {
         <file name="index.html">
          <script>
            angular.module('textInputExample', [])
-             .controller('ExampleController', ['$scope', function($scope) {
+             .controllers('ExampleController', ['$scope', function($scope) {
                $scope.example = {
                  text: 'guest',
                  word: /^\s*\w*\s*$/
                };
              }]);
          </script>
-         <form name="myForm" ng-controller="ExampleController">
-           Single word: <input type="text" name="input" ng-model="example.text"
+         <form name="myForm" ng-controllers="ExampleController">
+           Single word: <input type="text" name="input" ng-models="example.text"
                                ng-pattern="example.word" required ng-trim="false">
            <span class="error" ng-show="myForm.input.$error.required">
              Required!</span>
@@ -26642,9 +26642,9 @@ var inputType = {
         <file name="protractor.js" type="protractor">
           var text = element(by.binding('example.text'));
           var valid = element(by.binding('myForm.input.$valid'));
-          var input = element(by.model('example.text'));
+          var input = element(by.models('example.text'));
 
-          it('should initialize to model', function() {
+          it('should initialize to models', function() {
             expect(text.getText()).toContain('guest');
             expect(valid.getText()).toContain('true');
           });
@@ -26679,10 +26679,10 @@ var inputType = {
      * modern browsers do not yet support this input type, it is important to provide cues to users on the
      * expected input format via a placeholder or label.
      *
-     * The model must always be a Date object, otherwise Angular will throw an error.
+     * The models must always be a Date object, otherwise Angular will throw an error.
      * Invalid `Date` objects (dates whose `getTime()` is `NaN`) will be rendered as an empty string.
      *
-     * The timezone to be used to read/write the `Date` instance in the model can be defined using
+     * The timezone to be used to read/write the `Date` instance in the models can be defined using
      * {@link ng.directive:ngModelOptions ngModelOptions}. By default, this is the timezone of the browser.
      *
      * @param {string} ngModel Assignable angular expression to data-bind to.
@@ -26703,15 +26703,15 @@ var inputType = {
      <file name="index.html">
        <script>
           angular.module('dateInputExample', [])
-            .controller('DateController', ['$scope', function($scope) {
+            .controllers('DateController', ['$scope', function($scope) {
               $scope.example = {
                 value: new Date(2013, 9, 22)
               };
             }]);
        </script>
-       <form name="myForm" ng-controller="DateController as dateCtrl">
+       <form name="myForm" ng-controllers="DateController as dateCtrl">
           Pick a date in 2013:
-          <input type="date" id="exampleInput" name="input" ng-model="example.value"
+          <input type="date" id="exampleInput" name="input" ng-models="example.value"
               placeholder="yyyy-MM-dd" min="2013-01-01" max="2013-12-31" required />
           <span class="error" ng-show="myForm.input.$error.required">
               Required!</span>
@@ -26727,7 +26727,7 @@ var inputType = {
      <file name="protractor.js" type="protractor">
         var value = element(by.binding('example.value | date: "yyyy-MM-dd"'));
         var valid = element(by.binding('myForm.input.$valid'));
-        var input = element(by.model('example.value'));
+        var input = element(by.models('example.value'));
 
         // currently protractor/webdriver does not support
         // sending keys to all known HTML5 input controls
@@ -26740,7 +26740,7 @@ var inputType = {
           browser.executeScript(scr);
         }
 
-        it('should initialize to model', function() {
+        it('should initialize to models', function() {
           expect(value.getText()).toContain('2013-10-22');
           expect(valid.getText()).toContain('myForm.input.$valid = true');
         });
@@ -26772,10 +26772,10 @@ var inputType = {
     * the HTML5 date input, a text element will be used. In that case, the text must be entered in a valid ISO-8601
     * local datetime format (yyyy-MM-ddTHH:mm:ss), for example: `2010-12-28T14:57:00`.
     *
-    * The model must always be a Date object, otherwise Angular will throw an error.
+    * The models must always be a Date object, otherwise Angular will throw an error.
     * Invalid `Date` objects (dates whose `getTime()` is `NaN`) will be rendered as an empty string.
     *
-    * The timezone to be used to read/write the `Date` instance in the model can be defined using
+    * The timezone to be used to read/write the `Date` instance in the models can be defined using
     * {@link ng.directive:ngModelOptions ngModelOptions}. By default, this is the timezone of the browser.
     *
     * @param {string} ngModel Assignable angular expression to data-bind to.
@@ -26796,15 +26796,15 @@ var inputType = {
     <file name="index.html">
       <script>
         angular.module('dateExample', [])
-          .controller('DateController', ['$scope', function($scope) {
+          .controllers('DateController', ['$scope', function($scope) {
             $scope.example = {
               value: new Date(2010, 11, 28, 14, 57)
             };
           }]);
       </script>
-      <form name="myForm" ng-controller="DateController as dateCtrl">
+      <form name="myForm" ng-controllers="DateController as dateCtrl">
         Pick a date between in 2013:
-        <input type="datetime-local" id="exampleInput" name="input" ng-model="example.value"
+        <input type="datetime-local" id="exampleInput" name="input" ng-models="example.value"
             placeholder="yyyy-MM-ddTHH:mm:ss" min="2001-01-01T00:00:00" max="2013-12-31T00:00:00" required />
         <span class="error" ng-show="myForm.input.$error.required">
             Required!</span>
@@ -26820,7 +26820,7 @@ var inputType = {
     <file name="protractor.js" type="protractor">
       var value = element(by.binding('example.value | date: "yyyy-MM-ddTHH:mm:ss"'));
       var valid = element(by.binding('myForm.input.$valid'));
-      var input = element(by.model('example.value'));
+      var input = element(by.models('example.value'));
 
       // currently protractor/webdriver does not support
       // sending keys to all known HTML5 input controls
@@ -26833,7 +26833,7 @@ var inputType = {
         browser.executeScript(scr);
       }
 
-      it('should initialize to model', function() {
+      it('should initialize to models', function() {
         expect(value.getText()).toContain('2010-12-28T14:57:00');
         expect(valid.getText()).toContain('myForm.input.$valid = true');
       });
@@ -26864,12 +26864,12 @@ var inputType = {
    * Input with time validation and transformation. In browsers that do not yet support
    * the HTML5 date input, a text element will be used. In that case, the text must be entered in a valid ISO-8601
    * local time format (HH:mm:ss), for example: `14:57:00`. Model must be a Date object. This binding will always output a
-   * Date object to the model of January 1, 1970, or local date `new Date(1970, 0, 1, HH, mm, ss)`.
+   * Date object to the models of January 1, 1970, or local date `new Date(1970, 0, 1, HH, mm, ss)`.
    *
-   * The model must always be a Date object, otherwise Angular will throw an error.
+   * The models must always be a Date object, otherwise Angular will throw an error.
    * Invalid `Date` objects (dates whose `getTime()` is `NaN`) will be rendered as an empty string.
    *
-   * The timezone to be used to read/write the `Date` instance in the model can be defined using
+   * The timezone to be used to read/write the `Date` instance in the models can be defined using
    * {@link ng.directive:ngModelOptions ngModelOptions}. By default, this is the timezone of the browser.
    *
    * @param {string} ngModel Assignable angular expression to data-bind to.
@@ -26890,15 +26890,15 @@ var inputType = {
    <file name="index.html">
      <script>
       angular.module('timeExample', [])
-        .controller('DateController', ['$scope', function($scope) {
+        .controllers('DateController', ['$scope', function($scope) {
           $scope.example = {
             value: new Date(1970, 0, 1, 14, 57, 0)
           };
         }]);
      </script>
-     <form name="myForm" ng-controller="DateController as dateCtrl">
+     <form name="myForm" ng-controllers="DateController as dateCtrl">
         Pick a between 8am and 5pm:
-        <input type="time" id="exampleInput" name="input" ng-model="example.value"
+        <input type="time" id="exampleInput" name="input" ng-models="example.value"
             placeholder="HH:mm:ss" min="08:00:00" max="17:00:00" required />
         <span class="error" ng-show="myForm.input.$error.required">
             Required!</span>
@@ -26914,7 +26914,7 @@ var inputType = {
    <file name="protractor.js" type="protractor">
       var value = element(by.binding('example.value | date: "HH:mm:ss"'));
       var valid = element(by.binding('myForm.input.$valid'));
-      var input = element(by.model('example.value'));
+      var input = element(by.models('example.value'));
 
       // currently protractor/webdriver does not support
       // sending keys to all known HTML5 input controls
@@ -26927,7 +26927,7 @@ var inputType = {
         browser.executeScript(scr);
       }
 
-      it('should initialize to model', function() {
+      it('should initialize to models', function() {
         expect(value.getText()).toContain('14:57:00');
         expect(valid.getText()).toContain('myForm.input.$valid = true');
       });
@@ -26959,10 +26959,10 @@ var inputType = {
     * the HTML5 week input, a text element will be used. In that case, the text must be entered in a valid ISO-8601
     * week format (yyyy-W##), for example: `2013-W02`.
     *
-    * The model must always be a Date object, otherwise Angular will throw an error.
+    * The models must always be a Date object, otherwise Angular will throw an error.
     * Invalid `Date` objects (dates whose `getTime()` is `NaN`) will be rendered as an empty string.
     *
-    * The timezone to be used to read/write the `Date` instance in the model can be defined using
+    * The timezone to be used to read/write the `Date` instance in the models can be defined using
     * {@link ng.directive:ngModelOptions ngModelOptions}. By default, this is the timezone of the browser.
     *
     * @param {string} ngModel Assignable angular expression to data-bind to.
@@ -26983,15 +26983,15 @@ var inputType = {
     <file name="index.html">
       <script>
       angular.module('weekExample', [])
-        .controller('DateController', ['$scope', function($scope) {
+        .controllers('DateController', ['$scope', function($scope) {
           $scope.example = {
             value: new Date(2013, 0, 3)
           };
         }]);
       </script>
-      <form name="myForm" ng-controller="DateController as dateCtrl">
+      <form name="myForm" ng-controllers="DateController as dateCtrl">
         Pick a date between in 2013:
-        <input id="exampleInput" type="week" name="input" ng-model="example.value"
+        <input id="exampleInput" type="week" name="input" ng-models="example.value"
             placeholder="YYYY-W##" min="2012-W32" max="2013-W52" required />
         <span class="error" ng-show="myForm.input.$error.required">
             Required!</span>
@@ -27007,7 +27007,7 @@ var inputType = {
     <file name="protractor.js" type="protractor">
       var value = element(by.binding('example.value | date: "yyyy-Www"'));
       var valid = element(by.binding('myForm.input.$valid'));
-      var input = element(by.model('example.value'));
+      var input = element(by.models('example.value'));
 
       // currently protractor/webdriver does not support
       // sending keys to all known HTML5 input controls
@@ -27020,7 +27020,7 @@ var inputType = {
         browser.executeScript(scr);
       }
 
-      it('should initialize to model', function() {
+      it('should initialize to models', function() {
         expect(value.getText()).toContain('2013-W01');
         expect(valid.getText()).toContain('myForm.input.$valid = true');
       });
@@ -27050,12 +27050,12 @@ var inputType = {
    * the HTML5 month input, a text element will be used. In that case, the text must be entered in a valid ISO-8601
    * month format (yyyy-MM), for example: `2009-01`.
    *
-   * The model must always be a Date object, otherwise Angular will throw an error.
+   * The models must always be a Date object, otherwise Angular will throw an error.
    * Invalid `Date` objects (dates whose `getTime()` is `NaN`) will be rendered as an empty string.
-   * If the model is not set to the first of the month, the next view to model update will set it
+   * If the models is not set to the first of the month, the next view to models update will set it
    * to the first of the month.
    *
-   * The timezone to be used to read/write the `Date` instance in the model can be defined using
+   * The timezone to be used to read/write the `Date` instance in the models can be defined using
    * {@link ng.directive:ngModelOptions ngModelOptions}. By default, this is the timezone of the browser.
    *
    * @param {string} ngModel Assignable angular expression to data-bind to.
@@ -27076,15 +27076,15 @@ var inputType = {
    <file name="index.html">
      <script>
       angular.module('monthExample', [])
-        .controller('DateController', ['$scope', function($scope) {
+        .controllers('DateController', ['$scope', function($scope) {
           $scope.example = {
             value: new Date(2013, 9, 1)
           };
         }]);
      </script>
-     <form name="myForm" ng-controller="DateController as dateCtrl">
+     <form name="myForm" ng-controllers="DateController as dateCtrl">
        Pick a month in 2013:
-       <input id="exampleInput" type="month" name="input" ng-model="example.value"
+       <input id="exampleInput" type="month" name="input" ng-models="example.value"
           placeholder="yyyy-MM" min="2013-01" max="2013-12" required />
        <span class="error" ng-show="myForm.input.$error.required">
           Required!</span>
@@ -27100,7 +27100,7 @@ var inputType = {
    <file name="protractor.js" type="protractor">
       var value = element(by.binding('example.value | date: "yyyy-MM"'));
       var valid = element(by.binding('myForm.input.$valid'));
-      var input = element(by.model('example.value'));
+      var input = element(by.models('example.value'));
 
       // currently protractor/webdriver does not support
       // sending keys to all known HTML5 input controls
@@ -27113,7 +27113,7 @@ var inputType = {
         browser.executeScript(scr);
       }
 
-      it('should initialize to model', function() {
+      it('should initialize to models', function() {
         expect(value.getText()).toContain('2013-10');
         expect(valid.getText()).toContain('myForm.input.$valid = true');
       });
@@ -27144,7 +27144,7 @@ var inputType = {
    * Text input with number validation and transformation. Sets the `number` validation
    * error if not a valid number.
    *
-   * The model must always be a number, otherwise Angular will throw an error.
+   * The models must always be a number, otherwise Angular will throw an error.
    *
    * @param {string} ngModel Assignable angular expression to data-bind to.
    * @param {string=} name Property name of the form under which the control is published.
@@ -27175,14 +27175,14 @@ var inputType = {
         <file name="index.html">
          <script>
            angular.module('numberExample', [])
-             .controller('ExampleController', ['$scope', function($scope) {
+             .controllers('ExampleController', ['$scope', function($scope) {
                $scope.example = {
                  value: 12
                };
              }]);
          </script>
-         <form name="myForm" ng-controller="ExampleController">
-           Number: <input type="number" name="input" ng-model="example.value"
+         <form name="myForm" ng-controllers="ExampleController">
+           Number: <input type="number" name="input" ng-models="example.value"
                           min="0" max="99" required>
            <span class="error" ng-show="myForm.input.$error.required">
              Required!</span>
@@ -27198,9 +27198,9 @@ var inputType = {
         <file name="protractor.js" type="protractor">
           var value = element(by.binding('example.value'));
           var valid = element(by.binding('myForm.input.$valid'));
-          var input = element(by.model('example.value'));
+          var input = element(by.models('example.value'));
 
-          it('should initialize to model', function() {
+          it('should initialize to models', function() {
             expect(value.getText()).toContain('12');
             expect(valid.getText()).toContain('true');
           });
@@ -27265,14 +27265,14 @@ var inputType = {
         <file name="index.html">
          <script>
            angular.module('urlExample', [])
-             .controller('ExampleController', ['$scope', function($scope) {
+             .controllers('ExampleController', ['$scope', function($scope) {
                $scope.url = {
                  text: 'http://google.com'
                };
              }]);
          </script>
-         <form name="myForm" ng-controller="ExampleController">
-           URL: <input type="url" name="input" ng-model="url.text" required>
+         <form name="myForm" ng-controllers="ExampleController">
+           URL: <input type="url" name="input" ng-models="url.text" required>
            <span class="error" ng-show="myForm.input.$error.required">
              Required!</span>
            <span class="error" ng-show="myForm.input.$error.url">
@@ -27288,9 +27288,9 @@ var inputType = {
         <file name="protractor.js" type="protractor">
           var text = element(by.binding('url.text'));
           var valid = element(by.binding('myForm.input.$valid'));
-          var input = element(by.model('url.text'));
+          var input = element(by.models('url.text'));
 
-          it('should initialize to model', function() {
+          it('should initialize to models', function() {
             expect(text.getText()).toContain('http://google.com');
             expect(valid.getText()).toContain('true');
           });
@@ -27356,14 +27356,14 @@ var inputType = {
         <file name="index.html">
          <script>
            angular.module('emailExample', [])
-             .controller('ExampleController', ['$scope', function($scope) {
+             .controllers('ExampleController', ['$scope', function($scope) {
                $scope.email = {
                  text: 'me@example.com'
                };
              }]);
          </script>
-           <form name="myForm" ng-controller="ExampleController">
-             Email: <input type="email" name="input" ng-model="email.text" required>
+           <form name="myForm" ng-controllers="ExampleController">
+             Email: <input type="email" name="input" ng-models="email.text" required>
              <span class="error" ng-show="myForm.input.$error.required">
                Required!</span>
              <span class="error" ng-show="myForm.input.$error.email">
@@ -27379,9 +27379,9 @@ var inputType = {
         <file name="protractor.js" type="protractor">
           var text = element(by.binding('email.text'));
           var valid = element(by.binding('myForm.input.$valid'));
-          var input = element(by.model('email.text'));
+          var input = element(by.models('email.text'));
 
-          it('should initialize to model', function() {
+          it('should initialize to models', function() {
             expect(text.getText()).toContain('me@example.com');
             expect(valid.getText()).toContain('true');
           });
@@ -27425,7 +27425,7 @@ var inputType = {
         <file name="index.html">
          <script>
            angular.module('radioExample', [])
-             .controller('ExampleController', ['$scope', function($scope) {
+             .controllers('ExampleController', ['$scope', function($scope) {
                $scope.color = {
                  name: 'blue'
                };
@@ -27435,10 +27435,10 @@ var inputType = {
                };
              }]);
          </script>
-         <form name="myForm" ng-controller="ExampleController">
-           <input type="radio" ng-model="color.name" value="red">  Red <br/>
-           <input type="radio" ng-model="color.name" ng-value="specialValue"> Green <br/>
-           <input type="radio" ng-model="color.name" value="blue"> Blue <br/>
+         <form name="myForm" ng-controllers="ExampleController">
+           <input type="radio" ng-models="color.name" value="red">  Red <br/>
+           <input type="radio" ng-models="color.name" ng-value="specialValue"> Green <br/>
+           <input type="radio" ng-models="color.name" value="blue"> Blue <br/>
            <tt>color = {{color.name | json}}</tt><br/>
           </form>
           Note that `ng-value="specialValue"` sets radio item's value to be the value of `$scope.specialValue`.
@@ -27449,7 +27449,7 @@ var inputType = {
 
             expect(color.getText()).toContain('blue');
 
-            element.all(by.model('color.name')).get(0).click();
+            element.all(by.models('color.name')).get(0).click();
 
             expect(color.getText()).toContain('red');
           });
@@ -27478,16 +27478,16 @@ var inputType = {
         <file name="index.html">
          <script>
            angular.module('checkboxExample', [])
-             .controller('ExampleController', ['$scope', function($scope) {
+             .controllers('ExampleController', ['$scope', function($scope) {
                $scope.checkboxModel = {
                 value1 : true,
                 value2 : 'YES'
               };
              }]);
          </script>
-         <form name="myForm" ng-controller="ExampleController">
-           Value1: <input type="checkbox" ng-model="checkboxModel.value1"> <br/>
-           Value2: <input type="checkbox" ng-model="checkboxModel.value2"
+         <form name="myForm" ng-controllers="ExampleController">
+           Value1: <input type="checkbox" ng-models="checkboxModel.value1"> <br/>
+           Value2: <input type="checkbox" ng-models="checkboxModel.value2"
                           ng-true-value="'YES'" ng-false-value="'NO'"> <br/>
            <tt>value1 = {{checkboxModel.value1}}</tt><br/>
            <tt>value2 = {{checkboxModel.value2}}</tt><br/>
@@ -27501,8 +27501,8 @@ var inputType = {
             expect(value1.getText()).toContain('true');
             expect(value2.getText()).toContain('YES');
 
-            element(by.model('checkboxModel.value1')).click();
-            element(by.model('checkboxModel.value2')).click();
+            element(by.models('checkboxModel.value1')).click();
+            element(by.models('checkboxModel.value2')).click();
 
             expect(value1.getText()).toContain('false');
             expect(value2.getText()).toContain('NO');
@@ -27710,7 +27710,7 @@ function createDateInputType(type, regexp, parseDate, format) {
       if (ctrl.$isEmpty(value)) return null;
       if (regexp.test(value)) {
         // Note: We cannot read ctrl.$modelValue, as there might be a different
-        // parser/formatter in the processing chain so that the model
+        // parser/formatter in the processing chain so that the models
         // contains some different data format!
         var parsedDate = parseDate(value, previousDate);
         if (timezone === 'UTC') {
@@ -27974,7 +27974,7 @@ function checkboxInputType(scope, element, attr, ctrl, $sniffer, $browser, $filt
  *
  * <div class="alert alert-warning">
  * **Note:** Not every feature offered is available for all input types.
- * Specifically, data binding and event handling via `ng-model` is unsupported for `input[file]`.
+ * Specifically, data binding and event handling via `ng-models` is unsupported for `input[file]`.
  * </div>
  *
  * @param {string} ngModel Assignable angular expression to data-bind to.
@@ -28000,16 +28000,16 @@ function checkboxInputType(scope, element, attr, ctrl, $sniffer, $browser, $filt
       <file name="index.html">
        <script>
           angular.module('inputExample', [])
-            .controller('ExampleController', ['$scope', function($scope) {
+            .controllers('ExampleController', ['$scope', function($scope) {
               $scope.user = {name: 'guest', last: 'visitor'};
             }]);
        </script>
-       <div ng-controller="ExampleController">
+       <div ng-controllers="ExampleController">
          <form name="myForm">
-           User name: <input type="text" name="userName" ng-model="user.name" required>
+           User name: <input type="text" name="userName" ng-models="user.name" required>
            <span class="error" ng-show="myForm.userName.$error.required">
              Required!</span><br>
-           Last name: <input type="text" name="lastName" ng-model="user.last"
+           Last name: <input type="text" name="lastName" ng-models="user.last"
              ng-minlength="3" ng-maxlength="10">
            <span class="error" ng-show="myForm.lastName.$error.minlength">
              Too short!</span>
@@ -28034,10 +28034,10 @@ function checkboxInputType(scope, element, attr, ctrl, $sniffer, $browser, $filt
         var lastNameValid = element(by.binding('myForm.lastName.$valid'));
         var lastNameError = element(by.binding('myForm.lastName.$error'));
         var formValid = element(by.binding('myForm.$valid'));
-        var userNameInput = element(by.model('user.name'));
-        var userLastInput = element(by.model('user.last'));
+        var userNameInput = element(by.models('user.name'));
+        var userLastInput = element(by.models('user.last'));
 
-        it('should initialize to model', function() {
+        it('should initialize to models', function() {
           expect(user.getText()).toContain('{"name":"guest","last":"visitor"}');
           expect(userNameValid.getText()).toContain('true');
           expect(formValid.getText()).toContain('true');
@@ -28128,17 +28128,17 @@ var CONSTANT_VALUE_REGEXP = /^(true|false|\d+)$/;
       <file name="index.html">
        <script>
           angular.module('valueExample', [])
-            .controller('ExampleController', ['$scope', function($scope) {
+            .controllers('ExampleController', ['$scope', function($scope) {
               $scope.names = ['pizza', 'unicorns', 'robots'];
               $scope.my = { favorite: 'unicorns' };
             }]);
        </script>
-        <form ng-controller="ExampleController">
+        <form ng-controllers="ExampleController">
           <h2>Which is your favorite?</h2>
             <label ng-repeat="name in names" for="{{name}}">
               {{name}}
               <input type="radio"
-                     ng-model="my.favorite"
+                     ng-models="my.favorite"
                      ng-value="name"
                      id="{{name}}"
                      name="favorite">
@@ -28149,11 +28149,11 @@ var CONSTANT_VALUE_REGEXP = /^(true|false|\d+)$/;
       <file name="protractor.js" type="protractor">
         var favorite = element(by.binding('my.favorite'));
 
-        it('should initialize to model', function() {
+        it('should initialize to models', function() {
           expect(favorite.getText()).toContain('unicorns');
         });
         it('should bind the values to the inputs', function() {
-          element.all(by.model('my.favorite')).get(0).click();
+          element.all(by.models('my.favorite')).get(0).click();
           expect(favorite.getText()).toContain('pizza');
         });
       </file>
@@ -28209,18 +28209,18 @@ var ngValueDirective = function() {
      <file name="index.html">
        <script>
          angular.module('bindExample', [])
-           .controller('ExampleController', ['$scope', function($scope) {
+           .controllers('ExampleController', ['$scope', function($scope) {
              $scope.name = 'Whirled';
            }]);
        </script>
-       <div ng-controller="ExampleController">
-         Enter name: <input type="text" ng-model="name"><br>
+       <div ng-controllers="ExampleController">
+         Enter name: <input type="text" ng-models="name"><br>
          Hello <span ng-bind="name"></span>!
        </div>
      </file>
      <file name="protractor.js" type="protractor">
        it('should check ng-bind', function() {
-         var nameInput = element(by.model('name'));
+         var nameInput = element(by.models('name'));
 
          expect(element(by.binding('name')).getText()).toBe('Whirled');
          nameInput.clear();
@@ -28269,22 +28269,22 @@ var ngBindDirective = ['$compile', function($compile) {
      <file name="index.html">
        <script>
          angular.module('bindExample', [])
-           .controller('ExampleController', ['$scope', function($scope) {
+           .controllers('ExampleController', ['$scope', function($scope) {
              $scope.salutation = 'Hello';
              $scope.name = 'World';
            }]);
        </script>
-       <div ng-controller="ExampleController">
-        Salutation: <input type="text" ng-model="salutation"><br>
-        Name: <input type="text" ng-model="name"><br>
+       <div ng-controllers="ExampleController">
+        Salutation: <input type="text" ng-models="salutation"><br>
+        Name: <input type="text" ng-models="name"><br>
         <pre ng-bind-template="{{salutation}} {{name}}!"></pre>
        </div>
      </file>
      <file name="protractor.js" type="protractor">
        it('should check ng-bind', function() {
          var salutationElem = element(by.binding('salutation'));
-         var salutationInput = element(by.model('salutation'));
-         var nameInput = element(by.model('name'));
+         var salutationInput = element(by.models('salutation'));
+         var nameInput = element(by.models('name'));
 
          expect(salutationElem.getText()).toBe('Hello World!');
 
@@ -28340,14 +28340,14 @@ var ngBindTemplateDirective = ['$interpolate', '$compile', function($interpolate
 
    <example module="bindHtmlExample" deps="angular-sanitize.js">
      <file name="index.html">
-       <div ng-controller="ExampleController">
+       <div ng-controllers="ExampleController">
         <p ng-bind-html="myHTML"></p>
        </div>
      </file>
 
      <file name="script.js">
        angular.module('bindHtmlExample', ['ngSanitize'])
-         .controller('ExampleController', ['$scope', function($scope) {
+         .controllers('ExampleController', ['$scope', function($scope) {
            $scope.myHTML =
               'I am an <code>HTML</code>string with ' +
               '<a href="#">links!</a> and other <em>stuff</em>';
@@ -28396,12 +28396,12 @@ var ngBindHtmlDirective = ['$sce', '$parse', '$compile', function($sce, $parse, 
  * form element or presses the return key).
  *
  * The `ngChange` expression is only evaluated when a change in the input value causes
- * a new value to be committed to the model.
+ * a new value to be committed to the models.
  *
  * It will not be evaluated:
  * * if the value returned from the `$parsers` transformation pipeline has not changed
- * * if the input has continued to be invalid since the model will stay `null`
- * * if the model is changed programmatically and not by a change to the input value
+ * * if the input has continued to be invalid since the models will stay `null`
+ * * if the models is changed programmatically and not by a change to the input value
  *
  *
  * Note, this directive requires `ngModel` to be present.
@@ -28415,16 +28415,16 @@ var ngBindHtmlDirective = ['$sce', '$parse', '$compile', function($sce, $parse, 
  *   <file name="index.html">
  *     <script>
  *       angular.module('changeExample', [])
- *         .controller('ExampleController', ['$scope', function($scope) {
+ *         .controllers('ExampleController', ['$scope', function($scope) {
  *           $scope.counter = 0;
  *           $scope.change = function() {
  *             $scope.counter++;
  *           };
  *         }]);
  *     </script>
- *     <div ng-controller="ExampleController">
- *       <input type="checkbox" ng-model="confirmed" ng-change="change()" id="ng-change-example1" />
- *       <input type="checkbox" ng-model="confirmed" id="ng-change-example2" />
+ *     <div ng-controllers="ExampleController">
+ *       <input type="checkbox" ng-models="confirmed" ng-change="change()" id="ng-change-example1" />
+ *       <input type="checkbox" ng-models="confirmed" id="ng-change-example2" />
  *       <label for="ng-change-example2">Confirmed</label><br />
  *       <tt>debug = {{confirmed}}</tt><br/>
  *       <tt>counter = {{counter}}</tt><br/>
@@ -28443,7 +28443,7 @@ var ngBindHtmlDirective = ['$sce', '$parse', '$compile', function($sce, $parse, 
  *       expect(debug.getText()).toContain('true');
  *     });
  *
- *     it('should not evaluate the expression if changing from model', function() {
+ *     it('should not evaluate the expression if changing from models', function() {
  *       element(by.id('ng-change-example2')).click();
 
  *       expect(counter.getText()).toContain('0');
@@ -28618,17 +28618,17 @@ function classDirective(name, selector) {
    <example>
      <file name="index.html">
        <p ng-class="{strike: deleted, bold: important, red: error}">Map Syntax Example</p>
-       <input type="checkbox" ng-model="deleted"> deleted (apply "strike" class)<br>
-       <input type="checkbox" ng-model="important"> important (apply "bold" class)<br>
-       <input type="checkbox" ng-model="error"> error (apply "red" class)
+       <input type="checkbox" ng-models="deleted"> deleted (apply "strike" class)<br>
+       <input type="checkbox" ng-models="important"> important (apply "bold" class)<br>
+       <input type="checkbox" ng-models="error"> error (apply "red" class)
        <hr>
        <p ng-class="style">Using String Syntax</p>
-       <input type="text" ng-model="style" placeholder="Type: bold strike red">
+       <input type="text" ng-models="style" placeholder="Type: bold strike red">
        <hr>
        <p ng-class="[style1, style2, style3]">Using Array Syntax</p>
-       <input ng-model="style1" placeholder="Type: bold, strike or red"><br>
-       <input ng-model="style2" placeholder="Type: bold, strike or red"><br>
-       <input ng-model="style3" placeholder="Type: bold, strike or red"><br>
+       <input ng-models="style1" placeholder="Type: bold, strike or red"><br>
+       <input ng-models="style2" placeholder="Type: bold, strike or red"><br>
+       <input ng-models="style3" placeholder="Type: bold, strike or red"><br>
      </file>
      <file name="style.css">
        .strike {
@@ -28649,25 +28649,25 @@ function classDirective(name, selector) {
          expect(ps.first().getAttribute('class')).not.toMatch(/bold/);
          expect(ps.first().getAttribute('class')).not.toMatch(/red/);
 
-         element(by.model('important')).click();
+         element(by.models('important')).click();
          expect(ps.first().getAttribute('class')).toMatch(/bold/);
 
-         element(by.model('error')).click();
+         element(by.models('error')).click();
          expect(ps.first().getAttribute('class')).toMatch(/red/);
        });
 
        it('should let you toggle string example', function() {
          expect(ps.get(1).getAttribute('class')).toBe('');
-         element(by.model('style')).clear();
-         element(by.model('style')).sendKeys('red');
+         element(by.models('style')).clear();
+         element(by.models('style')).sendKeys('red');
          expect(ps.get(1).getAttribute('class')).toBe('red');
        });
 
        it('array example should have 3 classes', function() {
          expect(ps.last().getAttribute('class')).toBe('');
-         element(by.model('style1')).sendKeys('bold');
-         element(by.model('style2')).sendKeys('strike');
-         element(by.model('style3')).sendKeys('red');
+         element(by.models('style1')).sendKeys('bold');
+         element(by.models('style2')).sendKeys('strike');
+         element(by.models('style3')).sendKeys('red');
          expect(ps.last().getAttribute('class')).toBe('bold strike red');
        });
      </file>
@@ -28887,7 +28887,7 @@ var ngCloakDirective = ngDirective({
  * @name ngController
  *
  * @description
- * The `ngController` directive attaches a controller class to the view. This is a key aspect of how angular
+ * The `ngController` directive attaches a controllers class to the view. This is a key aspect of how angular
  * supports the principles behind the Model-View-Controller design pattern.
  *
  * MVC components in angular:
@@ -28899,8 +28899,8 @@ var ngCloakDirective = ngDirective({
  *   logic behind the application to decorate the scope with functions and values
  *
  * Note that you can also attach controllers to the DOM by declaring it in a route definition
- * via the {@link ngRoute.$route $route} service. A common mistake is to declare the controller
- * again using `ng-controller` in the template itself.  This will cause the controller to be attached
+ * via the {@link ngRoute.$route $route} service. A common mistake is to declare the controllers
+ * again using `ng-controllers` in the template itself.  This will cause the controllers to be attached
  * and executed twice.
  *
  * @element ANY
@@ -28910,8 +28910,8 @@ var ngCloakDirective = ngDirective({
  * {@link ng.$controllerProvider $controllerProvider} or an {@link guide/expression expression}
  * that on the current scope evaluates to a constructor function.
  *
- * The controller instance can be published into a scope property by specifying
- * `ng-controller="as propertyName"`.
+ * The controllers instance can be published into a scope property by specifying
+ * `ng-controllers="as propertyName"`.
  *
  * If the current `$controllerProvider` is configured to use globals (via
  * {@link ng.$controllerProvider#allowGlobals `$controllerProvider.allowGlobals()` }), this may
@@ -28919,43 +28919,43 @@ var ngCloakDirective = ngDirective({
  *
  * @example
  * Here is a simple form for editing user contact information. Adding, removing, clearing, and
- * greeting are methods declared on the controller (see source tab). These methods can
+ * greeting are methods declared on the controllers (see source tab). These methods can
  * easily be called from the angular markup. Any changes to the data are automatically reflected
  * in the View without the need for a manual update.
  *
  * Two different declaration styles are included below:
  *
- * * one binds methods and properties directly onto the controller using `this`:
- * `ng-controller="SettingsController1 as settings"`
- * * one injects `$scope` into the controller:
- * `ng-controller="SettingsController2"`
+ * * one binds methods and properties directly onto the controllers using `this`:
+ * `ng-controllers="SettingsController1 as settings"`
+ * * one injects `$scope` into the controllers:
+ * `ng-controllers="SettingsController2"`
  *
  * The second option is more common in the Angular community, and is generally used in boilerplates
- * and in this guide. However, there are advantages to binding properties directly to the controller
+ * and in this guide. However, there are advantages to binding properties directly to the controllers
  * and avoiding scope.
  *
- * * Using `controller as` makes it obvious which controller you are accessing in the template when
+ * * Using `controllers as` makes it obvious which controllers you are accessing in the template when
  * multiple controllers apply to an element.
  * * If you are writing your controllers as classes you have easier access to the properties and
- * methods, which will appear on the scope, from inside the controller code.
+ * methods, which will appear on the scope, from inside the controllers code.
  * * Since there is always a `.` in the bindings, you don't have to worry about prototypal
  * inheritance masking primitives.
  *
- * This example demonstrates the `controller as` syntax.
+ * This example demonstrates the `controllers as` syntax.
  *
  * <example name="ngControllerAs" module="controllerAsExample">
  *   <file name="index.html">
- *    <div id="ctrl-as-exmpl" ng-controller="SettingsController1 as settings">
- *      Name: <input type="text" ng-model="settings.name"/>
+ *    <div id="ctrl-as-exmpl" ng-controllers="SettingsController1 as settings">
+ *      Name: <input type="text" ng-models="settings.name"/>
  *      [ <a href="" ng-click="settings.greet()">greet</a> ]<br/>
  *      Contact:
  *      <ul>
  *        <li ng-repeat="contact in settings.contacts">
- *          <select ng-model="contact.type">
+ *          <select ng-models="contact.type">
  *             <option>phone</option>
  *             <option>email</option>
  *          </select>
- *          <input type="text" ng-model="contact.value"/>
+ *          <input type="text" ng-models="contact.value"/>
  *          [ <a href="" ng-click="settings.clearContact(contact)">clear</a>
  *          | <a href="" ng-click="settings.removeContact(contact)">X</a> ]
  *        </li>
@@ -28965,7 +28965,7 @@ var ngCloakDirective = ngDirective({
  *   </file>
  *   <file name="app.js">
  *    angular.module('controllerAsExample', [])
- *      .controller('SettingsController1', SettingsController1);
+ *      .controllers('SettingsController1', SettingsController1);
  *
  *    function SettingsController1() {
  *      this.name = "John Smith";
@@ -28993,9 +28993,9 @@ var ngCloakDirective = ngDirective({
  *    };
  *   </file>
  *   <file name="protractor.js" type="protractor">
- *     it('should check controller as', function() {
+ *     it('should check controllers as', function() {
  *       var container = element(by.id('ctrl-as-exmpl'));
- *         expect(container.element(by.model('settings.name'))
+ *         expect(container.element(by.models('settings.name'))
  *           .getAttribute('value')).toBe('John Smith');
  *
  *       var firstRepeat =
@@ -29003,42 +29003,42 @@ var ngCloakDirective = ngDirective({
  *       var secondRepeat =
  *           container.element(by.repeater('contact in settings.contacts').row(1));
  *
- *       expect(firstRepeat.element(by.model('contact.value')).getAttribute('value'))
+ *       expect(firstRepeat.element(by.models('contact.value')).getAttribute('value'))
  *           .toBe('408 555 1212');
  *
- *       expect(secondRepeat.element(by.model('contact.value')).getAttribute('value'))
+ *       expect(secondRepeat.element(by.models('contact.value')).getAttribute('value'))
  *           .toBe('john.smith@example.org');
  *
  *       firstRepeat.element(by.linkText('clear')).click();
  *
- *       expect(firstRepeat.element(by.model('contact.value')).getAttribute('value'))
+ *       expect(firstRepeat.element(by.models('contact.value')).getAttribute('value'))
  *           .toBe('');
  *
  *       container.element(by.linkText('add')).click();
  *
  *       expect(container.element(by.repeater('contact in settings.contacts').row(2))
- *           .element(by.model('contact.value'))
+ *           .element(by.models('contact.value'))
  *           .getAttribute('value'))
  *           .toBe('yourname@example.org');
  *     });
  *   </file>
  * </example>
  *
- * This example demonstrates the "attach to `$scope`" style of controller.
+ * This example demonstrates the "attach to `$scope`" style of controllers.
  *
  * <example name="ngController" module="controllerExample">
  *  <file name="index.html">
- *   <div id="ctrl-exmpl" ng-controller="SettingsController2">
- *     Name: <input type="text" ng-model="name"/>
+ *   <div id="ctrl-exmpl" ng-controllers="SettingsController2">
+ *     Name: <input type="text" ng-models="name"/>
  *     [ <a href="" ng-click="greet()">greet</a> ]<br/>
  *     Contact:
  *     <ul>
  *       <li ng-repeat="contact in contacts">
- *         <select ng-model="contact.type">
+ *         <select ng-models="contact.type">
  *            <option>phone</option>
  *            <option>email</option>
  *         </select>
- *         <input type="text" ng-model="contact.value"/>
+ *         <input type="text" ng-models="contact.value"/>
  *         [ <a href="" ng-click="clearContact(contact)">clear</a>
  *         | <a href="" ng-click="removeContact(contact)">X</a> ]
  *       </li>
@@ -29048,7 +29048,7 @@ var ngCloakDirective = ngDirective({
  *  </file>
  *  <file name="app.js">
  *   angular.module('controllerExample', [])
- *     .controller('SettingsController2', ['$scope', SettingsController2]);
+ *     .controllers('SettingsController2', ['$scope', SettingsController2]);
  *
  *   function SettingsController2($scope) {
  *     $scope.name = "John Smith";
@@ -29076,10 +29076,10 @@ var ngCloakDirective = ngDirective({
  *   }
  *  </file>
  *  <file name="protractor.js" type="protractor">
- *    it('should check controller', function() {
+ *    it('should check controllers', function() {
  *      var container = element(by.id('ctrl-exmpl'));
  *
- *      expect(container.element(by.model('name'))
+ *      expect(container.element(by.models('name'))
  *          .getAttribute('value')).toBe('John Smith');
  *
  *      var firstRepeat =
@@ -29087,20 +29087,20 @@ var ngCloakDirective = ngDirective({
  *      var secondRepeat =
  *          container.element(by.repeater('contact in contacts').row(1));
  *
- *      expect(firstRepeat.element(by.model('contact.value')).getAttribute('value'))
+ *      expect(firstRepeat.element(by.models('contact.value')).getAttribute('value'))
  *          .toBe('408 555 1212');
- *      expect(secondRepeat.element(by.model('contact.value')).getAttribute('value'))
+ *      expect(secondRepeat.element(by.models('contact.value')).getAttribute('value'))
  *          .toBe('john.smith@example.org');
  *
  *      firstRepeat.element(by.linkText('clear')).click();
  *
- *      expect(firstRepeat.element(by.model('contact.value')).getAttribute('value'))
+ *      expect(firstRepeat.element(by.models('contact.value')).getAttribute('value'))
  *          .toBe('');
  *
  *      container.element(by.linkText('add')).click();
  *
  *      expect(container.element(by.repeater('contact in contacts').row(2))
- *          .element(by.model('contact.value'))
+ *          .element(by.models('contact.value'))
  *          .getAttribute('value'))
  *          .toBe('yourname@example.org');
  *    });
@@ -29171,7 +29171,7 @@ var ngControllerDirective = [function() {
       // csp mode in our http server!
       <example name="example.csp" module="cspExample" ng-csp="true">
         <file name="index.html">
-          <div ng-controller="MainController as ctrl">
+          <div ng-controllers="MainController as ctrl">
             <div>
               <button ng-click="ctrl.inc()" id="inc">Increment</button>
               <span id="counter">
@@ -29189,7 +29189,7 @@ var ngControllerDirective = [function() {
         </file>
         <file name="script.js">
            angular.module('cspExample', [])
-             .controller('MainController', function() {
+             .controllers('MainController', function() {
                 this.counter = 0;
                 this.inc = function() {
                   this.counter++;
@@ -29632,7 +29632,7 @@ forEach(
      <file name="index.html">
       <script>
         angular.module('submitExample', [])
-          .controller('ExampleController', ['$scope', function($scope) {
+          .controllers('ExampleController', ['$scope', function($scope) {
             $scope.list = [];
             $scope.text = 'hello';
             $scope.submit = function() {
@@ -29643,9 +29643,9 @@ forEach(
             };
           }]);
       </script>
-      <form ng-submit="submit()" ng-controller="ExampleController">
+      <form ng-submit="submit()" ng-controllers="ExampleController">
         Enter text and hit enter:
-        <input type="text" ng-model="text" name="text" />
+        <input type="text" ng-models="text" name="text" />
         <input type="submit" id="submit" value="Submit" />
         <pre>list={{list}}</pre>
       </form>
@@ -29655,7 +29655,7 @@ forEach(
          expect(element(by.binding('list')).getText()).toBe('list=[]');
          element(by.css('#submit')).click();
          expect(element(by.binding('list')).getText()).toContain('hello');
-         expect(element(by.model('text')).getAttribute('value')).toBe('');
+         expect(element(by.models('text')).getAttribute('value')).toBe('');
        });
        it('should ignore empty strings', function() {
          expect(element(by.binding('list')).getText()).toBe('list=[]');
@@ -29726,7 +29726,7 @@ forEach(
  * @example
    <example>
      <file name="index.html">
-      <input ng-copy="copied=true" ng-init="copied=false; value='copy me'" ng-model="value">
+      <input ng-copy="copied=true" ng-init="copied=false; value='copy me'" ng-models="value">
       copied: {{copied}}
      </file>
    </example>
@@ -29747,7 +29747,7 @@ forEach(
  * @example
    <example>
      <file name="index.html">
-      <input ng-cut="cut=true" ng-init="cut=false; value='cut me'" ng-model="value">
+      <input ng-cut="cut=true" ng-init="cut=false; value='cut me'" ng-models="value">
       cut: {{cut}}
      </file>
    </example>
@@ -29820,7 +29820,7 @@ forEach(
  * @example
   <example module="ngAnimate" deps="angular-animate.js" animations="true">
     <file name="index.html">
-      Click me: <input type="checkbox" ng-model="checked" ng-init="checked=true" /><br/>
+      Click me: <input type="checkbox" ng-models="checked" ng-init="checked=true" /><br/>
       Show when checked:
       <span ng-if="checked" class="animate-if">
         This is removed when the checkbox is unchecked.
@@ -29943,8 +29943,8 @@ var ngIfDirective = ['$animate', function($animate) {
  * @example
   <example module="includeExample" deps="angular-animate.js" animations="true">
     <file name="index.html">
-     <div ng-controller="ExampleController">
-       <select ng-model="template" ng-options="t.name for t in templates">
+     <div ng-controllers="ExampleController">
+       <select ng-models="template" ng-options="t.name for t in templates">
         <option value="">(blank)</option>
        </select>
        url of the template: <code>{{template.url}}</code>
@@ -29956,7 +29956,7 @@ var ngIfDirective = ['$animate', function($animate) {
     </file>
     <file name="script.js">
       angular.module('includeExample', ['ngAnimate'])
-        .controller('ExampleController', ['$scope', function($scope) {
+        .controllers('ExampleController', ['$scope', function($scope) {
           $scope.templates =
             [ { name: 'template1.html', url: 'template1.html'},
               { name: 'template2.html', url: 'template2.html'} ];
@@ -30010,7 +30010,7 @@ var ngIfDirective = ['$animate', function($animate) {
       }
     </file>
     <file name="protractor.js" type="protractor">
-      var templateSelect = element(by.model('template'));
+      var templateSelect = element(by.models('template'));
       var includeElem = element(by.css('[ng-include]'));
 
       it('should load template1.html', function() {
@@ -30225,11 +30225,11 @@ var ngIncludeFillContentDirective = ['$compile',
      <file name="index.html">
    <script>
      angular.module('initExample', [])
-       .controller('ExampleController', ['$scope', function($scope) {
+       .controllers('ExampleController', ['$scope', function($scope) {
          $scope.list = [['a', 'b'], ['c', 'd']];
        }]);
    </script>
-   <div ng-controller="ExampleController">
+   <div ng-controllers="ExampleController">
      <div ng-repeat="innerList in list" ng-init="outerIndex = $index">
        <div ng-repeat="value in innerList" ng-init="innerIndex = $index">
           <span class="example-init">list[ {{outerIndex}} ][ {{innerIndex}} ] = {{value}};</span>
@@ -30275,20 +30275,20 @@ var ngInitDirective = ngDirective({
  *   tab or newline character.
  * * Otherwise whitespace around the delimiter is ignored when splitting (although it is respected
  *   when joining the list items back together) and whitespace around each list item is stripped
- *   before it is added to the model.
+ *   before it is added to the models.
  *
  * ### Example with Validation
  *
  * <example name="ngList-directive" module="listExample">
  *   <file name="app.js">
  *      angular.module('listExample', [])
- *        .controller('ExampleController', ['$scope', function($scope) {
+ *        .controllers('ExampleController', ['$scope', function($scope) {
  *          $scope.names = ['morpheus', 'neo', 'trinity'];
  *        }]);
  *   </file>
  *   <file name="index.html">
- *    <form name="myForm" ng-controller="ExampleController">
- *      List: <input name="namesInput" ng-model="names" ng-list required>
+ *    <form name="myForm" ng-controllers="ExampleController">
+ *      List: <input name="namesInput" ng-models="names" ng-list required>
  *      <span class="error" ng-show="myForm.namesInput.$error.required">
  *        Required!</span>
  *      <br>
@@ -30300,12 +30300,12 @@ var ngInitDirective = ngDirective({
  *     </form>
  *   </file>
  *   <file name="protractor.js" type="protractor">
- *     var listInput = element(by.model('names'));
+ *     var listInput = element(by.models('names'));
  *     var names = element(by.exactBinding('names'));
  *     var valid = element(by.binding('myForm.namesInput.$valid'));
  *     var error = element(by.css('span.error'));
  *
- *     it('should initialize to model', function() {
+ *     it('should initialize to models', function() {
  *       expect(names.getText()).toContain('["morpheus","neo","trinity"]');
  *       expect(valid.getText()).toContain('true');
  *       expect(error.getCssValue('display')).toBe('none');
@@ -30325,12 +30325,12 @@ var ngInitDirective = ngDirective({
  * ### Example - splitting on whitespace
  * <example name="ngList-directive-newlines">
  *   <file name="index.html">
- *    <textarea ng-model="list" ng-list="&#10;" ng-trim="false"></textarea>
+ *    <textarea ng-models="list" ng-list="&#10;" ng-trim="false"></textarea>
  *    <pre>{{ list | json }}</pre>
  *   </file>
  *   <file name="protractor.js" type="protractor">
  *     it("should split the text by newlines", function() {
- *       var listInput = element(by.model('list'));
+ *       var listInput = element(by.models('list'));
  *       var output = element(by.binding('list | json'));
  *       listInput.sendKeys('abc\ndef\nghi');
  *       expect(output.getText()).toContain('[\n  "abc",\n  "def",\n  "ghi"\n]');
@@ -30409,7 +30409,7 @@ var $ngModelMinErr = new minErr('ngModel');
  * @name ngModel.NgModelController
  *
  * @property {string} $viewValue Actual string value in the view.
- * @property {*} $modelValue The value in the model that the control is bound to.
+ * @property {*} $modelValue The value in the models that the control is bound to.
  * @property {Array.<Function>} $parsers Array of functions to execute, as a pipeline, whenever
        the control reads value from the DOM. The functions are called in array order, each passing
        its return value through to the next. The last return value is forwarded to the
@@ -30425,7 +30425,7 @@ is set to `true`. The parse error is stored in `ngModel.$error.parse`.
 
  *
  * @property {Array.<Function>} $formatters Array of functions to execute, as a pipeline, whenever
-       the model value changes. The functions are called in reverse array order, each passing the value through to the
+       the models value changes. The functions are called in reverse array order, each passing the value through to the
        next. The last return value is used as the actual DOM value.
        Used to format / convert values for display in the control.
  * ```js
@@ -30438,9 +30438,9 @@ is set to `true`. The parse error is stored in `ngModel.$error.parse`.
  * ```
  *
  * @property {Object.<string, function>} $validators A collection of validators that are applied
- *      whenever the model value changes. The key value within the object refers to the name of the
+ *      whenever the models value changes. The key value within the object refers to the name of the
  *      validator while the function refers to the validation operation. The validation operation is
- *      provided with the model value as an argument and must return a true or false value depending
+ *      provided with the models value as an argument and must return a true or false value depending
  *      on the response of that validation.
  *
  * ```js
@@ -30455,9 +30455,9 @@ is set to `true`. The parse error is stored in `ngModel.$error.parse`.
  *
  * @property {Object.<string, function>} $asyncValidators A collection of validations that are expected to
  *      perform an asynchronous validation (e.g. a HTTP request). The validation function that is provided
- *      is expected to return a promise when it is run during the model validation process. Once the promise
+ *      is expected to return a promise when it is run during the models validation process. Once the promise
  *      is delivered then the validation status will be set to true when fulfilled and false when rejected.
- *      When the asynchronous validators are triggered, each of the validators will run in parallel and the model
+ *      When the asynchronous validators are triggered, each of the validators will run in parallel and the models
  *      value will only be updated once all validators have been fulfilled. As long as an asynchronous validator
  *      is unfulfilled, its key will be added to the controllers `$pending` property. Also, all asynchronous validators
  *      will only run once all synchronous validators have passed.
@@ -30483,7 +30483,7 @@ is set to `true`. The parse error is stored in `ngModel.$error.parse`.
  *
  * @property {Array.<Function>} $viewChangeListeners Array of functions to execute whenever the
  *     view value has changed. It is called with no arguments, and its return value is ignored.
- *     This can be used in place of additional $watches against the model value.
+ *     This can be used in place of additional $watches against the models value.
  *
  * @property {Object} $error An object hash with all failing validator ids as keys.
  * @property {Object} $pending An object hash with all pending validator ids as keys.
@@ -30499,7 +30499,7 @@ is set to `true`. The parse error is stored in `ngModel.$error.parse`.
  * @description
  *
  * `NgModelController` provides API for the {@link ngModel `ngModel`} directive.
- * The controller contains services for data-binding, validation, CSS updates, and value formatting
+ * The controllers contains services for data-binding, validation, CSS updates, and value formatting
  * and parsing. It purposefully does not contain any logic which deals with DOM rendering or
  * listening to DOM events.
  * Such DOM related logic should be provided by other directives which make use of
@@ -30511,7 +30511,7 @@ is set to `true`. The parse error is stored in `ngModel.$error.parse`.
  * @example
  * ### Custom Control Example
  * This example shows how to use `NgModelController` with a custom control to achieve
- * data-binding. Notice how different directives (`contenteditable`, `ng-model`, and `required`)
+ * data-binding. Notice how different directives (`contenteditable`, `ng-models`, and `required`)
  * collaborate together to achieve the desired result.
  *
  * Note that `contenteditable` is an HTML5 attribute, which tells the browser to let the element
@@ -30519,7 +30519,7 @@ is set to `true`. The parse error is stored in `ngModel.$error.parse`.
  *
  * We are using the {@link ng.service:$sce $sce} service here and include the {@link ngSanitize $sanitize}
  * module to automatically remove "bad" content like inline event listener (e.g. `<span onclick="...">`).
- * However, as we are using `$sce` the model can still decide to provide unsafe content if it marks
+ * However, as we are using `$sce` the models can still decide to provide unsafe content if it marks
  * that content using the `$sce` service.
  *
  * <example name="NgModelController" module="customControl" deps="angular-sanitize.js">
@@ -30542,7 +30542,7 @@ is set to `true`. The parse error is stored in `ngModel.$error.parse`.
             restrict: 'A', // only activate on element attribute
             require: '?ngModel', // get a hold of NgModelController
             link: function(scope, element, attrs, ngModel) {
-              if (!ngModel) return; // do nothing if no ng-model
+              if (!ngModel) return; // do nothing if no ng-models
 
               // Specify how UI should be updated
               ngModel.$render = function() {
@@ -30555,7 +30555,7 @@ is set to `true`. The parse error is stored in `ngModel.$error.parse`.
               });
               read(); // initialize
 
-              // Write data to the model
+              // Write data to the models
               function read() {
                 var html = element.html();
                 // When we clear the content editable the browser leaves a <br> behind
@@ -30572,12 +30572,12 @@ is set to `true`. The parse error is stored in `ngModel.$error.parse`.
     <file name="index.html">
       <form name="myForm">
        <div contenteditable
-            name="myWidget" ng-model="userContent"
+            name="myWidget" ng-models="userContent"
             strip-br="true"
             required>Change me!</div>
         <span ng-show="myForm.myWidget.$error.required">Required!</span>
        <hr>
-       <textarea ng-model="userContent"></textarea>
+       <textarea ng-models="userContent"></textarea>
       </form>
     </file>
     <file name="protractor.js" type="protractor">
@@ -30606,7 +30606,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
     function($scope, $exceptionHandler, $attr, $element, $parse, $animate, $timeout, $rootScope, $q, $interpolate) {
   this.$viewValue = Number.NaN;
   this.$modelValue = Number.NaN;
-  this.$$rawModelValue = undefined; // stores the parsed modelValue / model set from scope regardless of validity.
+  this.$$rawModelValue = undefined; // stores the parsed modelValue / models set from scope regardless of validity.
   this.$validators = {};
   this.$asyncValidators = {};
   this.$parsers = [];
@@ -30662,17 +30662,17 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    * @name ngModel.NgModelController#$render
    *
    * @description
-   * Called when the view needs to be updated. It is expected that the user of the ng-model
+   * Called when the view needs to be updated. It is expected that the user of the ng-models
    * directive will implement this method.
    *
    * The `$render()` method is invoked in the following situations:
    *
    * * `$rollbackViewValue()` is called.  If we are rolling back the view value to the last
    *   committed value then `$render()` is called to update the input control.
-   * * The value referenced by `ng-model` is changed programmatically and both the `$modelValue` and
+   * * The value referenced by `ng-models` is changed programmatically and both the `$modelValue` and
    *   the `$viewValue` are different to last time.
    *
-   * Since `ng-model` does not do a deep watch, `$render()` is only invoked if the values of
+   * Since `ng-models` does not do a deep watch, `$render()` is only invoked if the values of
    * `$modelValue` and `$viewValue` are actually different to their previous value. If `$modelValue`
    * or `$viewValue` are objects (rather than a string or number) then `$render()` will not be
    * invoked if you only change a property on the objects.
@@ -30747,7 +30747,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    * Sets the control to its pristine state.
    *
    * This method can be called to remove the `ng-dirty` class and set the control to its pristine
-   * state (`ng-pristine` class). A model is considered to be pristine when the control
+   * state (`ng-pristine` class). A models is considered to be pristine when the control
    * has not been changed from when first compiled.
    */
   this.$setPristine = function() {
@@ -30765,7 +30765,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    * Sets the control to its dirty state.
    *
    * This method can be called to remove the `ng-pristine` class and set the control to its dirty
-   * state (`ng-dirty` class). A model is considered to be dirty when the control has been changed
+   * state (`ng-dirty` class). A models is considered to be dirty when the control has been changed
    * from when first compiled.
    */
   this.$setDirty = function() {
@@ -30784,8 +30784,8 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    * Sets the control to its untouched state.
    *
    * This method can be called to remove the `ng-touched` class and set the control to its
-   * untouched state (`ng-untouched` class). Upon compilation, a model is set as untouched
-   * by default, however this function can be used to restore that state if the model has
+   * untouched state (`ng-untouched` class). Upon compilation, a models is set as untouched
+   * by default, however this function can be used to restore that state if the models has
    * already been touched by the user.
    */
   this.$setUntouched = function() {
@@ -30802,7 +30802,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    * Sets the control to its touched state.
    *
    * This method can be called to remove the `ng-untouched` class and set the control to its
-   * touched state (`ng-touched` class). A model is considered to be touched when the user has
+   * touched state (`ng-touched` class). A models is considered to be touched when the user has
    * first focused the control element and then shifted focus away from the control (blur event).
    */
   this.$setTouched = function() {
@@ -30820,23 +30820,23 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    * which may be caused by a pending debounced event or because the input is waiting for a some
    * future event.
    *
-   * If you have an input that uses `ng-model-options` to set up debounced events or events such
+   * If you have an input that uses `ng-models-options` to set up debounced events or events such
    * as blur you can have a situation where there is a period when the `$viewValue`
    * is out of synch with the ngModel's `$modelValue`.
    *
    * In this case, you can run into difficulties if you try to update the ngModel's `$modelValue`
    * programmatically before these debounced/future events have resolved/occurred, because Angular's
-   * dirty checking mechanism is not able to tell whether the model has actually changed or not.
+   * dirty checking mechanism is not able to tell whether the models has actually changed or not.
    *
-   * The `$rollbackViewValue()` method should be called before programmatically changing the model of an
+   * The `$rollbackViewValue()` method should be called before programmatically changing the models of an
    * input which may have such events pending. This is important in order to make sure that the
-   * input field will be updated with the new model value and any pending operations are cancelled.
+   * input field will be updated with the new models value and any pending operations are cancelled.
    *
-   * <example name="ng-model-cancel-update" module="cancel-update-example">
+   * <example name="ng-models-cancel-update" module="cancel-update-example">
    *   <file name="app.js">
    *     angular.module('cancel-update-example', [])
    *
-   *     .controller('CancelUpdateController', ['$scope', function($scope) {
+   *     .controllers('CancelUpdateController', ['$scope', function($scope) {
    *       $scope.resetWithCancel = function(e) {
    *         if (e.keyCode == 27) {
    *           $scope.myForm.myInput1.$rollbackViewValue();
@@ -30851,19 +30851,19 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    *     }]);
    *   </file>
    *   <file name="index.html">
-   *     <div ng-controller="CancelUpdateController">
-   *       <p>Try typing something in each input.  See that the model only updates when you
+   *     <div ng-controllers="CancelUpdateController">
+   *       <p>Try typing something in each input.  See that the models only updates when you
    *          blur off the input.
    *        </p>
    *        <p>Now see what happens if you start typing then press the Escape key</p>
    *
-   *       <form name="myForm" ng-model-options="{ updateOn: 'blur' }">
+   *       <form name="myForm" ng-models-options="{ updateOn: 'blur' }">
    *         <p>With $rollbackViewValue()</p>
-   *         <input name="myInput1" ng-model="myValue" ng-keydown="resetWithCancel($event)"><br/>
+   *         <input name="myInput1" ng-models="myValue" ng-keydown="resetWithCancel($event)"><br/>
    *         myValue: "{{ myValue }}"
    *
    *         <p>Without $rollbackViewValue()</p>
-   *         <input name="myInput2" ng-model="myValue" ng-keydown="resetWithoutCancel($event)"><br/>
+   *         <input name="myInput2" ng-models="myValue" ng-keydown="resetWithoutCancel($event)"><br/>
    *         myValue: "{{ myValue }}"
    *       </form>
    *     </div>
@@ -30883,22 +30883,22 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    * @description
    * Runs each of the registered validators (first synchronous validators and then
    * asynchronous validators).
-   * If the validity changes to invalid, the model will be set to `undefined`,
+   * If the validity changes to invalid, the models will be set to `undefined`,
    * unless {@link ngModelOptions `ngModelOptions.allowInvalid`} is `true`.
-   * If the validity changes to valid, it will set the model to the last available valid
+   * If the validity changes to valid, it will set the models to the last available valid
    * modelValue, i.e. either the last parsed value or the last value set from the scope.
    */
   this.$validate = function() {
-    // ignore $validate before model is initialized
+    // ignore $validate before models is initialized
     if (isNumber(ctrl.$modelValue) && isNaN(ctrl.$modelValue)) {
       return;
     }
 
     var viewValue = ctrl.$$lastCommittedViewValue;
     // Note: we use the $$rawModelValue as $modelValue might have been
-    // set to undefined during a view -> model update that found validation
+    // set to undefined during a view -> models update that found validation
     // errors. We can't parse the view here, since that could change
-    // the model although neither viewValue nor the model on the scope changed
+    // the models although neither viewValue nor the models on the scope changed
     var modelValue = ctrl.$$rawModelValue;
 
     // Check if the there's a parse error, so we don't unset it accidentially
@@ -30911,12 +30911,12 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
     var allowInvalid = ctrl.$options && ctrl.$options.allowInvalid;
 
     ctrl.$$runValidators(parserValid, modelValue, viewValue, function(allValid) {
-      // If there was no change in validity, don't update the model
+      // If there was no change in validity, don't update the models
       // This prevents changing an invalid modelValue to undefined
       if (!allowInvalid && prevValid !== allValid) {
         // Note: Don't check ctrl.$valid here, as we could have
         // external validators (e.g. calculated on the server),
-        // that just call $setValidity and need the model value
+        // that just call $setValidity and need the models value
         // to calculate their validity.
         ctrl.$modelValue = allValid ? modelValue : undefined;
 
@@ -31026,7 +31026,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    * Commit a pending update to the `$modelValue`.
    *
    * Updates may be pending by a debounced event or because the input is waiting for a some future
-   * event defined in `ng-model-options`. this method is rarely needed as `NgModelController`
+   * event defined in `ng-models-options`. this method is rarely needed as `NgModelController`
    * usually handles calling this in response to input events.
    */
   this.$commitViewValue = function() {
@@ -31082,7 +31082,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
       if (!allowInvalid) {
         // Note: Don't check ctrl.$valid here, as we could have
         // external validators (e.g. calculated on the server),
-        // that just call $setValidity and need the model value
+        // that just call $setValidity and need the models value
         // to calculate their validity.
         ctrl.$modelValue = allValid ? modelValue : undefined;
         writeToModelIfNeeded();
@@ -31127,12 +31127,12 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    * `$parsers` and `$validators` pipelines.
    *
    * For this reason, you should not change properties of the copy once it has been passed to
-   * `$setViewValue`. Otherwise you may cause the model value on the scope to change incorrectly.
+   * `$setViewValue`. Otherwise you may cause the models value on the scope to change incorrectly.
    *
    * When this method is called, the new `value` will be staged for committing through the `$parsers`
    * and `$validators` pipelines. If there are no special {@link ngModelOptions} specified then the staged
    * value sent directly for processing, finally to be applied to `$modelValue` and then the
-   * **expression** specified in the `ng-model` attribute.
+   * **expression** specified in the `ng-models` attribute.
    *
    * Lastly, all the registered change listeners, in the `$viewChangeListeners` list, are called.
    *
@@ -31184,7 +31184,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
     }
   };
 
-  // model -> value
+  // models -> value
   // Note: we cannot use a normal scope.$watch as we want to detect the following:
   // 1. scope value is 'a'
   // 2. user enters 'b'
@@ -31195,7 +31195,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
   $scope.$watch(function ngModelWatch() {
     var modelValue = ngModelGet($scope);
 
-    // if scope model value and ngModel value are out of sync
+    // if scope models value and ngModel value are out of sync
     // TODO(perf): why not move this to the action fn?
     if (modelValue !== ctrl.$modelValue) {
       ctrl.$modelValue = ctrl.$$rawModelValue = modelValue;
@@ -31234,7 +31234,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
  *
  * `ngModel` is responsible for:
  *
- * - Binding the view into the model, which other directives such as `input`, `textarea` or `select`
+ * - Binding the view into the models, which other directives such as `input`, `textarea` or `select`
  *   require.
  * - Providing validation behavior (i.e. required, number, email, url).
  * - Keeping the state of the control (valid/invalid, dirty/pristine, touched/untouched, validation errors).
@@ -31268,10 +31268,10 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
  *
  * # CSS classes
  * The following CSS classes are added and removed on the associated input/select/textarea element
- * depending on the validity of the model.
+ * depending on the validity of the models.
  *
- *  - `ng-valid`: the model is valid
- *  - `ng-invalid`: the model is invalid
+ *  - `ng-valid`: the models is valid
+ *  - `ng-invalid`: the models is invalid
  *  - `ng-valid-[key]`: for each valid key added by `$setValidity`
  *  - `ng-invalid-[key]`: for each invalid key added by `$setValidity`
  *  - `ng-pristine`: the control hasn't been interacted with yet
@@ -31285,8 +31285,8 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
  * ## Animation Hooks
  *
  * Animations within models are triggered when any of the associated CSS classes are added and removed
- * on the input element which is attached to the model. These classes are: `.ng-pristine`, `.ng-dirty`,
- * `.ng-invalid` and `.ng-valid` as well as any other validations that are performed on the model itself.
+ * on the input element which is attached to the models. These classes are: `.ng-pristine`, `.ng-dirty`,
+ * `.ng-invalid` and `.ng-valid` as well as any other validations that are performed on the models itself.
  * The animations that are triggered within ngModel are similar to how they work in ngClass and
  * animations can be hooked into using CSS transitions, keyframes as well as JS animations.
  *
@@ -31311,7 +31311,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
      <file name="index.html">
        <script>
         angular.module('inputExample', [])
-          .controller('ExampleController', ['$scope', function($scope) {
+          .controllers('ExampleController', ['$scope', function($scope) {
             $scope.val = '1';
           }]);
        </script>
@@ -31328,8 +31328,8 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
        </style>
        Update input to see transitions when valid/invalid.
        Integer is a valid value.
-       <form name="testForm" ng-controller="ExampleController">
-         <input ng-model="val" ng-pattern="/^\d+$/" name="anim" class="my-input" />
+       <form name="testForm" ng-controllers="ExampleController">
+         <input ng-models="val" ng-pattern="/^\d+$/" name="anim" class="my-input" />
        </form>
      </file>
  * </example>
@@ -31337,9 +31337,9 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
  * ## Binding to a getter/setter
  *
  * Sometimes it's helpful to bind `ngModel` to a getter/setter function.  A getter/setter is a
- * function that returns a representation of the model when called with zero arguments, and sets
- * the internal state of a model when called with an argument. It's sometimes useful to use this
- * for models that have an internal representation that's different than what the model exposes
+ * function that returns a representation of the models when called with zero arguments, and sets
+ * the internal state of a models when called with an argument. It's sometimes useful to use this
+ * for models that have an internal representation that's different than what the models exposes
  * to the view.
  *
  * <div class="alert alert-success">
@@ -31347,8 +31347,8 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
  * frequently than other parts of your code.
  * </div>
  *
- * You use this behavior by adding `ng-model-options="{ getterSetter: true }"` to an element that
- * has `ng-model` attached to it. You can also add `ng-model-options="{ getterSetter: true }"` to
+ * You use this behavior by adding `ng-models-options="{ getterSetter: true }"` to an element that
+ * has `ng-models` attached to it. You can also add `ng-models-options="{ getterSetter: true }"` to
  * a `<form>`, which will enable this behavior for all `<input>`s within it. See
  * {@link ng.directive:ngModelOptions `ngModelOptions`} for more.
  *
@@ -31357,19 +31357,19 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
  * @example
  * <example name="ngModel-getter-setter" module="getterSetterExample">
      <file name="index.html">
-       <div ng-controller="ExampleController">
+       <div ng-controllers="ExampleController">
          <form name="userForm">
            Name:
            <input type="text" name="userName"
-                  ng-model="user.name"
-                  ng-model-options="{ getterSetter: true }" />
+                  ng-models="user.name"
+                  ng-models-options="{ getterSetter: true }" />
          </form>
          <pre>user.name = <span ng-bind="user.name()"></span></pre>
        </div>
      </file>
      <file name="app.js">
        angular.module('getterSetterExample', [])
-         .controller('ExampleController', ['$scope', function($scope) {
+         .controllers('ExampleController', ['$scope', function($scope) {
            var _name = 'Brian';
            $scope.user = {
              name: function(newName) {
@@ -31446,14 +31446,14 @@ var DEFAULT_REGEXP = /(\s+|^)default(\s+|$)/;
  * @name ngModelOptions
  *
  * @description
- * Allows tuning how model updates are done. Using `ngModelOptions` you can specify a custom list of
- * events that will trigger a model update and/or a debouncing delay so that the actual update only
+ * Allows tuning how models updates are done. Using `ngModelOptions` you can specify a custom list of
+ * events that will trigger a models update and/or a debouncing delay so that the actual update only
  * takes place when a timer expires; this timer will be reset after another change takes place.
  *
  * Given the nature of `ngModelOptions`, the value displayed inside input fields in the view might
- * be different than the value in the actual model. This means that if you update the model you
+ * be different than the value in the actual models. This means that if you update the models you
  * should also invoke {@link ngModel.NgModelController `$rollbackViewValue`} on the relevant input field in
- * order to make sure it is synchronized with the model and that any debounced action is canceled.
+ * order to make sure it is synchronized with the models and that any debounced action is canceled.
  *
  * The easiest way to reference the control's {@link ngModel.NgModelController `$rollbackViewValue`}
  * method is by making sure the input is placed inside a form that has a `name` attribute. This is
@@ -31461,52 +31461,52 @@ var DEFAULT_REGEXP = /(\s+|^)default(\s+|$)/;
  * `name` attribute.
  *
  * Any pending changes will take place immediately when an enclosing form is submitted via the
- * `submit` event. Note that `ngClick` events will occur before the model is updated. Use `ngSubmit`
- * to have access to the updated model.
+ * `submit` event. Note that `ngClick` events will occur before the models is updated. Use `ngSubmit`
+ * to have access to the updated models.
  *
  * `ngModelOptions` has an effect on the element it's declared on and its descendants.
  *
- * @param {Object} ngModelOptions options to apply to the current model. Valid keys are:
+ * @param {Object} ngModelOptions options to apply to the current models. Valid keys are:
  *   - `updateOn`: string specifying which event should the input be bound to. You can set several
  *     events using an space delimited list. There is a special event called `default` that
  *     matches the default events belonging of the control.
- *   - `debounce`: integer value which contains the debounce model update value in milliseconds. A
+ *   - `debounce`: integer value which contains the debounce models update value in milliseconds. A
  *     value of 0 triggers an immediate update. If an object is supplied instead, you can specify a
  *     custom value for each event. For example:
- *     `ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"`
- *   - `allowInvalid`: boolean value which indicates that the model can be set with values that did
- *     not validate correctly instead of the default behavior of setting the model to undefined.
+ *     `ng-models-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"`
+ *   - `allowInvalid`: boolean value which indicates that the models can be set with values that did
+ *     not validate correctly instead of the default behavior of setting the models to undefined.
  *   - `getterSetter`: boolean value which determines whether or not to treat functions bound to
        `ngModel` as getters/setters.
- *   - `timezone`: Defines the timezone to be used to read/write the `Date` instance in the model for
+ *   - `timezone`: Defines the timezone to be used to read/write the `Date` instance in the models for
  *     `<input type="date">`, `<input type="time">`, ... . Right now, the only supported value is `'UTC'`,
  *     otherwise the default timezone of the browser will be used.
  *
  * @example
 
   The following example shows how to override immediate updates. Changes on the inputs within the
-  form will update the model only when the control loses focus (blur event). If `escape` key is
-  pressed while the input field is focused, the value is reset to the value in the current model.
+  form will update the models only when the control loses focus (blur event). If `escape` key is
+  pressed while the input field is focused, the value is reset to the value in the current models.
 
   <example name="ngModelOptions-directive-blur" module="optionsExample">
     <file name="index.html">
-      <div ng-controller="ExampleController">
+      <div ng-controllers="ExampleController">
         <form name="userForm">
           Name:
           <input type="text" name="userName"
-                 ng-model="user.name"
-                 ng-model-options="{ updateOn: 'blur' }"
+                 ng-models="user.name"
+                 ng-models-options="{ updateOn: 'blur' }"
                  ng-keyup="cancel($event)" /><br />
 
           Other data:
-          <input type="text" ng-model="user.data" /><br />
+          <input type="text" ng-models="user.data" /><br />
         </form>
         <pre>user.name = <span ng-bind="user.name"></span></pre>
       </div>
     </file>
     <file name="app.js">
       angular.module('optionsExample', [])
-        .controller('ExampleController', ['$scope', function($scope) {
+        .controllers('ExampleController', ['$scope', function($scope) {
           $scope.user = { name: 'say', data: '' };
 
           $scope.cancel = function(e) {
@@ -31517,40 +31517,40 @@ var DEFAULT_REGEXP = /(\s+|^)default(\s+|$)/;
         }]);
     </file>
     <file name="protractor.js" type="protractor">
-      var model = element(by.binding('user.name'));
-      var input = element(by.model('user.name'));
-      var other = element(by.model('user.data'));
+      var models = element(by.binding('user.name'));
+      var input = element(by.models('user.name'));
+      var other = element(by.models('user.data'));
 
       it('should allow custom events', function() {
         input.sendKeys(' hello');
         input.click();
-        expect(model.getText()).toEqual('say');
+        expect(models.getText()).toEqual('say');
         other.click();
-        expect(model.getText()).toEqual('say hello');
+        expect(models.getText()).toEqual('say hello');
       });
 
-      it('should $rollbackViewValue when model changes', function() {
+      it('should $rollbackViewValue when models changes', function() {
         input.sendKeys(' hello');
         expect(input.getAttribute('value')).toEqual('say hello');
         input.sendKeys(protractor.Key.ESCAPE);
         expect(input.getAttribute('value')).toEqual('say');
         other.click();
-        expect(model.getText()).toEqual('say');
+        expect(models.getText()).toEqual('say');
       });
     </file>
   </example>
 
-  This one shows how to debounce model changes. Model will be updated only 1 sec after last change.
+  This one shows how to debounce models changes. Model will be updated only 1 sec after last change.
   If the `Clear` button is pressed, any debounced action is canceled and the value becomes empty.
 
   <example name="ngModelOptions-directive-debounce" module="optionsExample">
     <file name="index.html">
-      <div ng-controller="ExampleController">
+      <div ng-controllers="ExampleController">
         <form name="userForm">
           Name:
           <input type="text" name="userName"
-                 ng-model="user.name"
-                 ng-model-options="{ debounce: 1000 }" />
+                 ng-models="user.name"
+                 ng-models-options="{ debounce: 1000 }" />
           <button ng-click="userForm.userName.$rollbackViewValue(); user.name=''">Clear</button><br />
         </form>
         <pre>user.name = <span ng-bind="user.name"></span></pre>
@@ -31558,7 +31558,7 @@ var DEFAULT_REGEXP = /(\s+|^)default(\s+|$)/;
     </file>
     <file name="app.js">
       angular.module('optionsExample', [])
-        .controller('ExampleController', ['$scope', function($scope) {
+        .controllers('ExampleController', ['$scope', function($scope) {
           $scope.user = { name: 'say' };
         }]);
     </file>
@@ -31568,19 +31568,19 @@ var DEFAULT_REGEXP = /(\s+|^)default(\s+|$)/;
 
   <example name="ngModelOptions-directive-getter-setter" module="getterSetterExample">
     <file name="index.html">
-      <div ng-controller="ExampleController">
+      <div ng-controllers="ExampleController">
         <form name="userForm">
           Name:
           <input type="text" name="userName"
-                 ng-model="user.name"
-                 ng-model-options="{ getterSetter: true }" />
+                 ng-models="user.name"
+                 ng-models-options="{ getterSetter: true }" />
         </form>
         <pre>user.name = <span ng-bind="user.name()"></span></pre>
       </div>
     </file>
     <file name="app.js">
       angular.module('getterSetterExample', [])
-        .controller('ExampleController', ['$scope', function($scope) {
+        .controllers('ExampleController', ['$scope', function($scope) {
           var _name = 'Brian';
           $scope.user = {
             name: function(newName) {
@@ -31600,7 +31600,7 @@ var ngModelOptionsDirective = function() {
       // Allow adding/overriding bound events
       if (this.$options.updateOn !== undefined) {
         this.$options.updateOnDefault = false;
-        // extract "default" pseudo-event from list of events that can trigger a model update
+        // extract "default" pseudo-event from list of events that can trigger a models update
         this.$options.updateOn = trim(this.$options.updateOn.replace(DEFAULT_REGEXP, function() {
           that.$options.updateOnDefault = true;
           return ' ';
@@ -31846,16 +31846,16 @@ var ngNonBindableDirective = ngDirective({ terminal: true, priority: 1000 });
       <file name="index.html">
         <script>
           angular.module('pluralizeExample', [])
-            .controller('ExampleController', ['$scope', function($scope) {
+            .controllers('ExampleController', ['$scope', function($scope) {
               $scope.person1 = 'Igor';
               $scope.person2 = 'Misko';
               $scope.personCount = 1;
             }]);
         </script>
-        <div ng-controller="ExampleController">
-          Person 1:<input type="text" ng-model="person1" value="Igor" /><br/>
-          Person 2:<input type="text" ng-model="person2" value="Misko" /><br/>
-          Number of People:<input type="text" ng-model="personCount" value="1" /><br/>
+        <div ng-controllers="ExampleController">
+          Person 1:<input type="text" ng-models="person1" value="Igor" /><br/>
+          Person 2:<input type="text" ng-models="person2" value="Misko" /><br/>
+          Number of People:<input type="text" ng-models="personCount" value="1" /><br/>
 
           <!--- Example with simple pluralization rules for en locale --->
           Without Offset:
@@ -31880,7 +31880,7 @@ var ngNonBindableDirective = ngDirective({ terminal: true, priority: 1000 });
         it('should show correct pluralized string', function() {
           var withoutOffset = element.all(by.css('ng-pluralize')).get(0);
           var withOffset = element.all(by.css('ng-pluralize')).get(1);
-          var countInput = element(by.model('personCount'));
+          var countInput = element(by.models('personCount'));
 
           expect(withoutOffset.getText()).toEqual('1 person is viewing.');
           expect(withOffset.getText()).toEqual('Igor is viewing.');
@@ -31911,9 +31911,9 @@ var ngNonBindableDirective = ngDirective({ terminal: true, priority: 1000 });
         });
         it('should show data-bound names', function() {
           var withOffset = element.all(by.css('ng-pluralize')).get(1);
-          var personCount = element(by.model('personCount'));
-          var person1 = element(by.model('person1'));
-          var person2 = element(by.model('person2'));
+          var personCount = element(by.models('personCount'));
+          var person1 = element(by.models('person1'));
+          var person2 = element(by.models('person2'));
           personCount.clear();
           personCount.sendKeys('4');
           person1.clear();
@@ -32141,7 +32141,7 @@ var ngPluralizeDirective = ['$locale', '$interpolate', function($locale, $interp
         {name:'Samantha', age:60, gender:'girl'}
       ]">
         I have {{friends.length}} friends. They are:
-        <input type="search" ng-model="q" placeholder="filter friends..." />
+        <input type="search" ng-models="q" placeholder="filter friends..." />
         <ul class="example-animate-container">
           <li class="animate-repeat" ng-repeat="friend in friends | filter:q as results">
             [{{$index + 1}}] {{friend.name}} who is {{friend.age}} years old.
@@ -32203,7 +32203,7 @@ var ngPluralizeDirective = ['$locale', '$interpolate', function($locale, $interp
        it('should update repeater when filter predicate changes', function() {
          expect(friends.count()).toBe(10);
 
-         element(by.model('q')).sendKeys('ma');
+         element(by.models('q')).sendKeys('ma');
 
          expect(friends.count()).toBe(2);
          expect(friends.get(0).getText()).toEqual('[1] Mary who is 28 years old.');
@@ -32541,7 +32541,7 @@ var NG_HIDE_IN_PROGRESS_CLASS = 'ng-hide-animate';
  * @example
   <example module="ngAnimate" deps="angular-animate.js" animations="true">
     <file name="index.html">
-      Click me: <input type="checkbox" ng-model="checked"><br/>
+      Click me: <input type="checkbox" ng-models="checked"><br/>
       <div>
         Show:
         <div class="check-element animate-show" ng-show="checked">
@@ -32593,7 +32593,7 @@ var NG_HIDE_IN_PROGRESS_CLASS = 'ng-hide-animate';
         expect(thumbsUp.isDisplayed()).toBeFalsy();
         expect(thumbsDown.isDisplayed()).toBeTruthy();
 
-        element(by.model('checked')).click();
+        element(by.models('checked')).click();
 
         expect(thumbsUp.isDisplayed()).toBeTruthy();
         expect(thumbsDown.isDisplayed()).toBeFalsy();
@@ -32706,7 +32706,7 @@ var ngShowDirective = ['$animate', function($animate) {
  * @example
   <example module="ngAnimate" deps="angular-animate.js" animations="true">
     <file name="index.html">
-      Click me: <input type="checkbox" ng-model="checked"><br/>
+      Click me: <input type="checkbox" ng-models="checked"><br/>
       <div>
         Show:
         <div class="check-element animate-hide" ng-show="checked">
@@ -32754,7 +32754,7 @@ var ngShowDirective = ['$animate', function($animate) {
         expect(thumbsUp.isDisplayed()).toBeFalsy();
         expect(thumbsDown.isDisplayed()).toBeTruthy();
 
-        element(by.model('checked')).click();
+        element(by.models('checked')).click();
 
         expect(thumbsUp.isDisplayed()).toBeTruthy();
         expect(thumbsDown.isDisplayed()).toBeFalsy();
@@ -32890,8 +32890,8 @@ var ngStyleDirective = ngDirective(function(scope, element, attr) {
  * @example
   <example module="switchExample" deps="angular-animate.js" animations="true">
     <file name="index.html">
-      <div ng-controller="ExampleController">
-        <select ng-model="selection" ng-options="item for item in items">
+      <div ng-controllers="ExampleController">
+        <select ng-models="selection" ng-options="item for item in items">
         </select>
         <tt>selection={{selection}}</tt>
         <hr/>
@@ -32905,7 +32905,7 @@ var ngStyleDirective = ngDirective(function(scope, element, attr) {
     </file>
     <file name="script.js">
       angular.module('switchExample', ['ngAnimate'])
-        .controller('ExampleController', ['$scope', function($scope) {
+        .controllers('ExampleController', ['$scope', function($scope) {
           $scope.items = ['settings', 'home', 'other'];
           $scope.selection = $scope.items[0];
         }]);
@@ -32945,7 +32945,7 @@ var ngStyleDirective = ngDirective(function(scope, element, attr) {
     </file>
     <file name="protractor.js" type="protractor">
       var switchElem = element(by.css('[ng-switch]'));
-      var select = element(by.model('selection'));
+      var select = element(by.models('selection'));
 
       it('should start in settings', function() {
         expect(switchElem.getText()).toMatch(/Settings Div/);
@@ -32966,7 +32966,7 @@ var ngSwitchDirective = ['$animate', function($animate) {
     restrict: 'EA',
     require: 'ngSwitch',
 
-    // asks for $scope to fool the BC controller module
+    // asks for $scope to fool the BC controllers module
     controller: ['$scope', function ngSwitchController() {
      this.cases = {};
     }],
@@ -33066,23 +33066,23 @@ var ngSwitchDefaultDirective = ngDirective({
                          '</div>'
              };
          })
-         .controller('ExampleController', ['$scope', function($scope) {
+         .controllers('ExampleController', ['$scope', function($scope) {
            $scope.title = 'Lorem Ipsum';
            $scope.text = 'Neque porro quisquam est qui dolorem ipsum quia dolor...';
          }]);
        </script>
-       <div ng-controller="ExampleController">
-         <input ng-model="title"> <br/>
-         <textarea ng-model="text"></textarea> <br/>
+       <div ng-controllers="ExampleController">
+         <input ng-models="title"> <br/>
+         <textarea ng-models="text"></textarea> <br/>
          <pane title="{{title}}">{{text}}</pane>
        </div>
      </file>
      <file name="protractor.js" type="protractor">
         it('should have transcluded', function() {
-          var titleElement = element(by.model('title'));
+          var titleElement = element(by.models('title'));
           titleElement.clear();
           titleElement.sendKeys('TITLE');
-          var textElement = element(by.model('text'));
+          var textElement = element(by.models('text'));
           textElement.clear();
           textElement.sendKeys('TEXT');
           expect(element(by.binding('title')).getText()).toEqual('TITLE');
@@ -33176,13 +33176,13 @@ var ngOptionsMinErr = minErr('ngOptions');
  * In many cases, `ngRepeat` can be used on `<option>` elements instead of `ngOptions` to achieve a
  * similar result. However, `ngOptions` provides some benefits such as reducing memory and
  * increasing speed by not creating a new scope for each repeated instance, as well as providing
- * more flexibility in how the `<select>`'s model is assigned via the `select` **`as`** part of the
- * comprehension expression. `ngOptions` should be used when the `<select>` model needs to be bound
+ * more flexibility in how the `<select>`'s models is assigned via the `select` **`as`** part of the
+ * comprehension expression. `ngOptions` should be used when the `<select>` models needs to be bound
  *  to a non-string value. This is because an option element can only be bound to string values at
  * present.
  *
  * When an item in the `<select>` menu is selected, the array element or object property
- * represented by the selected option will be bound to the model identified by the `ngModel`
+ * represented by the selected option will be bound to the models identified by the `ngModel`
  * directive.
  *
  * Optionally, a single hard-coded `<option>` element, with the value set to an empty string, can
@@ -33196,7 +33196,7 @@ var ngOptionsMinErr = minErr('ngOptions');
  *
  * ## `select` **`as`**
  *
- * Using `select` **`as`** will bind the result of the `select` expression to the model, but
+ * Using `select` **`as`** will bind the result of the `select` expression to the models, but
  * the value of the `<select>` and `<option>` html elements will be either the index (for array data sources)
  * or property name (for object data sources) of the value within the collection. If a **`track by`** expression
  * is used, the result of that expression will be set as the value of the `option` and `select` elements.
@@ -33211,7 +33211,7 @@ var ngOptionsMinErr = minErr('ngOptions');
  * Consider the following example:
  *
  * ```html
- * <select ng-options="item.subItem as item.label for item in values track by item.id" ng-model="selected">
+ * <select ng-options="item.subItem as item.label for item in values track by item.id" ng-models="selected">
  * ```
  *
  * ```js
@@ -33270,7 +33270,7 @@ var ngOptionsMinErr = minErr('ngOptions');
  *   * `key`: local variable which will refer to a property name in `object` during iteration.
  *   * `label`: The result of this expression will be the label for `<option>` element. The
  *     `expression` will most likely refer to the `value` variable (e.g. `value.propertyName`).
- *   * `select`: The result of this expression will be bound to the model of the parent `<select>`
+ *   * `select`: The result of this expression will be bound to the models of the parent `<select>`
  *      element. If not specified, `select` expression will default to `value`.
  *   * `group`: The result of this expression will be used to group options using the `<optgroup>`
  *      DOM element.
@@ -33284,7 +33284,7 @@ var ngOptionsMinErr = minErr('ngOptions');
       <file name="index.html">
         <script>
         angular.module('selectExample', [])
-          .controller('ExampleController', ['$scope', function($scope) {
+          .controllers('ExampleController', ['$scope', function($scope) {
             $scope.colors = [
               {name:'black', shade:'dark'},
               {name:'white', shade:'light'},
@@ -33295,10 +33295,10 @@ var ngOptionsMinErr = minErr('ngOptions');
             $scope.myColor = $scope.colors[2]; // red
           }]);
         </script>
-        <div ng-controller="ExampleController">
+        <div ng-controllers="ExampleController">
           <ul>
             <li ng-repeat="color in colors">
-              Name: <input ng-model="color.name">
+              Name: <input ng-models="color.name">
               [<a href ng-click="colors.splice($index, 1)">X</a>]
             </li>
             <li>
@@ -33307,17 +33307,17 @@ var ngOptionsMinErr = minErr('ngOptions');
           </ul>
           <hr/>
           Color (null not allowed):
-          <select ng-model="myColor" ng-options="color.name for color in colors"></select><br>
+          <select ng-models="myColor" ng-options="color.name for color in colors"></select><br>
 
           Color (null allowed):
           <span  class="nullable">
-            <select ng-model="myColor" ng-options="color.name for color in colors">
+            <select ng-models="myColor" ng-options="color.name for color in colors">
               <option value="">-- choose color --</option>
             </select>
           </span><br/>
 
           Color grouped by shade:
-          <select ng-model="myColor" ng-options="color.name group by color.shade for color in colors">
+          <select ng-models="myColor" ng-options="color.name group by color.shade for color in colors">
           </select><br/>
 
 
@@ -33332,11 +33332,11 @@ var ngOptionsMinErr = minErr('ngOptions');
       <file name="protractor.js" type="protractor">
          it('should check ng-options', function() {
            expect(element(by.binding('{selected_color:myColor}')).getText()).toMatch('red');
-           element.all(by.model('myColor')).first().click();
-           element.all(by.css('select[ng-model="myColor"] option')).first().click();
+           element.all(by.models('myColor')).first().click();
+           element.all(by.css('select[ng-models="myColor"] option')).first().click();
            expect(element(by.binding('{selected_color:myColor}')).getText()).toMatch('black');
-           element(by.css('.nullable select[ng-model="myColor"]')).click();
-           element.all(by.css('.nullable select[ng-model="myColor"] option')).first().click();
+           element(by.css('.nullable select[ng-models="myColor"]')).click();
+           element.all(by.css('.nullable select[ng-models="myColor"] option')).first().click();
            expect(element(by.binding('{selected_color:myColor}')).getText()).toMatch('null');
          });
       </file>
@@ -33564,7 +33564,7 @@ var selectDirective = ['$compile', '$parse', function($compile,   $parse) {
           nullOption.remove();
         }
 
-        // clear contents, we'll add what's needed based on the model
+        // clear contents, we'll add what's needed based on the models
         selectElement.empty();
 
         selectElement.on('change', selectionChanged);
@@ -33760,7 +33760,7 @@ var selectDirective = ['$compile', '$parse', function($compile,   $parse) {
           }
           if (!multiple) {
             if (nullOption || viewValue === null) {
-              // insert null option if we have a placeholder, or the model is null
+              // insert null option if we have a placeholder, or the models is null
               optionGroups[''].unshift({id:'', label:'', selected:!anySelected});
             } else if (!anySelected) {
               // option could not be found, we have to insert the undefined item
@@ -36263,7 +36263,7 @@ var $sanitizeMinErr = angular.$$minErr('$sanitize');
    <file name="index.html">
      <script>
          angular.module('sanitizeExample', ['ngSanitize'])
-           .controller('ExampleController', ['$scope', '$sce', function($scope, $sce) {
+           .controllers('ExampleController', ['$scope', '$sce', function($scope, $sce) {
              $scope.snippet =
                '<p style="color:blue">an html\n' +
                '<em onmouseover="this.textContent=\'PWN3D!\'">click here</em>\n' +
@@ -36273,8 +36273,8 @@ var $sanitizeMinErr = angular.$$minErr('$sanitize');
              };
            }]);
      </script>
-     <div ng-controller="ExampleController">
-        Snippet: <textarea ng-model="snippet" cols="60" rows="3"></textarea>
+     <div ng-controllers="ExampleController">
+        Snippet: <textarea ng-models="snippet" cols="60" rows="3"></textarea>
        <table>
          <tr>
            <td>Directive</td>
@@ -36327,8 +36327,8 @@ var $sanitizeMinErr = angular.$$minErr('$sanitize');
      });
 
      it('should update', function() {
-       element(by.model('snippet')).clear();
-       element(by.model('snippet')).sendKeys('new <b onclick="alert(1)">text</b>');
+       element(by.models('snippet')).clear();
+       element(by.models('snippet')).sendKeys('new <b onclick="alert(1)">text</b>');
        expect(element(by.css('#bind-html-with-sanitize div')).getInnerHtml()).
          toBe('new <b>text</b>');
        expect(element(by.css('#bind-html-with-trust div')).getInnerHtml()).toBe(
@@ -36752,7 +36752,7 @@ angular.module('ngSanitize', []).provider('$sanitize', $SanitizeProvider);
      <file name="index.html">
        <script>
          angular.module('linkyExample', ['ngSanitize'])
-           .controller('ExampleController', ['$scope', function($scope) {
+           .controllers('ExampleController', ['$scope', function($scope) {
              $scope.snippet =
                'Pretty text with some links:\n'+
                'http://angularjs.org/,\n'+
@@ -36762,8 +36762,8 @@ angular.module('ngSanitize', []).provider('$sanitize', $SanitizeProvider);
              $scope.snippetWithTarget = 'http://angularjs.org/';
            }]);
        </script>
-       <div ng-controller="ExampleController">
-       Snippet: <textarea ng-model="snippet" cols="60" rows="3"></textarea>
+       <div ng-controllers="ExampleController">
+       Snippet: <textarea ng-models="snippet" cols="60" rows="3"></textarea>
        <table>
          <tr>
            <td>Filter</td>
@@ -36811,8 +36811,8 @@ angular.module('ngSanitize', []).provider('$sanitize', $SanitizeProvider);
        });
 
        it('should update', function() {
-         element(by.model('snippet')).clear();
-         element(by.model('snippet')).sendKeys('new http://link.');
+         element(by.models('snippet')).clear();
+         element(by.models('snippet')).sendKeys('new http://link.');
          expect(element(by.id('linky-filter')).element(by.binding('snippet | linky')).getText()).
              toBe('new http://link.');
          expect(element.all(by.css('#linky-filter a')).count()).toEqual(1);
@@ -38342,7 +38342,7 @@ function $UrlMatcherFactory() {
    *
    * $stateProvider.state('list', {
    *   url: "/list/{item:listItem}",
-   *   controller: function($scope, $stateParams) {
+   *   controllers: function($scope, $stateParams) {
    *     console.log($stateParams.item);
    *   }
    * });
@@ -38398,7 +38398,7 @@ function $UrlMatcherFactory() {
    *   // ...
    * }).state('users.item', {
    *   url: "/{user:dbObject}",
-   *   controller: function($scope, $stateParams) {
+   *   controllers: function($scope, $stateParams) {
    *     // $stateParams.user will now be an object returned from
    *     // the Users service
    *   },
@@ -39022,11 +39022,11 @@ angular.module('ui.router.router').provider('$urlRouter', $UrlRouterProvider);
  * on state.
  *
  * A state corresponds to a "place" in the application in terms of the overall UI and
- * navigation. A state describes (via the controller / template / view properties) what
+ * navigation. A state describes (via the controllers / template / view properties) what
  * the UI looks like and does at that place.
  *
  * States often have things in common, and the primary way of factoring out these
- * commonalities in this model is via the state hierarchy, i.e. parent/child states aka
+ * commonalities in this models is via the state hierarchy, i.e. parent/child states aka
  * nested states.
  *
  * The `$stateProvider` provides interfaces to declare these states for your app.
@@ -39304,10 +39304,10 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *   be a super-set of parent's params.
    * - **views** `{object}` - returns a views object where each key is an absolute view 
    *   name (i.e. "viewName@stateName") and each value is the config object 
-   *   (template, controller) for the view. Even when you don't use the views object 
+   *   (template, controllers) for the view. Even when you don't use the views object
    *   explicitly on a state config, one is still created for you internally.
    *   So by decorating this builder function you have access to decorating template 
-   *   and controller properties.
+   *   and controllers properties.
    * - **ownParams** `{object}` - returns an array of params that belong to the state, 
    *   not including any params defined by ancestor states.
    * - **path** `{string}` - returns the full path from the root down to this state. 
@@ -39333,8 +39333,8 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *
    * $stateProvider.state('home', {
    *   views: {
-   *     'contact.list': { controller: 'ListController' },
-   *     'contact.item': { controller: 'ItemController' }
+   *     'contact.list': { controllers: 'ListController' },
+   *     'contact.item': { controllers: 'ItemController' }
    *   }
    * });
    *
@@ -39423,22 +39423,22 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *         return MyTemplateService.getTemplate(params.pageId);
    *       }</pre>
    *
-   * @param {string|function=} stateConfig.controller
-   * <a id='controller'></a>
+   * @param {string|function=} stateConfig.controllers
+   * <a id='controllers'></a>
    *
    *  Controller fn that should be associated with newly
-   *   related scope or the name of a registered controller if passed as a string.
+   *   related scope or the name of a registered controllers if passed as a string.
    *   Optionally, the ControllerAs may be declared here.
-   * <pre>controller: "MyRegisteredController"</pre>
-   * <pre>controller:
+   * <pre>controllers: "MyRegisteredController"</pre>
+   * <pre>controllers:
    *     "MyRegisteredController as fooCtrl"}</pre>
-   * <pre>controller: function($scope, MyService) {
+   * <pre>controllers: function($scope, MyService) {
    *     $scope.data = MyService.getData(); }</pre>
    *
    * @param {function=} stateConfig.controllerProvider
    * <a id='controllerProvider'></a>
    *
-   * Injectable provider function that returns the actual controller or string.
+   * Injectable provider function that returns the actual controllers or string.
    * <pre>controllerProvider:
    *   function(MyResolveData) {
    *     if (MyResolveData.foo)
@@ -39453,7 +39453,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * @param {string=} stateConfig.controllerAs
    * <a id='controllerAs'></a>
    * 
-   * A controller alias name. If present the controller will be
+   * A controllers alias name. If present the controllers will be
    *   published to scope under the controllerAs name.
    * <pre>controllerAs: "myCtrl"</pre>
    *
@@ -39461,18 +39461,18 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * <a id='resolve'></a>
    *
    * An optional map&lt;string, function&gt; of dependencies which
-   *   should be injected into the controller. If any of these dependencies are promises, 
-   *   the router will wait for them all to be resolved before the controller is instantiated.
+   *   should be injected into the controllers. If any of these dependencies are promises,
+   *   the router will wait for them all to be resolved before the controllers is instantiated.
    *   If all the promises are resolved successfully, the $stateChangeSuccess event is fired
    *   and the values of the resolved promises are injected into any controllers that reference them.
    *   If any  of the promises are rejected the $stateChangeError event is fired.
    *
    *   The map object is:
    *   
-   *   - key - {string}: name of dependency to be injected into controller
+   *   - key - {string}: name of dependency to be injected into controllers
    *   - factory - {string|function}: If string then it is alias for service. Otherwise if function, 
    *     it is injected and return value it treated as dependency. If result is a promise, it is 
-   *     resolved before its value is injected into controller.
+   *     resolved before its value is injected into controllers.
    *
    * <pre>resolve: {
    *     myResolve1:
@@ -39508,13 +39508,13 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * Targets three named `ui-view`s in the parent state's template
    * <pre>views: {
    *     header: {
-   *       controller: "headerCtrl",
+   *       controllers: "headerCtrl",
    *       templateUrl: "header.html"
    *     }, body: {
-   *       controller: "bodyCtrl",
+   *       controllers: "bodyCtrl",
    *       templateUrl: "body.html"
    *     }, footer: {
-   *       controller: "footCtrl",
+   *       controllers: "footCtrl",
    *       templateUrl: "footer.html"
    *     }
    *   }</pre>
@@ -39522,10 +39522,10 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * Targets named `ui-view="header"` from grandparent state 'top''s template, and named `ui-view="body" from parent state's template.
    * <pre>views: {
    *     'header@top': {
-   *       controller: "msgHeaderCtrl",
+   *       controllers: "msgHeaderCtrl",
    *       templateUrl: "msgHeader.html"
    *     }, 'body': {
-   *       controller: "messagesCtrl",
+   *       controllers: "messagesCtrl",
    *       templateUrl: "messages.html"
    *     }
    *   }</pre>
@@ -39807,7 +39807,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * <pre>
      * var app angular.module('app', ['ui.router']);
      *
-     * app.controller('ctrl', function ($scope, $state) {
+     * app.controllers('ctrl', function ($scope, $state) {
      *   $scope.reload = function(){
      *     $state.reload();
      *   }
@@ -39845,7 +39845,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * <pre>
      * var app = angular.module('app', ['ui.router']);
      *
-     * app.controller('ctrl', function ($scope, $state) {
+     * app.controllers('ctrl', function ($scope, $state) {
      *   $scope.changeState = function () {
      *     $state.go('contact.detail');
      *   };
@@ -39911,7 +39911,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * <pre>
      * var app = angular.module('app', ['ui.router']);
      *
-     * app.controller('ctrl', function ($scope, $state) {
+     * app.controllers('ctrl', function ($scope, $state) {
      *   $scope.changeState = function () {
      *     $state.transitionTo('contact.detail');
      *   };
@@ -40326,7 +40326,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
 
     function resolveState(state, params, paramsAreFiltered, inherited, dst, options) {
       // Make a restricted $stateParams with only the parameters that apply to this state if
-      // necessary. In addition to being available to the controller and onEnter/onExit callbacks,
+      // necessary. In addition to being available to the controllers and onEnter/onExit callbacks,
       // we also need $stateParams to be available for any $injector calls we make during the
       // dependency resolution process.
       var $stateParams = (paramsAreFiltered) ? params : filterByKeys(state.params.$$keys(), params);
@@ -40350,7 +40350,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
         }];
 
         promises.push($resolve.resolve(injectables, locals, dst.resolve, state).then(function (result) {
-          // References to the controller (only instantiated at link time)
+          // References to the controllers (only instantiated at link time)
           if (isFunction(view.controllerProvider) || isArray(view.controllerProvider)) {
             var injectLocals = angular.extend({}, injectables, locals);
             result.$$controller = $injector.invoke(view.controllerProvider, null, injectLocals);
@@ -40402,7 +40402,7 @@ function $ViewProvider() {
   $get.$inject = ['$rootScope', '$templateFactory'];
   function $get(   $rootScope,   $templateFactory) {
     return {
-      // $view.load('full.viewName', { template: ..., controller: ..., resolve: ..., async: false, params: ... })
+      // $view.load('full.viewName', { template: ..., controllers: ..., resolve: ..., async: false, params: ... })
       /**
        * @ngdoc function
        * @name ui.router.state.$view#load
@@ -40433,7 +40433,7 @@ function $ViewProvider() {
          * Fired once the view **begins loading**, *before* the DOM is rendered.
          *
          * @param {Object} event Event object.
-         * @param {Object} viewConfig The view config properties (template, controller, etc).
+         * @param {Object} viewConfig The view config properties (template, controllers, etc).
          *
          * @example
          *
@@ -41215,7 +41215,7 @@ var IonicModule = angular.module('ionic', ['ngAnimate', 'ngSanitize', 'ui.router
  *
  * ```js
  * angular.module('mySuperApp', ['ionic'])
- * .controller(function($scope, $ionicActionSheet, $timeout) {
+ * .controllers(function($scope, $ionicActionSheet, $timeout) {
  *
  *  // Triggered on a button click, or some other target
  *  $scope.show = function() {
@@ -42650,7 +42650,7 @@ function($rootScope, $state, $location, $document, $ionicPlatform, $ionicHistory
  * @description  By default, when navigating, views that were recently visited are cached, and
  * the same instance data and DOM elements are referenced when navigating back. However, when
  * navigating back in the history, the "forward" views are removed from the cache. If you
- * navigate forward to the same view again, it'll create a new DOM element and controller
+ * navigate forward to the same view again, it'll create a new DOM element and controllers
  * instance. Basically, any forward views are reset each time. Set this config to `true` to have
  * forward views cached and not reset on each load.
  * @param {boolean} value
@@ -43199,7 +43199,7 @@ var LOADING_SET_DEPRECATED = '$ionicLoading instance.setContent() has been depre
  * @usage
  * ```js
  * angular.module('LoadingApp', ['ionic'])
- * .controller('LoadingCtrl', function($scope, $ionicLoading) {
+ * .controllers('LoadingCtrl', function($scope, $ionicLoading) {
  *   $scope.show = function() {
  *     $ionicLoading.show({
  *       template: 'Loading...'
@@ -43224,7 +43224,7 @@ var LOADING_SET_DEPRECATED = '$ionicLoading instance.setContent() has been depre
  * app.constant('$ionicLoadingConfig', {
  *   template: 'Default Loading Template...'
  * });
- * app.controller('AppCtrl', function($scope, $ionicLoading) {
+ * app.controllers('AppCtrl', function($scope, $ionicLoading) {
  *   $scope.showLoading = function() {
  *     $ionicLoading.show(); //options default to values in $ionicLoadingConfig
  *   };
@@ -43416,7 +43416,7 @@ function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, 
  * @module ionic
  * @description
  *
- * Related: {@link ionic.controller:ionicModal ionicModal controller}.
+ * Related: {@link ionic.controllers:ionicModal ionicModal controllers}.
  *
  * The Modal is a content pane that can go over the user's main view
  * temporarily.  Usually used for making a choice or editing an item.
@@ -43446,7 +43446,7 @@ function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, 
  * ```
  * ```js
  * angular.module('testApp', ['ionic'])
- * .controller('MyController', function($scope, $ionicModal) {
+ * .controllers('MyController', function($scope, $ionicModal) {
  *   $ionicModal.fromTemplateUrl('my-modal.html', {
  *     scope: $scope,
  *     animation: 'slide-in-up'
@@ -43487,7 +43487,7 @@ IonicModule
 function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTemplateLoader, $q, $log) {
 
   /**
-   * @ngdoc controller
+   * @ngdoc controllers
    * @name ionicModal
    * @module ionic
    * @description
@@ -43504,7 +43504,7 @@ function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTempl
     /**
      * @ngdoc method
      * @name ionicModal#initialize
-     * @description Creates a new modal controller instance.
+     * @description Creates a new modal controllers instance.
      * @param {object} options An options object with the following properties:
      *  - `{object=}` `scope` The scope to be a child of.
      *    Default: creates a child of $rootScope.
@@ -43688,9 +43688,9 @@ function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTempl
      * @name $ionicModal#fromTemplate
      * @param {string} templateString The template string to use as the modal's
      * content.
-     * @param {object} options Options to be passed {@link ionic.controller:ionicModal#initialize ionicModal#initialize} method.
-     * @returns {object} An instance of an {@link ionic.controller:ionicModal}
-     * controller.
+     * @param {object} options Options to be passed {@link ionic.controllers:ionicModal#initialize ionicModal#initialize} method.
+     * @returns {object} An instance of an {@link ionic.controllers:ionicModal}
+     * controllers.
      */
     fromTemplate: function(templateString, options) {
       var modal = createModal(templateString, options || {});
@@ -43700,10 +43700,10 @@ function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTempl
      * @ngdoc method
      * @name $ionicModal#fromTemplateUrl
      * @param {string} templateUrl The url to load the template from.
-     * @param {object} options Options to be passed {@link ionic.controller:ionicModal#initialize ionicModal#initialize} method.
+     * @param {object} options Options to be passed {@link ionic.controllers:ionicModal#initialize ionicModal#initialize} method.
      * options object.
      * @returns {promise} A promise that will be resolved with an instance of
-     * an {@link ionic.controller:ionicModal} controller.
+     * an {@link ionic.controllers:ionicModal} controllers.
      */
     fromTemplateUrl: function(url, options, _) {
       var cb;
@@ -43732,7 +43732,7 @@ function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTempl
  * @usage
  *
  * ```html
- * <body ng-controller="MyCtrl">
+ * <body ng-controllers="MyCtrl">
  *   <ion-nav-bar>
  *     <button ng-click="setNavTitle('banana')">
  *       Set title to banana!
@@ -43972,7 +43972,7 @@ IonicModule
  * @module ionic
  * @description
  *
- * Related: {@link ionic.controller:ionicPopover ionicPopover controller}.
+ * Related: {@link ionic.controllers:ionicPopover ionicPopover controllers}.
  *
  * The Popover is a view that floats above an app’s content. Popovers provide an
  * easy way to present or gather information from the user and are
@@ -44003,7 +44003,7 @@ IonicModule
  * ```
  * ```js
  * angular.module('testApp', ['ionic'])
- * .controller('MyController', function($scope, $ionicPopover) {
+ * .controllers('MyController', function($scope, $ionicPopover) {
  *
  *   // .fromTemplate() method
  *   var template = '<ion-popover-view><ion-header-bar> <h1 class="title">My Popover Title</h1> </ion-header-bar> <ion-content> Hello! </ion-content></ion-popover-view>';
@@ -44102,7 +44102,7 @@ function($ionicModal, $ionicPosition, $document, $window) {
   }
 
   /**
-   * @ngdoc controller
+   * @ngdoc controllers
    * @name ionicPopover
    * @module ionic
    * @description
@@ -44119,7 +44119,7 @@ function($ionicModal, $ionicPosition, $document, $window) {
   /**
    * @ngdoc method
    * @name ionicPopover#initialize
-   * @description Creates a new popover controller instance.
+   * @description Creates a new popover controllers instance.
    * @param {object} options An options object with the following properties:
    *  - `{object=}` `scope` The scope to be a child of.
    *    Default: creates a child of $rootScope.
@@ -44167,8 +44167,8 @@ function($ionicModal, $ionicPosition, $document, $window) {
      * @param {string} templateString The template string to use as the popovers's
      * content.
      * @param {object} options Options to be passed to the initialize method.
-     * @returns {object} An instance of an {@link ionic.controller:ionicPopover}
-     * controller (ionicPopover is built on top of $ionicPopover).
+     * @returns {object} An instance of an {@link ionic.controllers:ionicPopover}
+     * controllers (ionicPopover is built on top of $ionicPopover).
      */
     fromTemplate: function(templateString, options) {
       return $ionicModal.fromTemplate(templateString, ionic.Utils.extend(POPOVER_OPTIONS, options || {}));
@@ -44179,7 +44179,7 @@ function($ionicModal, $ionicPosition, $document, $window) {
      * @param {string} templateUrl The url to load the template from.
      * @param {object} options Options to be passed to the initialize method.
      * @returns {promise} A promise that will be resolved with an instance of
-     * an {@link ionic.controller:ionicPopover} controller (ionicPopover is built on top of $ionicPopover).
+     * an {@link ionic.controllers:ionicPopover} controllers (ionicPopover is built on top of $ionicPopover).
      */
     fromTemplateUrl: function(url, options) {
       return $ionicModal.fromTemplateUrl(url, ionic.Utils.extend(POPOVER_OPTIONS, options || {}));
@@ -44229,7 +44229,7 @@ var POPUP_TPL =
  *
  * ```js
  *angular.module('mySuperApp', ['ionic'])
- *.controller('PopupCtrl',function($scope, $ionicPopup, $timeout) {
+ *.controllers('PopupCtrl',function($scope, $ionicPopup, $timeout) {
  *
  * // Triggered on a button click, or some other target
  * $scope.showPopup = function() {
@@ -44237,7 +44237,7 @@ var POPUP_TPL =
  *
  *   // An elaborate, custom popup
  *   var myPopup = $ionicPopup.show({
- *     template: '<input type="password" ng-model="data.wifi">',
+ *     template: '<input type="password" ng-models="data.wifi">',
  *     title: 'Enter Wi-Fi Password',
  *     subTitle: 'Please use normal things',
  *     scope: $scope,
@@ -44661,7 +44661,7 @@ function($ionicTemplateLoader, $ionicBackdrop, $q, $timeout, $rootScope, $ionicB
       delete opts.template;
     }
     return showPopup(extend({
-      template: text + '<input ng-model="data.response" type="' + (opts.inputType || 'text') +
+      template: text + '<input ng-models="data.response" type="' + (opts.inputType || 'text') +
         '" placeholder="' + (opts.inputPlaceholder || '') + '">',
       scope: scope,
       buttons: [{
@@ -44791,7 +44791,7 @@ IonicModule
  * @usage
  *
  * ```html
- * <body ng-controller="MainCtrl">
+ * <body ng-controllers="MainCtrl">
  *   <ion-content>
  *     <button ng-click="scrollTop()">Scroll to Top!</button>
  *   </ion-content>
@@ -44809,7 +44809,7 @@ IonicModule
  * for fine control.
  *
  * ```html
- * <body ng-controller="MainCtrl">
+ * <body ng-controllers="MainCtrl">
  *   <ion-content delegate-handle="mainScroll">
  *     <button ng-click="scrollMainToTop()">
  *       Scroll content to top!
@@ -44954,7 +44954,7 @@ IonicModule
  * @usage
  *
  * ```html
- * <body ng-controller="MainCtrl">
+ * <body ng-controllers="MainCtrl">
  *   <ion-side-menus>
  *     <ion-side-menu-content>
  *       Content!
@@ -45184,7 +45184,7 @@ IonicModule
  * @usage
  *
  * ```html
- * <body ng-controller="MyCtrl">
+ * <body ng-controllers="MyCtrl">
  *   <ion-tabs>
  *
  *     <ion-tab title="Tab 1">
@@ -45273,7 +45273,7 @@ IonicModule
  *           'home-tab': {
  *             prefetchTemplate: false,
  *             templateUrl: "tabs-templates/home.html",
- *             controller: 'HomeTabCtrl'
+ *             controllers: 'HomeTabCtrl'
  *           }
  *         }
  *       });
@@ -46485,7 +46485,7 @@ IonicModule
  * @usage
  *
  * ````html
- * <ion-content ng-controller="MyCtrl">
+ * <ion-content ng-controllers="MyCtrl">
  *   <button class="button" ng-click="showDeleteButtons()"></button>
  *   <ion-list>
  *     <ion-item ng-repeat="i in items">
@@ -47874,7 +47874,7 @@ function($scope,
   var $element = self.$element = jqLite(element);
   var scrollView = self.scrollView = new ionic.views.Scroll(scrollViewOptions);
 
-  //Attach self to element as a controller so other directives can require this controller
+  //Attach self to element as a controllers so other directives can require this controllers
   //through `require: '$ionicScroll'
   //Also attach to parent so that sibling elements can require this
   ($element.parent().length ? $element.parent() : $element)
@@ -48049,7 +48049,7 @@ function($scope, $attrs, $ionicSideMenuDelegate, $ionicPlatform, $ionicBody, $io
   };
 
   /**
-   * Set the content view controller if not passed in the constructor options.
+   * Set the content view controllers if not passed in the constructor options.
    *
    * @param {object} content
    */
@@ -49236,7 +49236,7 @@ IonicModule
  *
  * @usage
  * ```html
- * <ion-checkbox ng-model="isChecked">Checkbox Label</ion-checkbox>
+ * <ion-checkbox ng-models="isChecked">Checkbox Label</ion-checkbox>
  * ```
  */
 
@@ -50900,7 +50900,7 @@ function headerFooterBarDirective(isHeader) {
  * The expression you pass in for `on-infinite` is called when the user scrolls
  * greater than `distance` away from the bottom of the content.  Once `on-infinite`
  * is done loading new data, it should broadcast the `scroll.infiniteScrollComplete`
- * event from your controller (see below example).
+ * event from your controllers (see below example).
  *
  * @param {expression} on-infinite What to call when the scroller reaches the
  * bottom.
@@ -50914,7 +50914,7 @@ function headerFooterBarDirective(isHeader) {
  *
  * @usage
  * ```html
- * <ion-content ng-controller="MyController">
+ * <ion-content ng-controllers="MyController">
  *   <ion-list>
  *   ....
  *   ....
@@ -50975,7 +50975,7 @@ IonicModule
         // grabbing the scrollable element, to determine dimensions, and current scroll pos
         var scrollEl = ionic.DomUtil.getParentOrSelfWithClass($element[0].parentNode,'overflow-scroll');
         infiniteScrollCtrl.scrollEl = scrollEl;
-        // if there's no scroll controller, and no overflow scroll div, infinite scroll wont work
+        // if there's no scroll controllers, and no overflow scroll div, infinite scroll wont work
         if (!scrollEl) {
           throw 'Infinite scroll must be used inside a scrollable div';
         }
@@ -51100,7 +51100,7 @@ var ITEM_TPL_DELETE_BUTTON =
 *     Hello, list item!
 *   </ion-item>
 * </ion-list>
-* <ion-toggle ng-model="shouldShowDelete">
+* <ion-toggle ng-models="shouldShowDelete">
 *   Show Delete?
 * </ion-toggle>
 * ```
@@ -51250,7 +51250,7 @@ var ITEM_TPL_REORDER_BUTTON =
 * @usage
 *
 * ```html
-* <ion-list ng-controller="MyCtrl" show-reorder="true">
+* <ion-list ng-controllers="MyCtrl" show-reorder="true">
 *   <ion-item ng-repeat="item in items">
 *     Item {{item}}
 *     <ion-reorder-button class="ion-navicon"
@@ -51429,7 +51429,7 @@ function keyboardAttachGetClientHeight(element) {
 * Advanced Usage: Thumbnails, Delete buttons, Reordering, Swiping
 *
 * ```html
-* <ion-list ng-controller="MyCtrl"
+* <ion-list ng-controllers="MyCtrl"
 *           show-delete="shouldShowDelete"
 *           show-reorder="shouldShowReorder"
 *           can-swipe="listCanSwipe">
@@ -51459,7 +51459,7 @@ function keyboardAttachGetClientHeight(element) {
 * ```
 *
 *```javascript
-* app.controller('MyCtrl', function($scope) {
+* app.controllers('MyCtrl', function($scope) {
 *  $scope.shouldShowDelete = false;
 *  $scope.shouldShowReorder = false;
 *  $scope.listCanSwipe = true
@@ -51756,7 +51756,7 @@ IonicModule
  * With custom inner markup and custom click action, using {@link ionic.service:$ionicHistory}:
  *
  * ```html
- * <ion-nav-bar ng-controller="MyCtrl">
+ * <ion-nav-bar ng-controllers="MyCtrl">
  *   <ion-nav-back-button class="button-clear"
  *     ng-click="myGoBack()">
  *     <i class="ion-arrow-left-c"></i> Back
@@ -52194,7 +52194,7 @@ IonicModule
  * <script id="home" type="text/ng-template">
  *   <!-- The title of the ion-view will be shown on the navbar -->
  *   <ion-view view-title="Home">
- *     <ion-content ng-controller="HomeCtrl">
+ *     <ion-content ng-controllers="HomeCtrl">
  *       <!-- The content of the page -->
  *       <a href="#/music">Go to music page!</a>
  *     </ion-content>
@@ -52219,12 +52219,12 @@ IonicModule
  *
  * Note that because we are caching these views, *we aren’t destroying scopes*. Instead, scopes
  * are being disconnected from the watch cycle. Because scopes are not being destroyed and
- * recreated, controllers are not loading again on a subsequent viewing. If the app/controller
+ * recreated, controllers are not loading again on a subsequent viewing. If the app/controllers
  * needs to know when a view has entered or has left, then view events emitted from the
  * {@link ionic.directive:ionView} scope, such as `$ionicView.enter`, may be useful.
  *
  * By default, when navigating back in the history, the "forward" views are removed from the cache.
- * If you navigate forward to the same view again, it'll create a new DOM element and controller
+ * If you navigate forward to the same view again, it'll create a new DOM element and controllers
  * instance. Basically, any forward views are reset each time. This can be configured using the
  * {@link ionic.provider:$ionicConfigProvider}:
  *
@@ -52445,9 +52445,9 @@ IonicModule
  *
  * @usage
  * ```html
- * <ion-radio ng-model="choice" ng-value="'A'">Choose A</ion-radio>
- * <ion-radio ng-model="choice" ng-value="'B'">Choose B</ion-radio>
- * <ion-radio ng-model="choice" ng-value="'C'">Choose C</ion-radio>
+ * <ion-radio ng-models="choice" ng-value="'A'">Choose A</ion-radio>
+ * <ion-radio ng-models="choice" ng-value="'B'">Choose B</ion-radio>
+ * <ion-radio ng-models="choice" ng-value="'C'">Choose C</ion-radio>
  * ```
  *
  * @param {string=} name The name of the radio input.
@@ -52455,9 +52455,9 @@ IonicModule
  * @param {boolean=} disabled The state of the radio input.
  * @param {string=} icon The icon to use when the radio input is selected.
  * @param {expression=} ng-value Angular equivalent of the value attribute.
- * @param {expression=} ng-model The angular model for the radio input.
+ * @param {expression=} ng-models The angular models for the radio input.
  * @param {boolean=} ng-disabled Angular equivalent of the disabled attribute.
- * @param {expression=} ng-change Triggers given expression when radio input's model changes
+ * @param {expression=} ng-change Triggers given expression when radio input's models changes
  */
 IonicModule
 .directive('ionRadio', function() {
@@ -52516,12 +52516,12 @@ IonicModule
  * {@link ionic.directive:ionScroll} element.
  *
  * When refreshing is complete, $broadcast the 'scroll.refreshComplete' event
- * from your controller.
+ * from your controllers.
  *
  * @usage
  *
  * ```html
- * <ion-content ng-controller="MyController">
+ * <ion-content ng-controllers="MyController">
  *   <ion-refresher
  *     pulling-text="Pull to refresh..."
  *     on-refresh="doRefresh()">
@@ -52533,7 +52533,7 @@ IonicModule
  * ```
  * ```js
  * angular.module('testApp', ['ionic'])
- * .controller('MyController', function($scope, $http) {
+ * .controllers('MyController', function($scope, $http) {
  *   $scope.items = [1,2,3];
  *   $scope.doRefresh = function() {
  *     $http.get('/new-items')
@@ -52588,7 +52588,7 @@ IonicModule
     '</div>',
     link: function($scope, $element, $attrs, ctrls) {
 
-      // JS Scrolling uses the scroll controller
+      // JS Scrolling uses the scroll controllers
       var scrollCtrl = ctrls[0],
           refresherCtrl = ctrls[1];
 
@@ -53052,7 +53052,7 @@ IonicModule
  * ```html
  * <ion-side-menus>
  *   <!-- Center content -->
- *   <ion-side-menu-content ng-controller="ContentController">
+ *   <ion-side-menu-content ng-controllers="ContentController">
  *   </ion-side-menu-content>
  *
  *   <!-- Left menu -->
@@ -53906,7 +53906,7 @@ function($ionicTabsDelegate, $ionicConfig, $ionicHistory) {
  * @restrict E
  *
  * @description
- * A toggle is an animated switch which binds a given model to a boolean.
+ * A toggle is an animated switch which binds a given models to a boolean.
  *
  * Allows dragging of the switch's nub.
  *
@@ -53915,11 +53915,11 @@ function($ionicTabsDelegate, $ionicConfig, $ionicHistory) {
  * @param toggle-class {string=} Sets the CSS class on the inner `label.toggle` element created by the directive.
  *
  * @usage
- * Below is an example of a toggle directive which is wired up to the `airplaneMode` model
+ * Below is an example of a toggle directive which is wired up to the `airplaneMode` models
  * and has the `toggle-calm` CSS class assigned to the inner element.
  *
  * ```html
- * <ion-toggle ng-model="airplaneMode" toggle-class="toggle-calm">Airplane Mode</ion-toggle>
+ * <ion-toggle ng-models="airplaneMode" toggle-class="toggle-calm">Airplane Mode</ion-toggle>
  * ```
  */
 IonicModule
@@ -54036,7 +54036,7 @@ function($timeout, $ionicConfig) {
  * ## View LifeCycle and Events
  *
  * Views can be cached, which means ***controllers normally only load once***, which may
- * affect your controller logic. To know when a view has entered or left, events
+ * affect your controllers logic. To know when a view has entered or left, events
  * have been added that are emitted from the view's scope. These events also
  * contain data about the view, such as the title and whether the back button should
  * show. Also contained is transition data, such as the transition type and
@@ -54079,7 +54079,7 @@ function($timeout, $ionicConfig) {
  *  </tr>
  *  <tr>
  *   <td><code>$ionicView.unloaded</code></td>
- *   <td>The view's controller has been destroyed and its element has been
+ *   <td>The view's controllers has been destroyed and its element has been
  * removed from the DOM.</td>
  *  </tr>
  * </table>

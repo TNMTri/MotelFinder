@@ -34,18 +34,18 @@ window.ionic.version = '1.0.0-rc.0';
 
       /*
        * Creates a new object that will have all the methodNames given,
-       * and call them on the given the controller instance matching given
+       * and call them on the given the controllers instance matching given
        * handle.
-       * The reason we don't just let $getByHandle return the controller instance
-       * itself is that the controller instance might not exist yet.
+       * The reason we don't just let $getByHandle return the controllers instance
+       * itself is that the controllers instance might not exist yet.
        *
        * We want people to be able to do
-       * `var instance = $ionicScrollDelegate.$getByHandle('foo')` on controller
-       * instantiation, but on controller instantiation a child directive
+       * `var instance = $ionicScrollDelegate.$getByHandle('foo')` on controllers
+       * instantiation, but on controllers instantiation a child directive
        * may not have been compiled yet!
        *
        * So this is our way of solving this problem: we create an object
-       * that will only try to fetch the controller with given handle
+       * that will only try to fetch the controllers with given handle
        * once the methods are actually called.
        */
       function DelegateInstance(instances, handle) {
@@ -110,7 +110,7 @@ window.ionic.version = '1.0.0-rc.0';
               methodName + '() was not called!\n' +
               'Possible cause: If you are calling ' + methodName + '() immediately, and ' +
               'your element with delegate-handle="' + handle + '" is a child of your ' +
-              'controller, then your element may not be compiled yet. Put a $timeout ' +
+              'controllers, then your element may not be compiled yet. Put a $timeout ' +
               'around your call to ' + methodName + '() and try again.'
             );
           }
@@ -2037,7 +2037,7 @@ window.ionic.version = '1.0.0-rc.0';
    * @usage
    * ```js
    * angular.module('PlatformApp', ['ionic'])
-   * .controller('PlatformCtrl', function($scope) {
+   * .controllers('PlatformCtrl', function($scope) {
    *
    *   ionic.Platform.ready(function(){
    *     // will execute when device is ready, or immediately if the device is already ready.

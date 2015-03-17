@@ -85,7 +85,7 @@ var IonicModule = angular.module('ionic', ['ngAnimate', 'ngSanitize', 'ui.router
  *
  * ```js
  * angular.module('mySuperApp', ['ionic'])
- * .controller(function($scope, $ionicActionSheet, $timeout) {
+ * .controllers(function($scope, $ionicActionSheet, $timeout) {
  *
  *  // Triggered on a button click, or some other target
  *  $scope.show = function() {
@@ -1520,7 +1520,7 @@ function($rootScope, $state, $location, $document, $ionicPlatform, $ionicHistory
  * @description  By default, when navigating, views that were recently visited are cached, and
  * the same instance data and DOM elements are referenced when navigating back. However, when
  * navigating back in the history, the "forward" views are removed from the cache. If you
- * navigate forward to the same view again, it'll create a new DOM element and controller
+ * navigate forward to the same view again, it'll create a new DOM element and controllers
  * instance. Basically, any forward views are reset each time. Set this config to `true` to have
  * forward views cached and not reset on each load.
  * @param {boolean} value
@@ -2069,7 +2069,7 @@ var LOADING_SET_DEPRECATED = '$ionicLoading instance.setContent() has been depre
  * @usage
  * ```js
  * angular.module('LoadingApp', ['ionic'])
- * .controller('LoadingCtrl', function($scope, $ionicLoading) {
+ * .controllers('LoadingCtrl', function($scope, $ionicLoading) {
  *   $scope.show = function() {
  *     $ionicLoading.show({
  *       template: 'Loading...'
@@ -2094,7 +2094,7 @@ var LOADING_SET_DEPRECATED = '$ionicLoading instance.setContent() has been depre
  * app.constant('$ionicLoadingConfig', {
  *   template: 'Default Loading Template...'
  * });
- * app.controller('AppCtrl', function($scope, $ionicLoading) {
+ * app.controllers('AppCtrl', function($scope, $ionicLoading) {
  *   $scope.showLoading = function() {
  *     $ionicLoading.show(); //options default to values in $ionicLoadingConfig
  *   };
@@ -2286,7 +2286,7 @@ function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, 
  * @module ionic
  * @description
  *
- * Related: {@link ionic.controller:ionicModal ionicModal controller}.
+ * Related: {@link ionic.controllers:ionicModal ionicModal controllers}.
  *
  * The Modal is a content pane that can go over the user's main view
  * temporarily.  Usually used for making a choice or editing an item.
@@ -2316,7 +2316,7 @@ function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, 
  * ```
  * ```js
  * angular.module('testApp', ['ionic'])
- * .controller('MyController', function($scope, $ionicModal) {
+ * .controllers('MyController', function($scope, $ionicModal) {
  *   $ionicModal.fromTemplateUrl('my-modal.html', {
  *     scope: $scope,
  *     animation: 'slide-in-up'
@@ -2357,7 +2357,7 @@ IonicModule
 function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTemplateLoader, $q, $log) {
 
   /**
-   * @ngdoc controller
+   * @ngdoc controllers
    * @name ionicModal
    * @module ionic
    * @description
@@ -2374,7 +2374,7 @@ function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTempl
     /**
      * @ngdoc method
      * @name ionicModal#initialize
-     * @description Creates a new modal controller instance.
+     * @description Creates a new modal controllers instance.
      * @param {object} options An options object with the following properties:
      *  - `{object=}` `scope` The scope to be a child of.
      *    Default: creates a child of $rootScope.
@@ -2558,9 +2558,9 @@ function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTempl
      * @name $ionicModal#fromTemplate
      * @param {string} templateString The template string to use as the modal's
      * content.
-     * @param {object} options Options to be passed {@link ionic.controller:ionicModal#initialize ionicModal#initialize} method.
-     * @returns {object} An instance of an {@link ionic.controller:ionicModal}
-     * controller.
+     * @param {object} options Options to be passed {@link ionic.controllers:ionicModal#initialize ionicModal#initialize} method.
+     * @returns {object} An instance of an {@link ionic.controllers:ionicModal}
+     * controllers.
      */
     fromTemplate: function(templateString, options) {
       var modal = createModal(templateString, options || {});
@@ -2570,10 +2570,10 @@ function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTempl
      * @ngdoc method
      * @name $ionicModal#fromTemplateUrl
      * @param {string} templateUrl The url to load the template from.
-     * @param {object} options Options to be passed {@link ionic.controller:ionicModal#initialize ionicModal#initialize} method.
+     * @param {object} options Options to be passed {@link ionic.controllers:ionicModal#initialize ionicModal#initialize} method.
      * options object.
      * @returns {promise} A promise that will be resolved with an instance of
-     * an {@link ionic.controller:ionicModal} controller.
+     * an {@link ionic.controllers:ionicModal} controllers.
      */
     fromTemplateUrl: function(url, options, _) {
       var cb;
@@ -2602,7 +2602,7 @@ function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTempl
  * @usage
  *
  * ```html
- * <body ng-controller="MyCtrl">
+ * <body ng-controllers="MyCtrl">
  *   <ion-nav-bar>
  *     <button ng-click="setNavTitle('banana')">
  *       Set title to banana!
@@ -2842,7 +2842,7 @@ IonicModule
  * @module ionic
  * @description
  *
- * Related: {@link ionic.controller:ionicPopover ionicPopover controller}.
+ * Related: {@link ionic.controllers:ionicPopover ionicPopover controllers}.
  *
  * The Popover is a view that floats above an app’s content. Popovers provide an
  * easy way to present or gather information from the user and are
@@ -2873,7 +2873,7 @@ IonicModule
  * ```
  * ```js
  * angular.module('testApp', ['ionic'])
- * .controller('MyController', function($scope, $ionicPopover) {
+ * .controllers('MyController', function($scope, $ionicPopover) {
  *
  *   // .fromTemplate() method
  *   var template = '<ion-popover-view><ion-header-bar> <h1 class="title">My Popover Title</h1> </ion-header-bar> <ion-content> Hello! </ion-content></ion-popover-view>';
@@ -2972,7 +2972,7 @@ function($ionicModal, $ionicPosition, $document, $window) {
   }
 
   /**
-   * @ngdoc controller
+   * @ngdoc controllers
    * @name ionicPopover
    * @module ionic
    * @description
@@ -2989,7 +2989,7 @@ function($ionicModal, $ionicPosition, $document, $window) {
   /**
    * @ngdoc method
    * @name ionicPopover#initialize
-   * @description Creates a new popover controller instance.
+   * @description Creates a new popover controllers instance.
    * @param {object} options An options object with the following properties:
    *  - `{object=}` `scope` The scope to be a child of.
    *    Default: creates a child of $rootScope.
@@ -3037,8 +3037,8 @@ function($ionicModal, $ionicPosition, $document, $window) {
      * @param {string} templateString The template string to use as the popovers's
      * content.
      * @param {object} options Options to be passed to the initialize method.
-     * @returns {object} An instance of an {@link ionic.controller:ionicPopover}
-     * controller (ionicPopover is built on top of $ionicPopover).
+     * @returns {object} An instance of an {@link ionic.controllers:ionicPopover}
+     * controllers (ionicPopover is built on top of $ionicPopover).
      */
     fromTemplate: function(templateString, options) {
       return $ionicModal.fromTemplate(templateString, ionic.Utils.extend(POPOVER_OPTIONS, options || {}));
@@ -3049,7 +3049,7 @@ function($ionicModal, $ionicPosition, $document, $window) {
      * @param {string} templateUrl The url to load the template from.
      * @param {object} options Options to be passed to the initialize method.
      * @returns {promise} A promise that will be resolved with an instance of
-     * an {@link ionic.controller:ionicPopover} controller (ionicPopover is built on top of $ionicPopover).
+     * an {@link ionic.controllers:ionicPopover} controllers (ionicPopover is built on top of $ionicPopover).
      */
     fromTemplateUrl: function(url, options) {
       return $ionicModal.fromTemplateUrl(url, ionic.Utils.extend(POPOVER_OPTIONS, options || {}));
@@ -3099,7 +3099,7 @@ var POPUP_TPL =
  *
  * ```js
  *angular.module('mySuperApp', ['ionic'])
- *.controller('PopupCtrl',function($scope, $ionicPopup, $timeout) {
+ *.controllers('PopupCtrl',function($scope, $ionicPopup, $timeout) {
  *
  * // Triggered on a button click, or some other target
  * $scope.showPopup = function() {
@@ -3107,7 +3107,7 @@ var POPUP_TPL =
  *
  *   // An elaborate, custom popup
  *   var myPopup = $ionicPopup.show({
- *     template: '<input type="password" ng-model="data.wifi">',
+ *     template: '<input type="password" ng-models="data.wifi">',
  *     title: 'Enter Wi-Fi Password',
  *     subTitle: 'Please use normal things',
  *     scope: $scope,
@@ -3531,7 +3531,7 @@ function($ionicTemplateLoader, $ionicBackdrop, $q, $timeout, $rootScope, $ionicB
       delete opts.template;
     }
     return showPopup(extend({
-      template: text + '<input ng-model="data.response" type="' + (opts.inputType || 'text') +
+      template: text + '<input ng-models="data.response" type="' + (opts.inputType || 'text') +
         '" placeholder="' + (opts.inputPlaceholder || '') + '">',
       scope: scope,
       buttons: [{
@@ -3661,7 +3661,7 @@ IonicModule
  * @usage
  *
  * ```html
- * <body ng-controller="MainCtrl">
+ * <body ng-controllers="MainCtrl">
  *   <ion-content>
  *     <button ng-click="scrollTop()">Scroll to Top!</button>
  *   </ion-content>
@@ -3679,7 +3679,7 @@ IonicModule
  * for fine control.
  *
  * ```html
- * <body ng-controller="MainCtrl">
+ * <body ng-controllers="MainCtrl">
  *   <ion-content delegate-handle="mainScroll">
  *     <button ng-click="scrollMainToTop()">
  *       Scroll content to top!
@@ -3824,7 +3824,7 @@ IonicModule
  * @usage
  *
  * ```html
- * <body ng-controller="MainCtrl">
+ * <body ng-controllers="MainCtrl">
  *   <ion-side-menus>
  *     <ion-side-menu-content>
  *       Content!
@@ -4054,7 +4054,7 @@ IonicModule
  * @usage
  *
  * ```html
- * <body ng-controller="MyCtrl">
+ * <body ng-controllers="MyCtrl">
  *   <ion-tabs>
  *
  *     <ion-tab title="Tab 1">
@@ -4143,7 +4143,7 @@ IonicModule
  *           'home-tab': {
  *             prefetchTemplate: false,
  *             templateUrl: "tabs-templates/home.html",
- *             controller: 'HomeTabCtrl'
+ *             controllers: 'HomeTabCtrl'
  *           }
  *         }
  *       });
@@ -5355,7 +5355,7 @@ IonicModule
  * @usage
  *
  * ````html
- * <ion-content ng-controller="MyCtrl">
+ * <ion-content ng-controllers="MyCtrl">
  *   <button class="button" ng-click="showDeleteButtons()"></button>
  *   <ion-list>
  *     <ion-item ng-repeat="i in items">
@@ -6744,7 +6744,7 @@ function($scope,
   var $element = self.$element = jqLite(element);
   var scrollView = self.scrollView = new ionic.views.Scroll(scrollViewOptions);
 
-  //Attach self to element as a controller so other directives can require this controller
+  //Attach self to element as a controllers so other directives can require this controllers
   //through `require: '$ionicScroll'
   //Also attach to parent so that sibling elements can require this
   ($element.parent().length ? $element.parent() : $element)
@@ -6919,7 +6919,7 @@ function($scope, $attrs, $ionicSideMenuDelegate, $ionicPlatform, $ionicBody, $io
   };
 
   /**
-   * Set the content view controller if not passed in the constructor options.
+   * Set the content view controllers if not passed in the constructor options.
    *
    * @param {object} content
    */
@@ -8106,7 +8106,7 @@ IonicModule
  *
  * @usage
  * ```html
- * <ion-checkbox ng-model="isChecked">Checkbox Label</ion-checkbox>
+ * <ion-checkbox ng-models="isChecked">Checkbox Label</ion-checkbox>
  * ```
  */
 
@@ -9770,7 +9770,7 @@ function headerFooterBarDirective(isHeader) {
  * The expression you pass in for `on-infinite` is called when the user scrolls
  * greater than `distance` away from the bottom of the content.  Once `on-infinite`
  * is done loading new data, it should broadcast the `scroll.infiniteScrollComplete`
- * event from your controller (see below example).
+ * event from your controllers (see below example).
  *
  * @param {expression} on-infinite What to call when the scroller reaches the
  * bottom.
@@ -9784,7 +9784,7 @@ function headerFooterBarDirective(isHeader) {
  *
  * @usage
  * ```html
- * <ion-content ng-controller="MyController">
+ * <ion-content ng-controllers="MyController">
  *   <ion-list>
  *   ....
  *   ....
@@ -9845,7 +9845,7 @@ IonicModule
         // grabbing the scrollable element, to determine dimensions, and current scroll pos
         var scrollEl = ionic.DomUtil.getParentOrSelfWithClass($element[0].parentNode,'overflow-scroll');
         infiniteScrollCtrl.scrollEl = scrollEl;
-        // if there's no scroll controller, and no overflow scroll div, infinite scroll wont work
+        // if there's no scroll controllers, and no overflow scroll div, infinite scroll wont work
         if (!scrollEl) {
           throw 'Infinite scroll must be used inside a scrollable div';
         }
@@ -9970,7 +9970,7 @@ var ITEM_TPL_DELETE_BUTTON =
 *     Hello, list item!
 *   </ion-item>
 * </ion-list>
-* <ion-toggle ng-model="shouldShowDelete">
+* <ion-toggle ng-models="shouldShowDelete">
 *   Show Delete?
 * </ion-toggle>
 * ```
@@ -10120,7 +10120,7 @@ var ITEM_TPL_REORDER_BUTTON =
 * @usage
 *
 * ```html
-* <ion-list ng-controller="MyCtrl" show-reorder="true">
+* <ion-list ng-controllers="MyCtrl" show-reorder="true">
 *   <ion-item ng-repeat="item in items">
 *     Item {{item}}
 *     <ion-reorder-button class="ion-navicon"
@@ -10299,7 +10299,7 @@ function keyboardAttachGetClientHeight(element) {
 * Advanced Usage: Thumbnails, Delete buttons, Reordering, Swiping
 *
 * ```html
-* <ion-list ng-controller="MyCtrl"
+* <ion-list ng-controllers="MyCtrl"
 *           show-delete="shouldShowDelete"
 *           show-reorder="shouldShowReorder"
 *           can-swipe="listCanSwipe">
@@ -10329,7 +10329,7 @@ function keyboardAttachGetClientHeight(element) {
 * ```
 *
 *```javascript
-* app.controller('MyCtrl', function($scope) {
+* app.controllers('MyCtrl', function($scope) {
 *  $scope.shouldShowDelete = false;
 *  $scope.shouldShowReorder = false;
 *  $scope.listCanSwipe = true
@@ -10626,7 +10626,7 @@ IonicModule
  * With custom inner markup and custom click action, using {@link ionic.service:$ionicHistory}:
  *
  * ```html
- * <ion-nav-bar ng-controller="MyCtrl">
+ * <ion-nav-bar ng-controllers="MyCtrl">
  *   <ion-nav-back-button class="button-clear"
  *     ng-click="myGoBack()">
  *     <i class="ion-arrow-left-c"></i> Back
@@ -11064,7 +11064,7 @@ IonicModule
  * <script id="home" type="text/ng-template">
  *   <!-- The title of the ion-view will be shown on the navbar -->
  *   <ion-view view-title="Home">
- *     <ion-content ng-controller="HomeCtrl">
+ *     <ion-content ng-controllers="HomeCtrl">
  *       <!-- The content of the page -->
  *       <a href="#/music">Go to music page!</a>
  *     </ion-content>
@@ -11089,12 +11089,12 @@ IonicModule
  *
  * Note that because we are caching these views, *we aren’t destroying scopes*. Instead, scopes
  * are being disconnected from the watch cycle. Because scopes are not being destroyed and
- * recreated, controllers are not loading again on a subsequent viewing. If the app/controller
+ * recreated, controllers are not loading again on a subsequent viewing. If the app/controllers
  * needs to know when a view has entered or has left, then view events emitted from the
  * {@link ionic.directive:ionView} scope, such as `$ionicView.enter`, may be useful.
  *
  * By default, when navigating back in the history, the "forward" views are removed from the cache.
- * If you navigate forward to the same view again, it'll create a new DOM element and controller
+ * If you navigate forward to the same view again, it'll create a new DOM element and controllers
  * instance. Basically, any forward views are reset each time. This can be configured using the
  * {@link ionic.provider:$ionicConfigProvider}:
  *
@@ -11315,9 +11315,9 @@ IonicModule
  *
  * @usage
  * ```html
- * <ion-radio ng-model="choice" ng-value="'A'">Choose A</ion-radio>
- * <ion-radio ng-model="choice" ng-value="'B'">Choose B</ion-radio>
- * <ion-radio ng-model="choice" ng-value="'C'">Choose C</ion-radio>
+ * <ion-radio ng-models="choice" ng-value="'A'">Choose A</ion-radio>
+ * <ion-radio ng-models="choice" ng-value="'B'">Choose B</ion-radio>
+ * <ion-radio ng-models="choice" ng-value="'C'">Choose C</ion-radio>
  * ```
  *
  * @param {string=} name The name of the radio input.
@@ -11325,9 +11325,9 @@ IonicModule
  * @param {boolean=} disabled The state of the radio input.
  * @param {string=} icon The icon to use when the radio input is selected.
  * @param {expression=} ng-value Angular equivalent of the value attribute.
- * @param {expression=} ng-model The angular model for the radio input.
+ * @param {expression=} ng-models The angular models for the radio input.
  * @param {boolean=} ng-disabled Angular equivalent of the disabled attribute.
- * @param {expression=} ng-change Triggers given expression when radio input's model changes
+ * @param {expression=} ng-change Triggers given expression when radio input's models changes
  */
 IonicModule
 .directive('ionRadio', function() {
@@ -11386,12 +11386,12 @@ IonicModule
  * {@link ionic.directive:ionScroll} element.
  *
  * When refreshing is complete, $broadcast the 'scroll.refreshComplete' event
- * from your controller.
+ * from your controllers.
  *
  * @usage
  *
  * ```html
- * <ion-content ng-controller="MyController">
+ * <ion-content ng-controllers="MyController">
  *   <ion-refresher
  *     pulling-text="Pull to refresh..."
  *     on-refresh="doRefresh()">
@@ -11403,7 +11403,7 @@ IonicModule
  * ```
  * ```js
  * angular.module('testApp', ['ionic'])
- * .controller('MyController', function($scope, $http) {
+ * .controllers('MyController', function($scope, $http) {
  *   $scope.items = [1,2,3];
  *   $scope.doRefresh = function() {
  *     $http.get('/new-items')
@@ -11458,7 +11458,7 @@ IonicModule
     '</div>',
     link: function($scope, $element, $attrs, ctrls) {
 
-      // JS Scrolling uses the scroll controller
+      // JS Scrolling uses the scroll controllers
       var scrollCtrl = ctrls[0],
           refresherCtrl = ctrls[1];
 
@@ -11922,7 +11922,7 @@ IonicModule
  * ```html
  * <ion-side-menus>
  *   <!-- Center content -->
- *   <ion-side-menu-content ng-controller="ContentController">
+ *   <ion-side-menu-content ng-controllers="ContentController">
  *   </ion-side-menu-content>
  *
  *   <!-- Left menu -->
@@ -12776,7 +12776,7 @@ function($ionicTabsDelegate, $ionicConfig, $ionicHistory) {
  * @restrict E
  *
  * @description
- * A toggle is an animated switch which binds a given model to a boolean.
+ * A toggle is an animated switch which binds a given models to a boolean.
  *
  * Allows dragging of the switch's nub.
  *
@@ -12785,11 +12785,11 @@ function($ionicTabsDelegate, $ionicConfig, $ionicHistory) {
  * @param toggle-class {string=} Sets the CSS class on the inner `label.toggle` element created by the directive.
  *
  * @usage
- * Below is an example of a toggle directive which is wired up to the `airplaneMode` model
+ * Below is an example of a toggle directive which is wired up to the `airplaneMode` models
  * and has the `toggle-calm` CSS class assigned to the inner element.
  *
  * ```html
- * <ion-toggle ng-model="airplaneMode" toggle-class="toggle-calm">Airplane Mode</ion-toggle>
+ * <ion-toggle ng-models="airplaneMode" toggle-class="toggle-calm">Airplane Mode</ion-toggle>
  * ```
  */
 IonicModule
@@ -12906,7 +12906,7 @@ function($timeout, $ionicConfig) {
  * ## View LifeCycle and Events
  *
  * Views can be cached, which means ***controllers normally only load once***, which may
- * affect your controller logic. To know when a view has entered or left, events
+ * affect your controllers logic. To know when a view has entered or left, events
  * have been added that are emitted from the view's scope. These events also
  * contain data about the view, such as the title and whether the back button should
  * show. Also contained is transition data, such as the transition type and
@@ -12949,7 +12949,7 @@ function($timeout, $ionicConfig) {
  *  </tr>
  *  <tr>
  *   <td><code>$ionicView.unloaded</code></td>
- *   <td>The view's controller has been destroyed and its element has been
+ *   <td>The view's controllers has been destroyed and its element has been
  * removed from the DOM.</td>
  *  </tr>
  * </table>
