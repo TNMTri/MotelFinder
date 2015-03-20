@@ -1,11 +1,37 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+<head>
+    <title>Title</title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("button.get_more").click(function () {
+                $.ajax({
+                    url: "/get_more/",
+                    type: "GET",
+                    success: function (data, textStatus, jqXHR) {
+                        alert(data);
+                        $("p.show").val(data);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+<h1>Kết quả: <%= title.length %> </h1>
+<button class="get_more">Tăng Phạm Vi</button>
+<p>
+    <% title.forEach(function (motel) { %>
+</p>
+
+<p class="show"><%= motel %></p>
+
+<% }) %>
+
+</body>
 </html>

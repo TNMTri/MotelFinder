@@ -1,0 +1,22 @@
+{
+
+    "title" : "",
+    "detail" : "",
+    "phone1" : "",
+    "phone2" : "",
+    "address" :
+        {
+            "city" : "",
+            "district" : "",
+            "street" : "",
+            "number" : "",
+            "latitude" : "",
+            "longitude" : ""
+        },
+    "date" : ISODate("2014-12-17T08:43:36.798Z"),
+    "area" : "",
+    "prices" : "",
+    "electricity_prices" : "",
+    "water_prices" : "",
+    "status" : ""
+}

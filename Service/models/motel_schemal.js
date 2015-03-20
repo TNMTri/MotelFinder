@@ -8,14 +8,15 @@ var motel_schema = new schema({
     detail: String,
     phone1: String,
     phone2: String,
-    address: [],
+    address: {},
     date: Date,
     area: String,
     prices: String,
     electricity_prices: String,
     water_prices: String,
-    status : Boolean
+    status : Boolean,
+    distance: String
 });
 
-var motel = mongoose.model('motel', motel_schema);
+var motel = mongoose.model('motels', motel_schema);
 module.exports = {motel: motel};

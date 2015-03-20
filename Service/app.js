@@ -5,6 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var session = require('express-session');
+//var multer = require('multer');
+//Connect database:
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/MotelFinder');
+
 var controllers = require('./routes/controllers');
 
 /*var routes = require('./routes/index');
@@ -23,6 +29,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({secret: 'motelfinder', resave: true, saveUninitialized: true, maxAge: new Date(Date.now() + 3600000), expires: new Date(Date.now() + 3600000)}));
 
 app.use('/', controllers);
 
