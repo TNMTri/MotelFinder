@@ -10,11 +10,19 @@
         $(document).ready(function () {
             $("button.get_more").click(function () {
                 $.ajax({
+                    dataType: "json",
                     url: "/get_more/",
                     type: "GET",
-                    success: function (data, textStatus, jqXHR) {
-                        alert(data);
-                        $("p.show").val(data);
+                    success: function (result) {
+                        var str;
+                        for (i = 0; i < result.length; i++) {
+                            str += result[i].title + "<br>";
+                        }
+                        $(".show").text(str);
+                        alert(result.length)
+                    },
+                    error: function () {
+                        alert("fail");
                     }
                 });
             });
@@ -23,15 +31,21 @@
 </head>
 
 <body>
-<h1>Kết quả: <%= title.length %> </h1>
+
+<h1>Kết quả: <%= motel_array.length %> </h1>
 <button class="get_more">Tăng Phạm Vi</button>
-<p>
-    <% title.forEach(function (motel) { %>
+<div class="here">
+    <p>
+        <% motel_array.forEach(function (motel) { %>
+    </p>
+
+    <p><%= motel %></p>
+
+    <% }) %>
+</div>
+
+<p class="show">
+
 </p>
-
-<p class="show"><%= motel %></p>
-
-<% }) %>
-
 </body>
 </html>
