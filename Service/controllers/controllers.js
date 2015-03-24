@@ -142,7 +142,7 @@ var controllers = {
 module.exports = function (router) {
 
 //    router.get('/', controllers.index); //Vừa vào thì chạy cái này.
-//    router.get('/get_more/', controllers.get_more);
+//    router.get('/get_more/', controllers.get_moree);
     router.get('/start_app/', controllers.start_app);
     router.get('/get_more2/', controllers.get_more2);
 
