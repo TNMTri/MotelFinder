@@ -80,12 +80,13 @@ var controllers = {
                     }
                 });
 
-
                 console.log("Start app.");
                 for (var i = motel_recent.length; i < req.session.motel_array_all.length; i++) {
                     if (motel_recent.length == number * 10) {
                         number++;
+//                        res.send(motel_recent);
                         res.render('index', {motel_array: motel_recent});
+
                     } else {
                         if (req.session.motel_array_all[i].distance <= radius * 500) {
                             motel_recent.push(req.session.motel_array_all[i]);
@@ -97,6 +98,7 @@ var controllers = {
                 }
             });
         } else {
+            res.send(motel_recent);
             res.render('index', {motel_array: motel_recent});
         }
     },
@@ -121,23 +123,28 @@ var controllers = {
                 }
             }
         }
+    },
+
+    start_app: function (req, res) {
+        controllers.get_all_motel_array(req, res);
+        console.log("Start app...");
+//        console.log(req.body.objectData);
+        res.render("index");
+    },
+
+    get_more2: function (req, res) {
+        console.log("get_more2 running");
+        res.contentType('json');
+        res.send({ text: 'some text' });
     }
-
-//    ajax_get_more: function (req, res) {
-//        controllers.get_more(req, res, true);
-//    },
-
-//    my_location: function (req, res) {
-//
-//    }
 };
 
 module.exports = function (router) {
 
-    router.get('/', controllers.index); //Vừa vào thì chạy cái này.
-    router.get('/get_more/', controllers.get_more);
-//    router.get('/ajax_get_more/', controllers.ajax_get_more);
-//    router.get('/my_location/', controllers.my_location);
+//    router.get('/', controllers.index); //Vừa vào thì chạy cái này.
+//    router.get('/get_more/', controllers.get_more);
+    router.get('/start_app/', controllers.start_app);
+    router.get('/get_more2/', controllers.get_more2);
 
     return router;
 };
